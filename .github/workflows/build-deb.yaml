@@ -1,0 +1,98 @@
+name: Manually build package
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      flavor:
+        type: choice
+        description: 'Debian/Ubuntu Version'
+        options:
+          - 'debian:bookworm'
+          - 'debian:bullseye'
+          - 'debian:buster'
+          - 'debian:stretch'
+          - 'ubuntu:noble'
+          - 'ubuntu:jammy'
+          - 'ubuntu:focal'
+        required: true
+      arch:
+        type: choice
+        description: 'Architecture'
+        options:
+          - 'amd64'
+          - 'i386'
+          - 'arm64'
+        required: true
+
+jobs:
+  build-debs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Split os-version into name and version
+        id: split_os_version
+        run: |
+          OS_NAME=$(echo "${{ inputs.flavor }}" | cut -d':' -f1)
+          OS_VERSION=$(echo "${{ inputs.flavor }}" | cut -d':' -f2)
+
+          echo "Operating System Name: $OS_NAME"
+          echo "Operating System Version: $OS_VERSION"
+
+          # Set outputs for use in later steps
+          echo "::set-output name=os-name::$OS_NAME"
+          echo "::set-output name=os-version::$OS_VERSION"
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Build Debian packages
+        uses: jtdor/build-deb-action@v1.8.0
+        env:
+          DEB_BUILD_OPTIONS: noautodbgsym
+        with:
+          docker-image: "${{ inputs.flavor }}"
+          host-arch: "${{ inputs.arch }}"
+          extra-build-deps: devscripts git dpkg-cross
+          before-build-hook: "dch --local ~${{ steps.split_os_version.outputs.os-version }} 'GitHub build for ${{ inputs.flavor }}'"
+          buildpackage-opts: --build=binary --no-sign -d
+          setup-hook: |
+            os_version="${{ inputs.flavor }}"
+            flavor=${os_version%%:*}
+            arch="${{ inputs.arch }}"
+            if [ "$flavor" = "ubuntu" ] && [ "$arch" = "arm64" ]; then
+              # check for deb822 source format
+              if [ -f /etc/apt/sources.list.d/ubuntu.sources ]; then
+                cp /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu-arm.sources
+                sed -i 's,[a-z]*.ubuntu.com,ports.ubuntu.com,' /etc/apt/sources.list.d/ubuntu-arm.sources
+                sed -i 's,/ubuntu/$,/ubuntu-ports/,' /etc/apt/sources.list.d/ubuntu-arm.sources
+                sed -i 's/^Components:/Architectures: arm64\nComponents:/' /etc/apt/sources.list.d/ubuntu-arm.sources
+                sed -i 's/^Components:/Architectures: amd64\nComponents:/' /etc/apt/sources.list.d/ubuntu.sources
+                cat /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu-arm.sources
+              else
+                cp /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu-arm.list
+                sed -i 's/^deb /deb [arch=amd64] /' /etc/apt/sources.list
+                sed -i 's,[a-z]*.ubuntu.com,ports.ubuntu.com,' /etc/apt/sources.list.d/ubuntu-arm.list
+                sed -i 's,/ubuntu/ ,/ubuntu-ports/ ,' /etc/apt/sources.list.d/ubuntu-arm.list
+                sed -i 's/^deb /deb [arch=arm64] /' /etc/apt/sources.list.d/ubuntu-arm.list
+                cat /etc/apt/sources.list  /etc/apt/sources.list.d/ubuntu-arm.list
+              fi
+            fi
+
+            if [ "$arch" = "arm64" ]; then
+              dpkg --add-architecture arm64
+              apt-get update
+            fi
+
+      - name: Upload deb files
+        uses: actions/upload-artifact@v4
+        with:
+          name: "packages-${{ steps.split_os_version.outputs.os-version }}-${{ inputs.arch }}"
+          path: ./debian/artifacts/*
+  merge-artefacts:
+    runs-on: ubuntu-latest
+    needs: build-debs
+    steps:
+      - name: debian-packages
+        uses: actions/upload-artifact/merge@v4

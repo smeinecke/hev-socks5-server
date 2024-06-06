@@ -1,0 +1,69 @@
+name: Test SOCKS Proxy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-socks-proxy:
+    name: Test SOCKS4/5 Proxy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc make curl
+
+      - name: Build server
+        run: |
+          make
+          sudo make install
+
+      - name: Create test configuration
+        run: |
+          mkdir -p ~/.config/hev-socks5-server
+          cat > ~/.config/hev-socks5-server/main.yml << 'EOL'
+          main:
+            workers: 2
+            port: 1080
+            listen-address: '127.0.0.1'
+            udp-port: 0  # Disable UDP for testing
+            listen-ipv6-only: false
+            bind-address: ''
+            bind-address-v4: ''
+            bind-address-v6: ''
+            bind-interface: ''
+            domain-address-type: unspec
+
+          misc:
+            log-level: debug
+          EOL
+
+      - name: Start SOCKS server in background
+        run: |
+          hev-socks5-server ~/.config/hev-socks5-server/main.yml &
+          echo $! > server.pid
+          # Wait for server to start
+          sleep 2
+
+          # Test SOCKS5 with curl
+          curl -v --socks5 127.0.0.1:1080 https://ifconfig.me/ip
+          # Test with explicit SOCKS5 hostname resolution
+          curl -v --socks5-hostname 127.0.0.1:1080 https://ifconfig.me/ip
+
+          # Test SOCKS4 with curl
+          curl -v --socks4 127.0.0.1:1080 https://ifconfig.me/ip
+
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) || true
+            rm -f server.pid
+          fi
