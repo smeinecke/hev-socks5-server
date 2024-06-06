@@ -33,6 +33,8 @@ jobs:
         os-version: ["buster", "bullseye", "bookworm"]
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: Build Debian packages
         uses: jtdor/build-deb-action@v1.8.0
         env:
