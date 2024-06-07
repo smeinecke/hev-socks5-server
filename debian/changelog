@@ -1,3 +1,9 @@
+hev-socks5-server (2.6.6-2) unstable; urgency=medium
+
+  * fix binary prefix path
+
+ -- stefan <stefan@build-stretch>  Thu, 06 Jun 2024 01:59:21 +0200
+
 hev-socks5-server (2.6.6-1) unstable; urgency=medium
 
   * Initial release
