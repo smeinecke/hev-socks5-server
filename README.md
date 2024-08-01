@@ -9,7 +9,7 @@ HevSocks5Server is a simple, lightweight socks5 server for Unix.
 * IPv4/IPv6. (dual stack)
 * Standard `CONNECT` command.
 * Standard `UDP ASSOCIATE` command.
-* Extended `FWD UDP` command. (UDP in TCP)
+* Extended `FWD UDP` command. (UDP in TCP) [^1]
 * Multiple username/password authentication.
 
 ## Benchmarks
@@ -52,6 +52,15 @@ cd hev-socks5-server
 git clone --recursive https://github.com/heiher/hev-socks5-server jni
 cd jni
 ndk-build
+```
+
+### iOS and MacOS
+
+```bash
+git clone --recursive https://github.com/heiher/hev-socks5-server
+cd hev-socks5-server
+# will generate HevSocks5Server.xcframework
+./build-apple.sh
 ```
 
 ## How to Use
@@ -142,6 +151,53 @@ jerry pass 1a
 iptables -A OUTPUT -p tcp --syn -m mark --mark 0x1a -m connlimit --connlimit-above 2 -j REJECT
 ```
 
+## API
+
+```c
+/**
+ * hev_socks5_server_main_from_file:
+ * @config_path: config file path
+ *
+ * Start and run the socks5 server, this function will blocks until the
+ * hev_socks5_server_quit is called or an error occurs.
+ *
+ * Returns: returns zero on successful, otherwise returns -1.
+ *
+ * Since: 2.6.7
+ */
+int hev_socks5_server_main_from_file (const char *config_path);
+
+/**
+ * hev_socks5_server_main_from_str:
+ * @config_str: string config
+ * @config_len: the byte length of string config
+ *
+ * Start and run the socks5 server, this function will blocks until the
+ * hev_socks5_server_quit is called or an error occurs.
+ *
+ * Returns: returns zero on successful, otherwise returns -1.
+ *
+ * Since: 2.6.7
+ */
+int hev_socks5_server_main_from_str (const unsigned char *config_str,
+                                     unsigned int config_len);
+
+/**
+ * hev_socks5_server_quit:
+ *
+ * Stop the socks5 server.
+ *
+ * Since: 2.6.7
+ */
+void hev_socks5_server_quit (void);
+```
+
+## Use Cases
+
+### Android App
+
+* [Socks5](https://github.com/heiher/socks5)
+
 ## Contributors
 
 * **Ammar Faizi** - https://github.com/ammarfaizi2
@@ -150,4 +206,6 @@ iptables -A OUTPUT -p tcp --syn -m mark --mark 0x1a -m connlimit --connlimit-abo
 
 ## License
 
-GPLv3
+MIT
+
+[^1]: The [hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel) and [hev-socks5-tproxy](https://github.com/heiher/hev-socks5-tproxy) clients support UDP relay over TCP.
