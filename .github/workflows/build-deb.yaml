@@ -41,7 +41,7 @@ jobs:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
           docker-image: "debian:${{ matrix.os-version }}"
-          extra-build-deps: devscripts,git
+          extra-build-deps: devscripts git
           before-build-hook: "dch --local ~${{ matrix.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
           buildpackage-opts: --build=binary --no-sign
       - name: Upload deb files
