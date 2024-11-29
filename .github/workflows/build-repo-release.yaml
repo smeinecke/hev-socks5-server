@@ -86,7 +86,7 @@ jobs:
             bullseye
             bookworm
           file: |
-            *-${{ matrix.os-version }}*.deb
+            *~${{ matrix.os-version }}*.deb
           file_target_version: ${{ matrix.os-version }}
           private_key: ${{ secrets.APT_SIGNING_KEY }}
           key_passphrase: ""
