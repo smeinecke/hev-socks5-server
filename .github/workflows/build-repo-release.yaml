@@ -32,7 +32,7 @@ jobs:
           host-arch: "${{ matrix.arch }}"
           extra-build-deps: devscripts git dpkg-cross
           before-build-hook: "dch --local ~${{ matrix.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
-          buildpackage-opts: --build=binary --no-sign
+          buildpackage-opts: --build=binary --no-sign -d
       - name: Upload deb files
         uses: actions/upload-artifact@v4.3.3
         with:
