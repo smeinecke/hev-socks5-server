@@ -26,14 +26,14 @@ endif
 	dh $@
 
 override_dh_auto_build:
-	$(MAKE) CC=$(CC) CROSS_PREFIX=$(CROSS_PREFIX)
+	$(MAKE) CC=$(CC) CROSS_PREFIX=$(CROSS_PREFIX) ENABLE_STATIC=1 -j`nproc`
 
 # dh_make generated override targets
 # This is example for Cmake (See https://bugs.debian.org/641051 )
 #override_dh_auto_configure:
 #	dh_auto_configure -- #	-DCMAKE_LIBRARY_PATH=$(DEB_HOST_MULTIARCH)
 override_dh_auto_install:
-	dh_auto_install -- INSTDIR=debian/hev-socks5-server/usr
+	dh_auto_install -- INSTDIR=debian/hev-socks5-server/usr CROSS_PREFIX=$(CROSS_PREFIX)
 
 override_dh_systemd_enable:
 	dh_systemd_enable -p$(shell dh_listpackages) hev-socks5-server.service
