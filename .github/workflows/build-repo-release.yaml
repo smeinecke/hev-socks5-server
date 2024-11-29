@@ -80,7 +80,9 @@ jobs:
         uses: smeinecke/apt-repo-action@v2.1.2
         with:
           github_token: ${{ github.token }}
-          repo_supported_arch: ${{ matrix.arch }}
+          repo_supported_arch: |
+            amd64
+            arm64
           repo_supported_version: |
             buster
             bullseye
