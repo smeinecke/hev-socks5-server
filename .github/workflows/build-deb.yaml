@@ -1,13 +1,7 @@
-name: Build package
+name: Manually build package
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     # Inputs the workflow accepts.
@@ -20,9 +14,7 @@ on:
           - 'bullseye'
           - 'buster'
         required: true
-      release:
-        type: boolean
-        description: "publish to repository"
+
 
 jobs:
   build-debs:
@@ -45,7 +37,7 @@ jobs:
           before-build-hook: "dch --local ~${{ matrix.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
           buildpackage-opts: --build=binary --no-sign
       - name: Upload deb files
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4
         with:
           name: "packages-${{ matrix.os-version }}"
           path: ./debian/artifacts/*
@@ -55,27 +47,3 @@ jobs:
     steps:
       - name: debian-packages
         uses: actions/upload-artifact/merge@v4
-
-  publish-apt-repo:
-    runs-on: ubuntu-latest
-    needs: merge-artefacts
-    if: github.event.inputs.release
-    strategy:
-      matrix:
-        os-version: ["buster", "bullseye", "bookworm"]
-    steps:
-      - name: Github pages APT repo
-        uses: smeinecke/apt-repo-action@master
-        if: github.event.inputs.release
-        with:
-          github_token: ${{ secrets.GH_PAT }}
-          repo_supported_arch: amd64
-          repo_supported_version: |
-            buster
-            bullseye
-            bookworm
-          file: |
-            ./debian/artifacts/*
-          file_target_version: ${{ matrix.os-version }}
-          private_key: ${{ secrets.APT_SIGNING_KEY }}
-          key_passphrase: ""
