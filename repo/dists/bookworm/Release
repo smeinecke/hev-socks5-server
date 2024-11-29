@@ -1,25 +1,25 @@
 Codename: bookworm
-Date: Fri, 29 Nov 2024 02:58:31 UTC
+Date: Fri, 29 Nov 2024 02:59:04 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
 MD5Sum:
- d41d8cd98f00b204e9800998ecf8427e 0 main/binary-amd64/Packages
- 7029066c27ac6f5ef18d660d5741979a 20 main/binary-amd64/Packages.gz
+ a3e160728980f0748227822a6f72dc3f 604 main/binary-amd64/Packages
+ 72d229297b82c2c427ec2579ae73a6b5 424 main/binary-amd64/Packages.gz
  1b21ef4b19ba60107691cea3b6cc9175 77 main/binary-amd64/Release
  d41d8cd98f00b204e9800998ecf8427e 0 main/binary-arm64/Packages
  7029066c27ac6f5ef18d660d5741979a 20 main/binary-arm64/Packages.gz
  cf1b3497a70f09fbeb0fd3c80f5146bd 77 main/binary-arm64/Release
 SHA1:
- da39a3ee5e6b4b0d3255bfef95601890afd80709 0 main/binary-amd64/Packages
- 46c6643f07aa7f6bfe7118de926b86defc5087c4 20 main/binary-amd64/Packages.gz
+ 3c67c6874b51698e0d785df1d2989e462e3f9b80 604 main/binary-amd64/Packages
+ 4c9d8304830ea6967b97a6fca4d9247c5977e874 424 main/binary-amd64/Packages.gz
  6910905454f3464d5f1d514afdffcdb6e022dce8 77 main/binary-amd64/Release
  da39a3ee5e6b4b0d3255bfef95601890afd80709 0 main/binary-arm64/Packages
  46c6643f07aa7f6bfe7118de926b86defc5087c4 20 main/binary-arm64/Packages.gz
  157b42f6093045e27cbe19dfb239c9b9d98de966 77 main/binary-arm64/Release
 SHA256:
- e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/binary-amd64/Packages
- 59869db34853933b239f1e2219cf7d431da006aa919635478511fabbfc8849d2 20 main/binary-amd64/Packages.gz
+ c3f10cacc583c7e6a7ff7f06ef59b8af0aa466641c4c3377cd841d61b4388e12 604 main/binary-amd64/Packages
+ ec2b0d4d398f92a381680efe0a8144e5d2281ebc74849e4b95805b0c4d91f88a 424 main/binary-amd64/Packages.gz
  cdac04cac330db4750e963250b7fe78ec0e455fc64b68f26c08c7c0b31b6f61b 77 main/binary-amd64/Release
  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/binary-arm64/Packages
  59869db34853933b239f1e2219cf7d431da006aa919635478511fabbfc8849d2 20 main/binary-arm64/Packages.gz
