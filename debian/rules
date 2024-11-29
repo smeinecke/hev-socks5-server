@@ -26,7 +26,7 @@ endif
 	dh $@
 
 override_dh_auto_build:
-    $(MAKE) CC=$(CC) CROSS_PREFIX=$(CROSS_PREFIX) build
+ 	$(MAKE) CC=$(CC) CROSS_PREFIX=$(CROSS_PREFIX) build
 
 # dh_make generated override targets
 # This is example for Cmake (See https://bugs.debian.org/641051 )
