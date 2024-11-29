@@ -8,15 +8,15 @@ on:
   release:
     types:
       - published
+  workflow_dispatch:
 
 jobs:
   source:
     name: Source
-    runs-on: ubuntu-20.04
-    if: github.event_name == 'release'
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           submodules: true
@@ -26,19 +26,18 @@ jobs:
           mkdir -p hev-socks5-server-${{ github.ref_name }}
           git ls-files --recurse-submodules | tar c -O -T- | tar x -C hev-socks5-server-${{ github.ref_name }}
           echo ${REV_ID} > hev-socks5-server-${{ github.ref_name }}/.rev-id
-          tar caf hev-socks5-server-${{ github.ref_name }}.tar.gz hev-socks5-server-${{ github.ref_name }}
+          tar cJf hev-socks5-server-${{ github.ref_name }}.tar.xz hev-socks5-server-${{ github.ref_name }}
       - name: Upload source
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/upload-artifact@v4
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: hev-socks5-server-${{ github.ref_name }}.tar.gz
-          asset_name: hev-socks5-server-${{ github.ref_name }}.tar.gz
-          asset_content_type: application/octet-stream
+          name: hev-socks5-server-${{ github.ref_name }}.tar.xz
+          path: hev-socks5-server-${{ github.ref_name }}.tar.xz
+          if-no-files-found: error
+          retention-days: 1
+
   linux:
     name: Linux
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         include:
@@ -48,8 +47,22 @@ jobs:
             tool: arm-unknown-linux-musleabi
           - name: arm32hf
             tool: arm-unknown-linux-musleabihf
+          - name: arm32v7
+            tool: armv7-unknown-linux-musleabi
+          - name: arm32v7hf
+            tool: armv7-unknown-linux-musleabihf
+          - name: i586
+            tool: i586-unknown-linux-musl
+          - name: i686
+            tool: i686-unknown-linux-musl
           - name: loong64
             tool: loongarch64-unknown-linux-musl
+          - name: m68k
+            tool: m68k-unknown-linux-musl
+          - name: microblazeel
+            tool: microblazeel-xilinx-linux-musl
+          - name: microblaze
+            tool: microblaze-xilinx-linux-musl
           - name: mips64el
             tool: mips64el-unknown-linux-musl
           - name: mips64
@@ -62,16 +75,24 @@ jobs:
             tool: mips-unknown-linux-musl
           - name: mips32sf
             tool: mips-unknown-linux-muslsf
+          - name: powerpc64
+            tool: powerpc64-unknown-linux-musl
+          - name: powerpc
+            tool: powerpc-unknown-linux-musl
           - name: riscv32
             tool: riscv32-unknown-linux-musl
           - name: riscv64
             tool: riscv64-unknown-linux-musl
-          - name: x86_32
-            tool: x86_64-multilib-linux-musl
+          - name: s390x
+            tool: s390x-ibm-linux-musl
+          - name: sh
+            tool: sh-multilib-linux-musl
+          - name: sheb
+            tool: sh-multilib-linux-musl
             env:
-              CFLAGS: "-m32"
+              CFLAGS: "-mb"
           - name: x86_64
-            tool: x86_64-multilib-linux-musl
+            tool: x86_64-unknown-linux-musl
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -81,19 +102,44 @@ jobs:
       - name: Build ${{ matrix.name }}
         run: |
           sudo mkdir -p /opt/x-tools
-          wget https://github.com/musl-cross/musl-cross/releases/download/20240527/${{ matrix.tool }}.tgz
-          sudo tar xf ${{ matrix.tool }}.tgz -C /opt/x-tools
+          wget https://github.com/musl-cross/musl-cross/releases/download/20241103/${{ matrix.tool }}.tar.xz
+          sudo tar xf ${{ matrix.tool }}.tar.xz -C /opt/x-tools
           make CROSS_PREFIX=/opt/x-tools/${{ matrix.tool }}/bin/${{ matrix.tool }}- CFLAGS=${{ matrix.env.CFLAGS }} ENABLE_STATIC=1 -j`nproc`
+          cp bin/hev-socks5-server hev-socks5-server-linux-${{ matrix.name }}
       - name: Upload ${{ matrix.name }}
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/upload-artifact@v4
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: bin/hev-socks5-server
-          asset_name: hev-socks5-server-linux-${{ matrix.name }}
-          asset_content_type: application/octet-stream
+          name: hev-socks5-server-linux-${{ matrix.name }}
+          path: hev-socks5-server-linux-${{ matrix.name }}
+          if-no-files-found: error
+          retention-days: 1
+
+  release:
+    name: Release
+    runs-on: ubuntu-22.04
+    needs:
+      - source
+      - linux
+    if: github.event_name == 'release'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release
+          pattern: "hev-*"
+          merge-multiple: true
+      - name: Upload artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for i in release/hev-*; do
+            gh release upload ${{ github.event.release.tag_name }} $i
+          done
+
   macos:
     name: macOS
     runs-on: macos-14
@@ -111,6 +157,26 @@ jobs:
       - name: Build cross
         run: |
           ./build-apple.sh
+
+  android:
+    name: Android
+    runs-on: ubuntu-22.04
+    if: github.event_name != 'release'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: true
+      - name: Prepare
+        run: |
+          wget https://dl.google.com/android/repository/android-ndk-r27b-linux.zip
+          unzip android-ndk-r27b-linux.zip
+          ln -sf . jni
+      - name: Build
+        run: |
+          ./android-ndk-r27b/ndk-build
+
   llvm:
     name: LLVM
     runs-on: ubuntu-22.04

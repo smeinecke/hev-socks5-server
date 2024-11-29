@@ -92,6 +92,8 @@ main:
   bind-interface: ''
   # Domain address type (ipv4|ipv6|unspec)
   domain-address-type: unspec
+  # Socket mark (hex: 0x1, dec: 1, oct: 01)
+  mark: 0
 
 #auth:
 #  file: conf/auth.txt
@@ -120,6 +122,10 @@ main:
 ```
 <USERNAME> <SPACE> <PASSWORD> <SPACE> <MARK> <LF>
 ```
+
+- USERNAME: A string of up to 255 characters
+- PASSWORD: A string of up to 255 characters
+- MARK: Hexadecimal
 
 ### Run
 
@@ -204,6 +210,10 @@ void hev_socks5_server_quit (void);
 ### Android App
 
 * [Socks5](https://github.com/heiher/socks5)
+
+### iOS App
+
+* [Socks5](https://github.com/heiher/socks5-ios)
 
 ## Contributors
 
