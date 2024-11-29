@@ -14,9 +14,19 @@
 #export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+
+ifeq ($(origin CC),default)
+CC := $(DEB_HOST_GNU_TYPE)-gcc
+CROSS_PREFIX := $(DEB_HOST_GNU_TYPE)-
+endif
+
+
 %:
 	dh $@
 
+override_dh_auto_build:
+    $(MAKE) CC=$(CC) CROSS_PREFIX=$(CROSS_PREFIX) build
 
 # dh_make generated override targets
 # This is example for Cmake (See https://bugs.debian.org/641051 )
