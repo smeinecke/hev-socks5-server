@@ -74,6 +74,8 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: "packages-${{ matrix.os-version }}-${{ matrix.arch }}"
+      - name: Display structure of downloaded files
+        run: ls -R
       - name: Add ${{ matrix.arch }} release
         uses: smeinecke/apt-repo-action@v2.1.2
         with:

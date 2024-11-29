@@ -14,15 +14,18 @@ on:
           - 'bullseye'
           - 'buster'
         required: true
-
+      arch:
+        type: choice
+        description: 'Architecture'
+        options:
+          - 'amd64'
+          - 'arm64'
+        required: true
 
 jobs:
   build-debs:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        os-version: ["buster", "bullseye", "bookworm"]
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,14 +35,15 @@ jobs:
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
-          docker-image: "debian:${{ matrix.os-version }}"
-          extra-build-deps: devscripts git
-          before-build-hook: "dch --local ~${{ matrix.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
-          buildpackage-opts: --build=binary --no-sign
+          docker-image: "debian:${{ inputs.flavor }}"
+          host-arch: "${{ inputs.arch }}"
+          extra-build-deps: devscripts git dpkg-cross
+          before-build-hook: "dch --local ~${{ inputs.flavor }} 'GitHub build for ${{ inputs.flavor }}'"
+          buildpackage-opts: --build=binary --no-sign -d
       - name: Upload deb files
         uses: actions/upload-artifact@v4
         with:
-          name: "packages-${{ matrix.os-version }}"
+          name: "packages-${{ inputs.flavor }}-${{ inputs.arch }}"
           path: ./debian/artifacts/*
   merge-artefacts:
     runs-on: ubuntu-latest
