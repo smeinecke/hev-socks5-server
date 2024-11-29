@@ -27,7 +27,6 @@ jobs:
         uses: jtdor/build-deb-action@v1.8.0
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
-          CROSS_PREFIX: "${{ matrix.arch == 'arm64' && 'arm-linux-gnueabihf-' }}"
         with:
           docker-image: "debian:${{ matrix.os-version }}"
           host-arch: "${{ matrix.arch }}"
