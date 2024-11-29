@@ -30,6 +30,7 @@ jobs:
         with:
           docker-image: "debian:${{ matrix.os-version }}"
           host-arch: "${{ matrix.arch }}"
+          extra-docker-args: --platform linux/${{ matrix.arch }}
           extra-build-deps: devscripts git
           before-build-hook: "dch --local ~${{ matrix.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
           buildpackage-opts: --build=binary --no-sign
