@@ -34,7 +34,7 @@ jobs:
           before-build-hook: "dch --local ~${{ matrix.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
           buildpackage-opts: --build=binary --no-sign -d
       - name: Upload deb files
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4
         with:
           name: "packages-${{ matrix.os-version }}-${{ matrix.arch }}"
           path: ./debian/artifacts/*
@@ -51,9 +51,9 @@ jobs:
     needs: merge-artefacts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: debian-packages
+          name: merged-artifacts
       - name: Display structure of downloaded files
         run: ls -R
       - name: Release
@@ -71,7 +71,7 @@ jobs:
         os-version: ["buster", "bullseye", "bookworm"]
         arch: ["amd64", "arm64"]
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: "packages-${{ matrix.os-version }}-${{ matrix.arch }}"
       - name: Add ${{ matrix.arch }} release
