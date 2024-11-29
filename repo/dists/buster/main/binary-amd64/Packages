@@ -1,0 +1,17 @@
+Package: hev-socks5-server
+Version: 2.6.6-3~buster1
+Architecture: amd64
+Maintainer: stefan <stefan@build-stretch>
+Installed-Size: 190
+Depends: libc6 (>= 2.17)
+Homepage: <insert the upstream URL, if relevant>
+Priority: optional
+Section: unknown
+Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.6.6-3~buster1_amd64.deb
+Size: 62092
+SHA256: 9516f550dd00fe50a5935bb479e7a46cc9e6559e23628b8200576907891ca258
+SHA1: 5e4202bb357c1947b7de97dc36a8b463c25838f1
+MD5sum: c2d60588e6d26718e8f6c482cb1b5f14
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
+
