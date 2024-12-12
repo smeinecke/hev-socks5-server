@@ -13,12 +13,14 @@ on:
           - 'bookworm'
           - 'bullseye'
           - 'buster'
+          - 'stretch'
         required: true
       arch:
         type: choice
         description: 'Architecture'
         options:
           - 'amd64'
+          - 'i386'
           - 'arm64'
         required: true
 
