@@ -58,9 +58,9 @@ jobs:
           before-build-hook: "dch --local ~${{ steps.split_os_version.outputs.os-version }} 'GitHub build for ${{ inputs.flavor }}'"
           buildpackage-opts: --build=binary --no-sign -d
           setup-hook: |
-            os_version="${{ matrix.os-version }}"
+            os_version="${{ inputs.flavor }}"
             flavor=${os_version%%:*}
-            arch="${{ matrix.arch }}"
+            arch="${{ inputs.arch }}"
             if [ "$flavor" = "ubuntu" ] && [ "$arch" = "arm64" ]; then
               sed -i 's,archive.ubuntu.com,ports.archive.ubuntu.com,' /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu.sources
               sed -i 's,security.ubuntu.com,ports.archive.ubuntu.com,' /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu.sources
