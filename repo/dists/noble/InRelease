@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Codename: noble
-Date: Wed, 22 Jan 2025 14:52:57 UTC
+Date: Wed, 22 Jan 2025 14:53:29 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
@@ -29,17 +29,17 @@ SHA256:
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeRBkkACgkQwalj2T1+
-DRuFEA/8CMScSP+RG10IfUuex40rk7cryd6s7gPbQ1OWQwFhVSpjos8JKrQhLLkE
-q2v2aTpnGHyk8nL2++Ba1lGMCj+7Vbkg0EPGtZqiZHW0FHxPwe5czML6R5U/GJMs
-irm4i3G7WrBujF8jNPHZKormc9CVTM8yJPyO4j1fZhV57pffvRqg0m01+dGt2vb/
-s+kGdYagRaaIlCvssmh8AKSyRBy476J1f0Qerv5X7/djtQuuRhP+lOhAnaEtFX0g
-Z0POwijKHpuTRLEr7BB7MJ+RGpyJn97MgT0LASp8uqwNtsH2fpNaGLrF1BzN7kBB
-N0wJRJfmk2s0vaeFpsRMiML4Rh1eLXHkokLWB5RlhG8uJBhq9GzY96/PYk8bLyG8
-f/mWDosAmA9Ne/bejOu5cTR9JFNL7Yk0ewxvzKzoYz5EfGJUJlZhf8cfh0PBqKJc
-khk7bY9/SosRL5Y57qkRrZnnmAocm6SPLt8km/W7fJ/Np6+tFDUm5E8CB+QZVpp1
-nsZzzVfl5I9GxAr22W4g7siF5ayvt8dkOlhKnk6lWp/5AT9dSf/N1egAsPAIveJV
-ypjddUCOK3Vw1Q9GpFWj7qRpH5mHHTDcClmVUjedhWCfWOeziUkwiZcC9bEdVoHj
-9FilKbb2216prS3GgknFFk3UkSQRm7wiVFn9iG2zisiBfJHQSg0=
-=Tvdi
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeRBmkACgkQwalj2T1+
+DRuqew//f4JtRqI8qQJzK0gsh+iMgwY0prf5KuCRAfSFV9/qP0LP8rmifPaiFlGf
+6BrEW8S8y9n6GKHGcLmyohKYH4hJU03H8rcyePDH7oykDIBYzFDlwcWXZdvJpc31
+6DYlojAvzzxqQBQtb1AJ5ONd4M2gbKAlbaWK8exU7ah/F2QQKr1yvmVSRkYtg30s
+Apb1x4Obu1L3+ebb8VaSCLd2xM0effp1FpD7NZ0JfdO0hZqsn80tIO8zAws7kv3Q
+Be2Ai9iGqP987eSOMTTBqVgz4vHhfF3S64i0tRwxA0Xa6gg/myYt38wmjKoIzUoI
+pbHQbf7qZ7moyUcAgAJkDyh5nOVzIUjsyjpuadq4xrS3E1n+mCHIC9nYZbRGPxG1
+mbxP0WHdB4q7MuQC9olEcuk4fQcmiPgAoTkNzfIPOtU+AmyXPiL9rnYynHAM+aZY
+SwFhSbS3SOiu8Yqk9JrkaVlHQxE/eoPCCqD31g/P9kGq1tTbeykbtVnSnbD2TI1v
+fgnuCleiqd6LztUC9HtOuWpLvwBsNh66C3t1VQvTyE1obCVoKMT3K1HG9q1h/wQQ
+izJLqmbwnbHR7QpN+YeovvFeWiDigEnIoSCPPT+9c3FLoHMSWRiiKLB+qDlt4p4Z
+zc3MwO02TA8yBbNM2eMZ9XsaS1r9c+pwWl8aZ9O6z5z1svf5cJQ=
+=gds5
 -----END PGP SIGNATURE-----
