@@ -1,5 +1,5 @@
 Package: hev-socks5-server
-Version: 2.6.6-3~bookworm1
+Version: 2.7.0~bookworm1
 Architecture: arm64
 Maintainer: stefan <stefan@build-stretch>
 Installed-Size: 219
@@ -7,11 +7,11 @@ Depends: libc6 (>= 2.34)
 Homepage: <insert the upstream URL, if relevant>
 Priority: optional
 Section: unknown
-Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.6.6-3~bookworm1_arm64.deb
-Size: 57484
-SHA256: 5267b38a6c6d7ed668a13daf092bd0e9677b0e99a53ba99a211b6fdbddcede32
-SHA1: 9c47be3c22b64b1e9352c18343cb823d28105ed4
-MD5sum: 1f06de0d3c2cd46b49126ef0bce7ac70
+Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.7.0~bookworm1_arm64.deb
+Size: 57688
+SHA256: da0f3350fc95068d32d38e675de9f895e120f8c87b694c0c561519cdf62adfd1
+SHA1: 62820ea847600686306455e920fa08403cb9b412
+MD5sum: e5093cf9e2e2e979fc711e701337fbd1
 Description: <insert up to 60 chars description>
  <insert long description, indented with spaces>
 
