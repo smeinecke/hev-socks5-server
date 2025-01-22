@@ -66,7 +66,7 @@ jobs:
               if [ -f /etc/apt/sources.list.d/ubuntu.sources ]; then
                 cp /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu-arm.sources
                 sed -i 's,[a-z]*.ubuntu.com,ports.ubuntu.com,' /etc/apt/sources.list.d/ubuntu-arm.sources
-                sed -i 's,/ubuntu/$,/ubuntu-ports/$,' /etc/apt/sources.list.d/ubuntu-arm.sources
+                sed -i 's,/ubuntu/$,/ubuntu-ports/,' /etc/apt/sources.list.d/ubuntu-arm.sources
                 sed -i 's/^Components:/Architectures: arm64\nComponents:/' /etc/apt/sources.list.d/ubuntu-arm.sources
                 sed -i 's/^Components:/Architectures: amd64\nComponents:/' /etc/apt/sources.list.d/ubuntu.sources
                 cat /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu-arm.sources
