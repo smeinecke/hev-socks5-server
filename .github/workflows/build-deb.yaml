@@ -57,6 +57,21 @@ jobs:
           extra-build-deps: devscripts git dpkg-cross
           before-build-hook: "dch --local ~${{ steps.split_os_version.outputs.os-version }} 'GitHub build for ${{ inputs.flavor }}'"
           buildpackage-opts: --build=binary --no-sign -d
+          setup-hook: |
+            os_version="${{ matrix.os-version }}"
+            flavor=${os_version%%:*}
+            arch="${{ matrix.arch }}"
+            if [ "$flavor" = "ubuntu" ] && [ "$arch" = "arm64" ]; then
+              sed -i 's,archive.ubuntu.com,ports.archive.ubuntu.com,' /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu.sources
+              sed -i 's,security.ubuntu.com,ports.archive.ubuntu.com,' /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu.sources
+              sed -i 's,/ubuntu/ ,/ ,' /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu.sources
+              cat /etc/apt/sources.list
+            fi
+            if [ "$arch" = "arm64" ]; then
+              dpkg --add-architecture arm64
+              apt-get update
+            fi
+
       - name: Upload deb files
         uses: actions/upload-artifact@v4
         with:
