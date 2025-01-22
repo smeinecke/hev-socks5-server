@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Codename: jammy
-Date: Wed, 22 Jan 2025 14:54:03 UTC
+Date: Wed, 22 Jan 2025 14:54:37 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
@@ -29,17 +29,17 @@ SHA256:
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeRBosACgkQwalj2T1+
-DRvq5g//TWAP2JtxLmNU9qosbnQmD2El/TPfr4s7ez7kGeYTrCaG6HfZEF/LVBSl
-vUyhTCt/H1PjGcEer8SA4kmw0Eh0LITDCvCm7ASHMnURC3HQaAC/lrZi2gL1ICdj
-s4TGv9NVWiJ9yst6HegImL2q2tU4dmrNFkH94XqasbvPCBoqwOFPu8vJ5Ge499mf
-s7xqiSA59YEs/S/Io5Dk64eXE5vELQx9GHM6V2bsfxcSuC8dX760enOgboYNbT4V
-bszcEtTXkWorTT/R1aYgoEd3Cqp02UR1ehyOEISanINt9iS1b+u3huc/BKnpA2hW
-CJGYKT5eywyfPYKPl3bKbOaRJQQbAcfMx+G5zZhXvBuxgvbPDIIubgOEaOuhbL1U
-nG01wvWU3DLp+Plr+Y4+U3oMq6B0haFH4P6oC41f2+fadb4Vok5GIVR9asg6QKdi
-nji+4ujTKVauMe/DcDuCS8ogZXF3d8tzyGZWtpzy847jcfMdUu3E07MQprqu/VSi
-T0iACdaKgppVtZnhmge5tVg98h8ppyPUNNdDgo0H9rIecdEzVt4vfIhpi6zU6ia8
-IDQXxuM9VAPQzlKtMvUwqxc8w9xQ5pjmkhrZaf01F6cDqcAvHPKlw8SHOlkPczQz
-3KIL2kO/+UnDwY+YvespowkxdQY4CFM/nLa0dCxiLrnl9t/aZMo=
-=tt7I
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeRBq0ACgkQwalj2T1+
+DRt9ug//f1gkGFWDq17SDWO0mYWwcFM7UVKxwAeZsIOfiwlBwC/yQjqMfWVGviLC
+AYj77AfXMRe4HICDxP3CTZCus/b94WxLH61f7h+AlMf+bzFIhG2sF+VK7Hge+qvy
+ogr8nREHX2WeDr8Xzbm9iP5VBcP+T1+txAktvtUKesMLmt+mC+LOLUFLkvkghHio
+8zLs7QAqRMKU3u8WRHDV7aGP2jM9fmUse/BvuLDqivusc3LsrA2fmsaT8ADOqeVK
+eng90V7qKE3rh8WgVNSjXxwVDW0xs7MlUih9Sn97zfpltxlXaJIz1htqV2BkgZeK
+qpG+FccSzPy88UXgPXxuIDEuWSxLnjGEE2ZjgMvzx6W9T/fYmlNWSwrOFxAaqXDL
+ZCSeoUZlkLhb9No6okdMaeMMjmkSWNY1DGInMY2bCjz/+sFRjeI6O0UeoN50m5Aw
+FyBEhnfCVUSpHNviOmg0PhOa3vVAY57i0a/335GBtdzpQjqT46xIv2ya48Iw+keK
+qKxfzW/7pGohWV5P+CeFvJnL8X/5a+0CmdJ9IedMqVbhMu4FAA6EetqZHfmoe4Uz
+kRnEIRgC+E/85HIRlThejmwKqTWBCkBYlGgSD+gu3QLH/7swij1qfqJ4YL8taH27
+CzjuPcm8PndGB4SwyBtIuEAREYZnocWDFM/Qm7jx5O2y614pNz8=
+=e6Sm
 -----END PGP SIGNATURE-----

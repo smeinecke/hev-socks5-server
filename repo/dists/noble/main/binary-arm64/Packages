@@ -1,0 +1,17 @@
+Package: hev-socks5-server
+Version: 2.7.0-1~noble1
+Architecture: arm64
+Maintainer: stefan <stefan@build-stretch>
+Installed-Size: 158
+Depends: libc6 (>= 2.34)
+Homepage: <insert the upstream URL, if relevant>
+Priority: optional
+Section: unknown
+Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.7.0-1~noble1_arm64.deb
+Size: 56654
+SHA256: 3287e7df96007981aebb0b3e3d423118934a68ad85e88cdead908ae80a6539af
+SHA1: 1df4bf8a676f082b8a5c713b7abad2e0a1a32363
+MD5sum: 01cb18809d5a810d9cb8f3c0a51a6c3b
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
+
