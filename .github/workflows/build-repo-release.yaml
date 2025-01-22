@@ -45,9 +45,9 @@ jobs:
           before-build-hook: "dch --local ~${{ steps.split_os_version.outputs.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
           buildpackage-opts: --build=binary --no-sign -d
           setup-hook: |
-            os_version="${{ inputs.flavor }}"
+            os_version="${{ matrix.os-version }}"
             flavor=${os_version%%:*}
-            arch="${{ inputs.arch }}"
+            arch="${{ matrix.arch }}"
             if [ "$flavor" = "ubuntu" ] && [ "$arch" = "arm64" ]; then
               cp /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu-arm.list
               sed -i 's/^deb /deb [arch=amd64] /' /etc/apt/sources.list
