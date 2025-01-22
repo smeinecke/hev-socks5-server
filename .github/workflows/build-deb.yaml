@@ -62,6 +62,7 @@ jobs:
             flavor=${os_version%%:*}
             arch="${{ inputs.arch }}"
             if [ "$flavor" = "ubuntu" ] && [ "$arch" = "arm64" ]; then
+              # check for deb822 source format
               if [ -f /etc/apt/sources.list.d/ubuntu.sources ]; then
                 cp /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu-arm.sources
                 sed -i 's,[a-z]*.ubuntu.com,ports.ubuntu.com,' /etc/apt/sources.list.d/ubuntu-arm.sources
