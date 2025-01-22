@@ -1,25 +1,25 @@
 Codename: bullseye
-Date: Wed, 22 Jan 2025 14:51:15 UTC
+Date: Wed, 22 Jan 2025 14:51:50 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
 MD5Sum:
- f740a4fd4a885ac2539105f27ecceace 600 main/binary-amd64/Packages
- 4ebe0a8d61c0732a56b560270dfa1d9d 422 main/binary-amd64/Packages.gz
+ 651364f8dd1c414c4cc396d1b379d88d 604 main/binary-amd64/Packages
+ 94931338a9c131da1c2507d728d2d6be 422 main/binary-amd64/Packages.gz
  1b21ef4b19ba60107691cea3b6cc9175 77 main/binary-amd64/Release
  d1d8ca32f8190f08916b3a4f6ed960e0 600 main/binary-arm64/Packages
  6b7da409a9e3aabc0d9bc797619d72e2 422 main/binary-arm64/Packages.gz
  cf1b3497a70f09fbeb0fd3c80f5146bd 77 main/binary-arm64/Release
 SHA1:
- 7cf69bf8f6111add51975836c4b14992ac47f129 600 main/binary-amd64/Packages
- c25ef172f7906db2580923f1c0c2fdd2a4d81baf 422 main/binary-amd64/Packages.gz
+ 95bf5cda70fa87da856e818bdb1e68b39cd91178 604 main/binary-amd64/Packages
+ cb07603e0e286b0263be8df68ba6839bdce85933 422 main/binary-amd64/Packages.gz
  6910905454f3464d5f1d514afdffcdb6e022dce8 77 main/binary-amd64/Release
  947293e2fa4e229c13f0a15d9cb6c686ef6ba906 600 main/binary-arm64/Packages
  103731aa89830f599e56906a18a406fe1c906907 422 main/binary-arm64/Packages.gz
  157b42f6093045e27cbe19dfb239c9b9d98de966 77 main/binary-arm64/Release
 SHA256:
- 1f866b68119172e358f328547534e40d41d4c858e8572e02eb8460014f7189b0 600 main/binary-amd64/Packages
- 4225f15fc05c034423ecbc950473a5f7dd73cf8140e9ab928f2debd26e802b40 422 main/binary-amd64/Packages.gz
+ a9c56e14589076fcd8934653f685265e3a9e9853dc0029e7d385eb7bb2fd0b3d 604 main/binary-amd64/Packages
+ 0b7f72c2feaf2aaff9dd39dc15d97e2608d86cfb1b40dc0f3ff3e5eb8bbc6b72 422 main/binary-amd64/Packages.gz
  cdac04cac330db4750e963250b7fe78ec0e455fc64b68f26c08c7c0b31b6f61b 77 main/binary-amd64/Release
  f2c9b4d8535a26fb68adb499236ac048ea1fb9142de7d56811fd638240fbd51d 600 main/binary-arm64/Packages
  308bdf83718c3b550100bee7f1f02775aba6b49350612ce741c1dd2e90a7b49b 422 main/binary-arm64/Packages.gz
