@@ -67,7 +67,7 @@ jobs:
               sed -i 's,/ubuntu/ ,/ubuntu-ports/ ,' /etc/apt/sources.list.d/ubuntu-arm.sources
               sed -i 's/^deb /deb [arch=arm64] /' /etc/apt/sources.list.d/ubuntu-arm.sources
               sed -i 's/^deb /deb [arch=amd64] /' /etc/apt/sources.list
-              cat /etc/apt/sources.list
+              cat /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu-arm.sources
             fi
             if [ "$arch" = "arm64" ]; then
               dpkg --add-architecture arm64
