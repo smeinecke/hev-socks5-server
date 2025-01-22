@@ -1,5 +1,5 @@
 Package: hev-socks5-server
-Version: 2.7.0~bullseye1
+Version: 2.7.0-1~bullseye1
 Architecture: arm64
 Maintainer: stefan <stefan@build-stretch>
 Installed-Size: 178
@@ -7,11 +7,11 @@ Depends: libc6 (>= 2.17)
 Homepage: <insert the upstream URL, if relevant>
 Priority: optional
 Section: unknown
-Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.7.0~bullseye1_arm64.deb
-Size: 57652
-SHA256: bc56341386c4d774ba567e1afe32501a4d503c5fffb9bcf1b029d7d76a524b08
-SHA1: 3a595c0c82e578c2654ff58604394efa03bcf125
-MD5sum: 65a1710a45298dbfa44494a62340de5e
+Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.7.0-1~bullseye1_arm64.deb
+Size: 57660
+SHA256: 7e6838c00611ef933cb92889e9f99d0cd094698f43614632454817a873d06832
+SHA1: 3714583aeea819fb8a9af361dcee191fb352b37a
+MD5sum: febbb9154ed0e5f2cf761e42246e3232
 Description: <insert up to 60 chars description>
  <insert long description, indented with spaces>
 

@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Codename: focal
-Date: Wed, 22 Jan 2025 14:51:50 UTC
+Date: Wed, 22 Jan 2025 14:52:24 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
@@ -29,17 +29,17 @@ SHA256:
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeRBgYACgkQwalj2T1+
-DRs+AA/+ITTSyK6DQYAOIzgeha57o9nvfkOrIrZXDQ37fx1GOegdjaFK+npSGtuN
-PbX8BMuNsATnGP9gOMRZszWZb0Ma+3ZUq7JHtKbkhDE/7C2geA5eaD0gVtKFuZzf
-8YnlROvDGzohCIvDe5lSvDAmxmSI20eovW+dZli9SmCOZFJfL2xHAXp6w3h/L8UG
-kiWD76uEfvkSo1y4vgJJVjXFivw9fgm4IO68WAcTCh/bvO8d3de4GSZqAgb3DGuX
-cYsHc8MY7X2+8pNBL1+4IwoV6zTsh3geDNpA66469YSMSYiHO58A8vtgd0Fc+yzZ
-v0cYi+gd11x3wd3dg0nHeo2+3tHKu8FPk3RnYPOxga3aSgKoRYfY+UbxcBnYpHWx
-Q+0ssEkce/NxO0VtbZ8zo7nnScsV0GrbF5n2wt7deFQ4PRnKz79SawW0fZyFIJWh
-RKbYiLdOREjBy9HRe0QJ6bliTAGH+eTBs6PwX/++GMWyDsdfTh+2TJcyw98I4Jp/
-iklTpNHt6g8ishG1knHS5LgmFhvzp+O0DYqEGA0Ibq+0rGW947rvZrqSn9CyqRit
-TG7WvxItB1lgn+LGj0C6qFii/8HkEYN0QaEZWcJ+RscTmIXV/DojRxdzAiVPSsjD
-5/m61FlkFx/MqawT40pbXuLBI4daGirkt6PQlIqthFRmufFO6VM=
-=7FKI
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeRBigACgkQwalj2T1+
+DRu+Kw//V1cpF/PuSW9kqY0uzFGjUrPjuYqTufGWdpyzmBi4uoMDYAT5gJRmh4Gd
+7cxS2H8Rt+XTG07hxZlkdkP0Va9NgAGFYh2tjvG9jE6PMsPfj4ZgFCPcHvoXUIYX
+PWOTt2Z5tQDgFY+f3uz8fLFPM6vNACBIzYPv8rj60CyVji0SCPlHNYC0mS37p+up
+AxquGMVNDYFm42Pk4OKBr0oeWuY/nXxlmW/GUft++sU5uafSp2kAw5yh6OrW1Kl/
+hkh1zrw2d0ohC9bAf1nnigXq+mebL5CnF0ZGHqZBr1CU3czrNMaGw8AiZMIs0Xxl
+yMQl/WfngNVyLk/yPjhKxw4cDfoawZBjOA5FLroqRGcmws+TtPr4pvnLbmQr8GHd
+EWDjkkArZMlaaicyyvB5A7kceQ6Xy0afY/aR9nXwtack49lk1bjINMzHqPegWbKB
+Aa139flKvUFQLMUyWNBdkuMi33tG34UawINl1DtyKsPUMAssQ5eBaPZlM0xWW4lu
+D1FoSMpWGT3RFp+hkpqPb8ztiNuZGu8sfqHIQqe72GbAVgeIKQhK2N9fHSMTzyy8
+kD2WEC5RKfzy0RdwQ8Ow+ZfVXWqtkkuXd2rwGMdbOnixS1R9++TjwPxfNQrYjh+A
+wMO3ORD4AcJ8Fygp6L7W81sMYeqsbTZlLoD8CXFZx4BJkRypSlk=
+=+IIC
 -----END PGP SIGNATURE-----
