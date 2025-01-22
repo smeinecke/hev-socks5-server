@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Codename: bookworm
-Date: Fri, 29 Nov 2024 02:59:46 UTC
+Date: Wed, 22 Jan 2025 14:20:58 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
@@ -29,17 +29,17 @@ SHA256:
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmdJLiIACgkQwalj2T1+
-DRu/xA//aSAIMxaAwzVOWb+C4eJhpqqrNHkbG14CZsrfefBMhC/t0baOsVKaPfOh
-xOM6SpzQL1zE6VYIswEZsSAM9ZSZLp8K6lXglQ2KjTnCj0aQvNlFuYgOUl143uxX
-56uLKA7teucakV7rtXjQqUDnFjZzZttP2rfiMTuYcb8/QakGbi5wFEnvolvQ7uxs
-RMAnaQ0OqoJYAfy11A84hnllDdkuc+nff+I/CNXRaU9uw3e4QMd2tyysuqpQYXx7
-hUi5oUU1XKBGRD5Jvg5wyipTPB00lfR86ceszE3AtaThQrBHOGA1yL73kLjlfkRF
-or4nKgtdehyFEUh8VAOhPH8ripgYJLwlkQcb1T9NIO29adSWOHD3cVTIf39shGdl
-faMaw4pSdKjO/EiyXvXSlSo51R7hmasKSI1yksf4buQU5eHGzybSl6aUTOBnKOhe
-9HOshYkKgd0rRmkaPLcrqy17tguGOHs9q3/m52InNdXAqLYQwseIXZuSI5W96xwm
-etbmkHuVqYnq+INckgZLpxHq4Pz+42mO0+JFptMiIo1HZTguUE2mBxsYThz9anhr
-uC3y+uMCE0h4ScZ1uWRHPUZ6J7nUHuCX0ivWNBHfON6xOud1XyDLqFymTu2ytg6l
-7l6i/0CP1hqwUbJe3XlEMl8mr+kQ+0NqDrClxovSBVSIQ6tzRw8=
-=xGbc
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeQ/soACgkQwalj2T1+
+DRv8bA//TzCPv5ippeia0jzGTl4SM0mGO+tGWwBKdB7pUFCTFGt/sKfLH24W1LFA
+T9JStKD6Gr7yfsVuCeM2dnHOOpgnNsSOw2OqXNEuocZQb7ZctZBKJc3ZtNiM3h4q
+pGmryQjgkTYESSs7JaknSvjLNiQYNpObBpAEhiNKwKpQjqVwQLr66U1qyY/PmT4b
+G8jHV3+VsePSBCK1+k/yXEh6Uk8Icma0TR4fUxf33zDo8b9R7nJBpwahCAzA+wN7
+nsgq3f1im73vuJrCT0HFzbsWZwZv7HxaHQUs6jdYTu8pqYH1Kra9cqxEX3sMxxpG
+WfC3p1ILgKTPXVkV/E3g91I3bt5Sijp2ijPbdEOK2WlsOkHwlByykfF9+gjBixfB
+Ty6O8p/3Vr5Yqx/QnKUa///zTuLXtRiahMASt1DB8YGp+V4IK5lXMAkC329qH3Nw
+UFGX8RaluV9lRT9jN+g3JMj0i6okpEHLAZAo+6r26YRnP+5JigqWh/9KIeZb/Jn9
+kdt8NaeA6OaWzd1fJrn7R1ewGAKVZWS+fiENoelp5Hu6wcD0Y1RFG7spUFDg2ifc
+nNjMA1A7Q/PmJn0b2XkZPdn+TRIjaj0SdSvsvqN7/3dpkuP92DTsMk0A5JZUzWSL
+6WWSRSuHxI3W0JBm8StLlkHdKihRQd/NYC4E/V/70LIINrTCm90=
+=SjpR
 -----END PGP SIGNATURE-----

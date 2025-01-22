@@ -19,3 +19,24 @@ Components: main
 SignWith: CAD5C242C01EBD4EC29FBE5AC1A963D93D7E0D1B
 
 
+Description: smeinecke/hev-socks5-server
+Codename: noble
+Architectures: amd64 arm64
+Components: main
+SignWith: CAD5C242C01EBD4EC29FBE5AC1A963D93D7E0D1B
+
+
+Description: smeinecke/hev-socks5-server
+Codename: jammy
+Architectures: amd64 arm64
+Components: main
+SignWith: CAD5C242C01EBD4EC29FBE5AC1A963D93D7E0D1B
+
+
+Description: smeinecke/hev-socks5-server
+Codename: focal
+Architectures: amd64 arm64
+Components: main
+SignWith: CAD5C242C01EBD4EC29FBE5AC1A963D93D7E0D1B
+
+
