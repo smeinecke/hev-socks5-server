@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Codename: buster
-Date: Wed, 22 Jan 2025 14:21:27 UTC
+Date: Wed, 22 Jan 2025 14:22:03 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
@@ -29,17 +29,17 @@ SHA256:
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeQ/ucACgkQwalj2T1+
-DRsfGA/9Hu3cAvL3TEfo3Q6Y5maSOiv6NF/cC+uU96zlM5/uPz8NzZdik17m2Uso
-sDqeNpf8vDRb2LAsJovGvudrdZcs2H7rg7hgtNoZeG4tqUwbeYzAAN3Qcq3k2H5e
-/5RXd6HLUK6bibVsUMfxkgcR+O1ayfs6orSpQ3jkgRGZwGWI9SGmqpz5hhzuRf+8
-uM7n3n6zc9RgGZy/04v+4OQQAXzYL93ZsL5zts5ozUalotjUjy8GnPzGLArO/xSL
-qlo1CPpE86zJ3mlIJsZsk+mLpetnov6ij4cNHsGzp4bl7y2vx49tA0/KZuk5NSFM
-PixQZE+bd9uF8/daW1oqc+dPJkOq4S2kl3pOBV7iFIhqEDgaU6uueP5KWz55g/h6
-wHOVXLhPJrHuD1ep7AYtixXPML10dyn/qIgm3FK+DXR0fP6GyjqmbjjaxBCy6JQf
-A/Jh4dMIQIP/XB60a1BhCzBXcHMVI/m084ipTqculdDEq0/XnwEV3thaOd5quHIk
-Ko93cxOxL1+nMDRvqOow5uI5G/WCapMAj5jiDxAX5nMS0y2180P+ML63YYqBSuBi
-YOyH2AwVV29yaeLRtBPXNAYKezhry5K90wma7G6FE0hzyqrzTWyVP1izaYvnh9E8
-DYx212nu2dEQtff2aK1QRQYjrFwJ+xo4QOfx1r8kHLiHVR8pOmU=
-=HbUp
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeQ/wsACgkQwalj2T1+
+DRss1g//Q793uMm4qhpjweuHCgWaijtsvL5SZoe5d+m1Vviz/SwviNNgsvhDrjnC
+uBxyPiP3t7cs9hjPLhiOaYApwOZx/jHY0qmWF5dX2PFRt6LzjhJHcg5zucoewxtG
+RBl13ChDQNLUpsxK3JMjNy6TymT2riIezyi/lKzj+RdsNt2WukXn+rF4ZZKW6Qcx
+dhZKDXbWg2hQXkSYRNcaImBHy/xAZRLP4oU3bjmFXqQBxigP3nmLLu1fZOUmmIp7
+u6ylECLgvl4QlpCN0BDE3SlIwqSNxp3EYYoKsU6cr77I2ScRX3XWDhFELsfRlbtX
+PgR66Cg2YzFxSoP0JOPMzjXNdxUwg1RalQBSiojii7GDTpOxDIdAy7kWY67z6F8e
+wCz+vgnBPgvMEOWXil0KRvKbyDtXAq1QqeITbdmgCV2jdTkQ3ScyY9Qy1cgugXNq
+SiITN9qx83+cmr+qZtt438z9wwBz+clVJAgUsdTfwc53SPaFIyiroNjeeoLDR9Yt
+9jEoCyFlxReFbjrIRlJtXru0FnaQzxY1YU5UrikcdlyiCeZiELyGW/iFIpOiY3e4
+QbgeOgkWTNr0Le9OhKVD/iG0LPQ8rw2eOr6a5YAOXtbUjqxr2ljnsUs2zux6x/60
+xNozMu/cLYHkASTZtv7GbEb0ZcLnx/caIS+uJTJsFYgdhNtDfL8=
+=yee7
 -----END PGP SIGNATURE-----
