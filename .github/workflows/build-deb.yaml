@@ -62,13 +62,18 @@ jobs:
             flavor=${os_version%%:*}
             arch="${{ inputs.arch }}"
             if [ "$flavor" = "ubuntu" ] && [ "$arch" = "arm64" ]; then
-              cp /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu-arm.list
-              sed -i 's/^deb /deb [arch=amd64] /' /etc/apt/sources.list
+              if [ -f /etc/apt/sources.list.d/ubuntu.sources ]; then
+                cp /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu-arm.sources
+                sed -i 's/^deb /deb [arch=amd64] /' /etc/apt/sources.list.d/ubuntu.sources
+              else
+                cp /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu-arm.list
+                sed -i 's/^deb /deb [arch=amd64] /' /etc/apt/sources.list
+              fi
 
-              sed -i 's,[a-z]*.ubuntu.com,ports.ubuntu.com,' /etc/apt/sources.list.d/ubuntu-arm.list
-              sed -i 's,/ubuntu/ ,/ubuntu-ports/ ,' /etc/apt/sources.list.d/ubuntu-arm.list
-              sed -i 's/^deb /deb [arch=arm64] /' /etc/apt/sources.list.d/ubuntu-arm.list
-              cat /etc/apt/sources.list
+              sed -i 's,[a-z]*.ubuntu.com,ports.ubuntu.com,' /etc/apt/sources.list.d/ubuntu-arm.list /etc/apt/sources.list.d/ubuntu-arm.sources
+              sed -i 's,/ubuntu/ ,/ubuntu-ports/ ,' /etc/apt/sources.list.d/ubuntu-arm.list /etc/apt/sources.list.d/ubuntu-arm.sources
+              sed -i 's/^deb /deb [arch=arm64] /' /etc/apt/sources.list.d/ubuntu-arm.list /etc/apt/sources.list.d/ubuntu-arm.sources
+              cat /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu-arm.sources
             fi
 
             if [ "$arch" = "arm64" ]; then
