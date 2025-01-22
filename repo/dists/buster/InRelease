@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Codename: buster
-Date: Wed, 22 Jan 2025 14:20:58 UTC
+Date: Wed, 22 Jan 2025 14:21:27 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
@@ -10,36 +10,36 @@ MD5Sum:
  4ecdc9343932f7474ed756853b1355fc 596 main/binary-amd64/Packages
  f030db2a3b402644a7daf5312e039577 418 main/binary-amd64/Packages.gz
  1b21ef4b19ba60107691cea3b6cc9175 77 main/binary-amd64/Release
- cf469b91a31fa8f5010aa74660889f92 600 main/binary-arm64/Packages
- e4807a7d826d222d1d90faa1a29af4c1 421 main/binary-arm64/Packages.gz
+ ee78ca1410f408f8bdfc90667a6019a1 596 main/binary-arm64/Packages
+ f59226c21e710bddecd65e8d929ffa42 420 main/binary-arm64/Packages.gz
  cf1b3497a70f09fbeb0fd3c80f5146bd 77 main/binary-arm64/Release
 SHA1:
  8b14bcc22bf9fa4f540619d00f9d0e153227545d 596 main/binary-amd64/Packages
  f7c990acc25de90dd96b414caa5e67d085067233 418 main/binary-amd64/Packages.gz
  6910905454f3464d5f1d514afdffcdb6e022dce8 77 main/binary-amd64/Release
- 96945f0d4add219335aa19dc403452db69811f9e 600 main/binary-arm64/Packages
- cdd759c39d42239232f13102ad13e84e2c776309 421 main/binary-arm64/Packages.gz
+ 308ca728c6d6ba002e995eaede684ea90fccdbbc 596 main/binary-arm64/Packages
+ 8bb64d34c25246a78420fb25a06e9770c8eff2ba 420 main/binary-arm64/Packages.gz
  157b42f6093045e27cbe19dfb239c9b9d98de966 77 main/binary-arm64/Release
 SHA256:
  6083aef307246317e5d719e9e9c13ad2b396e2c2883a7e690607fed06f6b30eb 596 main/binary-amd64/Packages
  72424bb252011a02445a21da83a05c6ad5c91574e98333e00dade8014d53d3ed 418 main/binary-amd64/Packages.gz
  cdac04cac330db4750e963250b7fe78ec0e455fc64b68f26c08c7c0b31b6f61b 77 main/binary-amd64/Release
- a2cefe39fa57cf9a603569b0454f9048077aafda9eb6e12342aad7942f3601e4 600 main/binary-arm64/Packages
- 47d5937caa680270fb1dfb5cd5e0626d0ad0cd583303a3c2518a7c6a5ffd00cd 421 main/binary-arm64/Packages.gz
+ 9066dd4960bf358ec4a83b006bc0facb7f67dd8362ebb95c0d2474a4fa4d0bc1 596 main/binary-arm64/Packages
+ f2f5cdf75d1e8384e6153fa8a861779d4163037f853e1d80b3c856c6ed2604b7 420 main/binary-arm64/Packages.gz
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeQ/soACgkQwalj2T1+
-DRvt/A//dPoQ/DwFRfMA0eXrm70huPLHHByqxj4i8ZBHG4GNq72BahpJvvWyZwRf
-0IIMPVxIx1GB7N1DPp4YWPp2sk5Tep5n3cCD0myzHwPu0Mes08a7he7QEOsEUWsc
-LSfVvpPA1ZSzDUJCiiEY34XXeGnp46SXHp7YY5p6m8Bpe68Q+BKndBL33xcU0y7i
-4AemWeMvLDSC++/M/oX74yzJITiWWRvb14anC0gIH+2zkVFFnrJKXZ5xMfdJZJ6K
-NJUuXjBvw9vZ666EG+yCpzvSC8knlcdoTQOynESYCunrxKNZV2SaOASGt1sHnc6s
-lUEdPAKICoyyom0JkaZKzWBP/XzaDShbMDwUNksMNDlvjodNXk/G1qdE6jtZAqgv
-hBrkwemU5XroYagUNMmgdNNOP1XTcjRtQBFEV0UnplWlVU6zhCBZBhazN02hJl2V
-IDK/sI/7xm/yG+qB7M5jsyDSQMjhRlNpjq/sHCNS3DC4rj92iMl/Z83St8OWgHxh
-v3W/02GLBNT0AgZKdx0uTcW+BtW3teD7ERHouukdh3p94/9DhAaUgPlfWx3UFcL0
-L8jfnWZcO6WEsV2xiFXk1EOqveLvNI+RYXU4gk0vjm3X0txzn9qis3BQ3v2V4olz
-sChGRs/weQ2OXPpXIfI/XZfhmqHElHvJyZklG/X4397cECripUk=
-=V7t6
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeQ/ucACgkQwalj2T1+
+DRsfGA/9Hu3cAvL3TEfo3Q6Y5maSOiv6NF/cC+uU96zlM5/uPz8NzZdik17m2Uso
+sDqeNpf8vDRb2LAsJovGvudrdZcs2H7rg7hgtNoZeG4tqUwbeYzAAN3Qcq3k2H5e
+/5RXd6HLUK6bibVsUMfxkgcR+O1ayfs6orSpQ3jkgRGZwGWI9SGmqpz5hhzuRf+8
+uM7n3n6zc9RgGZy/04v+4OQQAXzYL93ZsL5zts5ozUalotjUjy8GnPzGLArO/xSL
+qlo1CPpE86zJ3mlIJsZsk+mLpetnov6ij4cNHsGzp4bl7y2vx49tA0/KZuk5NSFM
+PixQZE+bd9uF8/daW1oqc+dPJkOq4S2kl3pOBV7iFIhqEDgaU6uueP5KWz55g/h6
+wHOVXLhPJrHuD1ep7AYtixXPML10dyn/qIgm3FK+DXR0fP6GyjqmbjjaxBCy6JQf
+A/Jh4dMIQIP/XB60a1BhCzBXcHMVI/m084ipTqculdDEq0/XnwEV3thaOd5quHIk
+Ko93cxOxL1+nMDRvqOow5uI5G/WCapMAj5jiDxAX5nMS0y2180P+ML63YYqBSuBi
+YOyH2AwVV29yaeLRtBPXNAYKezhry5K90wma7G6FE0hzyqrzTWyVP1izaYvnh9E8
+DYx212nu2dEQtff2aK1QRQYjrFwJ+xo4QOfx1r8kHLiHVR8pOmU=
+=HbUp
 -----END PGP SIGNATURE-----
