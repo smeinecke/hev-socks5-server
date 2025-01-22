@@ -115,7 +115,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       - name: Add ${{ matrix.arch }} release
-        uses: smeinecke/apt-repo-action@v2.1.2
+        uses: smeinecke/apt-repo-action@v2.1.4
         with:
           github_token: ${{ github.token }}
           repo_supported_arch: |
