@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Codename: bullseye
-Date: Wed, 22 Jan 2025 14:22:36 UTC
+Date: Wed, 22 Jan 2025 14:23:08 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
@@ -29,17 +29,17 @@ SHA256:
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeQ/ywACgkQwalj2T1+
-DRuVGQ//dQcy9PnEB9sJlHOcotstIRIeWCBZbxkl2rqOmTdQ+t4ECRfyvNik1r1F
-68Dt3ePYybTzdAIhMQ4q4bTT7s3YDGMQjLmRjw6uAJsacrk8l39YGJRn/f0YirEq
-Vz2KRphtSpIiwLRA4xb4J6myeOD2kpaZzHygWIgZsKzMDZhBUfrSI1dn0qj0yFEp
-g5m6ru6w7m4q/Lk8cgN1DlYW8VdftqUEboHawJnLnBdZHuPqETrOdsAB19IaptAP
-7UCq4LlhNUEII66Vkh5fzJBCUgsiVrwyqsildhN0D7DtU1Er6nv9fpa1JdXwv1SE
-bQPTv61LRgt9uUQWiSmsam0z92kKkf7fhkEKQfX/95AjkvZlvqtM+zVGZnrtVEnt
-FImPX5hxWFafJEimtjz6uj7o7LiSaN9+quvRa/r1oP4Mgmpaswi8XeiwhqG55D7H
-FEefTb48q8+6zPfnQ0JiKSGjfuDY7lPakbnSA9XedH3FlhAfAIL/Fh64TYhjjDt4
-VZIG2otoxomJVhOIGoesGGEL3Hq733iGClprjp0X2Dbwz8Gsu3AVtLIIgImmUC8L
-VogUyVj9L7fXLVD/OKzpkZuObJr0x0LHz/64ewucNnrziO/yzsuWg4kYcd3eW5zB
-bX8KSGX9Kw9dPElF/o98+mpWMm8q5FyNb7capsAa1II2zjcjwso=
-=eo/G
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmeQ/0wACgkQwalj2T1+
+DRseYg//cDz4qMop1ac0nsUgiOqcQuo447bqHxaIbyMazf7VFgnriR9ABzVmUudf
+utxxULe6yFRo9rPEEPXeOT72Gov4JI+niaaYAdvFqPOGQRbo4jg8YusHzIwZZEG6
++tEJsBKqPYTXC6Fhq7mSZeANmTf2wWDggM1gAwhrwNDIdANswkxfu+3Gxl5+R3FX
+mdMvRZrXucucHXE6D8zXBQ8ErGJLWtOHRf6y5e7QUvfDMS8WxDjM7jQl4eUu1tO7
+uQVL5CbeNYy/48uEsYjHbRaxRWMAX/RC6WrpkD3x08mwslhEnrUeq14av8pI2lu7
+JrdD/K7gW1lsrvOtp4n7GU2dcIUKx+2YZFeLHlJVoV8sMW6VOj4nqEtqqf+q5rpC
+KH4z/XUx3uGBTkqSsJSaXA62b+2VeX+G/OVno73A1dU7OS4zdRlSag8xWUTb6br4
+K+laUihTo+ATfkIG2LmFylm82JZ8O4Qu+pybbmu7SdNN3w09yk9OqicIAYeqQzGj
+Nkkay2q5sToxsAr1TBCiJXBPDCMY5F3Fz8yO9vKvPB/Z6cT7blaaP5GYo1xIO1RW
+A9NnFylgJ6HxJeDX+aKMEwMvIa8gCAR8DP+ydXVb+lUIyrYP/yMpAmMtecjKmD9g
+L3CQgFGL3pHxr5QLXeuELLOnQ2WQ5XRnNdGbRGQWk3qZPsdebCw=
+=7UvR
 -----END PGP SIGNATURE-----
