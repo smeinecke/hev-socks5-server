@@ -10,13 +10,13 @@ on:
         type: choice
         description: 'Debian/Ubuntu Version'
         options:
-          - 'bookworm'
-          - 'bullseye'
-          - 'buster'
-          - 'stretch'
-          - 'noble'
-          - 'jammy'
-          - 'focal'
+          - 'debian:bookworm'
+          - 'debian:bullseye'
+          - 'debian:buster'
+          - 'debian:stretch'
+          - 'ubuntu:noble'
+          - 'ubuntu:jammy'
+          - 'ubuntu:focal'
         required: true
       arch:
         type: choice
@@ -32,6 +32,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Split os-version into name and version
+        id: split_os_version
+        run: |
+          OS_NAME=$(echo "${{ inputs.flavor }}" | cut -d':' -f1)
+          OS_VERSION=$(echo "${{ inputs.flavor }}" | cut -d':' -f2)
+
+          echo "Operating System Name: $OS_NAME"
+          echo "Operating System Version: $OS_VERSION"
+
+          # Set outputs for use in later steps
+          echo "::set-output name=os-name::$OS_NAME"
+          echo "::set-output name=os-version::$OS_VERSION"
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -40,15 +52,15 @@ jobs:
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
-          docker-image: "debian:${{ inputs.flavor }}"
+          docker-image: "${{ inputs.flavor }}"
           host-arch: "${{ inputs.arch }}"
           extra-build-deps: devscripts git dpkg-cross
-          before-build-hook: "dch --local ~${{ inputs.flavor }} 'GitHub build for ${{ inputs.flavor }}'"
+          before-build-hook: "dch --local ~${{ steps.split_os_version.outputs.os-version }} 'GitHub build for ${{ inputs.flavor }}'"
           buildpackage-opts: --build=binary --no-sign -d
       - name: Upload deb files
         uses: actions/upload-artifact@v4
         with:
-          name: "packages-${{ inputs.flavor }}-${{ inputs.arch }}"
+          name: "packages-${{ steps.split_os_version.outputs.os-version }}-${{ inputs.arch }}"
           path: ./debian/artifacts/*
   merge-artefacts:
     runs-on: ubuntu-latest

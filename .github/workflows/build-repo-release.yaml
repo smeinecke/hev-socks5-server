@@ -16,9 +16,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os-version: ["buster", "bullseye", "bookworm", "noble", "jammy", "focal"]
+        os-version: ["debian:buster", "debian:bullseye", "debian:bookworm", "ubuntu:noble", "ubuntu:jammy", "ubuntu:focal"]
         arch: ["amd64", "arm64"]
     steps:
+      - name: Split os-version into name and version
+        id: split_os_version
+        run: |
+          OS_NAME=$(echo "${{ matrix.os-version }}" | cut -d':' -f1)
+          OS_VERSION=$(echo "${{ matrix.os-version }}" | cut -d':' -f2)
+
+          echo "Operating System Name: $OS_NAME"
+          echo "Operating System Version: $OS_VERSION"
+
+          # Set outputs for use in later steps
+          echo "::set-output name=os-name::$OS_NAME"
+          echo "::set-output name=os-version::$OS_VERSION"
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -30,12 +42,12 @@ jobs:
           docker-image: "debian:${{ matrix.os-version }}"
           host-arch: "${{ matrix.arch }}"
           extra-build-deps: devscripts git dpkg-cross
-          before-build-hook: "dch --local ~${{ matrix.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
+          before-build-hook: "dch --local ~${{ steps.split_os_version.outputs.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
           buildpackage-opts: --build=binary --no-sign -d
       - name: Upload deb files
         uses: actions/upload-artifact@v4
         with:
-          name: "packages-${{ matrix.os-version }}-${{ matrix.arch }}"
+          name: "packages-${{ steps.split_os_version.outputs.os-version }}-${{ matrix.arch }}"
           path: ./debian/artifacts/*
 
   merge-artefacts:
