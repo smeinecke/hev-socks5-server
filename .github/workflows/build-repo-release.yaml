@@ -39,11 +39,31 @@ jobs:
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
-          docker-image: "debian:${{ matrix.os-version }}"
+          docker-image: "${{ matrix.os-version }}"
           host-arch: "${{ matrix.arch }}"
           extra-build-deps: devscripts git dpkg-cross
           before-build-hook: "dch --local ~${{ steps.split_os_version.outputs.os-version }} 'GitHub build for ${{ matrix.os-version }}'"
           buildpackage-opts: --build=binary --no-sign -d
+          setup-hook: |
+            os_version="${{ inputs.flavor }}"
+            flavor=${os_version%%:*}
+            arch="${{ inputs.arch }}"
+            if [ "$flavor" = "ubuntu" ] && [ "$arch" = "arm64" ]; then
+              cp /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu-arm.list
+              sed -i 's/^deb /deb [arch=amd64] /' /etc/apt/sources.list
+
+              sed -i 's,[a-z]*.ubuntu.com,ports.ubuntu.com,' /etc/apt/sources.list.d/ubuntu-arm.list
+              sed -i 's,/ubuntu/ ,/ubuntu-ports/ ,' /etc/apt/sources.list.d/ubuntu-arm.list
+              sed -i 's/^deb /deb [arch=arm64] /' /etc/apt/sources.list.d/ubuntu-arm.list
+              cat /etc/apt/sources.list
+            fi
+
+            if [ "$arch" = "arm64" ]; then
+              dpkg --add-architecture arm64
+              apt-get update
+            fi
+
+
       - name: Upload deb files
         uses: actions/upload-artifact@v4
         with:
