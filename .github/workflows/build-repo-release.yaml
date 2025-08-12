@@ -35,7 +35,7 @@ jobs:
         with:
           submodules: true
       - name: Build Debian packages
-        uses: jtdor/build-deb-action@v1.8.0
+        uses: jtdor/build-deb-action@v1.9.0
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
@@ -64,6 +64,10 @@ jobs:
                 sed -i 's/^deb /deb [arch=arm64] /' /etc/apt/sources.list.d/ubuntu-arm.list
                 cat /etc/apt/sources.list  /etc/apt/sources.list.d/ubuntu-arm.list
               fi
+            fi
+
+            if [ "$os_version" = "debian:buster" ]; then
+              sed -i 's,deb.debian.org,archive.debian.org,g' /etc/apt/sources.list
             fi
 
             if [ "$arch" = "arm64" ]; then
