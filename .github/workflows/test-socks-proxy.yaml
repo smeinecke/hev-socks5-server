@@ -48,23 +48,16 @@ jobs:
           # Wait for server to start
           sleep 2
 
-      - name: Test SOCKS5 proxy
-        run: |
           # Test SOCKS5 with curl
           curl -v --socks5 127.0.0.1:1080 https://ifconfig.me/ip
           # Test with explicit SOCKS5 hostname resolution
           curl -v --socks5-hostname 127.0.0.1:1080 https://ifconfig.me/ip
 
-      - name: Test SOCKS4 proxy
-        run: |
           # Test SOCKS4 with curl
           curl -v --socks4 127.0.0.1:1080 https://ifconfig.me/ip
           # Test with explicit SOCKS4 hostname resolution
           curl -v --socks4a 127.0.0.1:1080 https://ifconfig.me/ip
 
-      - name: Cleanup
-        if: always()
-        run: |
           if [ -f server.pid ]; then
             kill $(cat server.pid) || true
             rm -f server.pid
