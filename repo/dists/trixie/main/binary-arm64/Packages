@@ -1,0 +1,17 @@
+Package: hev-socks5-server
+Version: 2.9.0-1~trixie1
+Architecture: arm64
+Maintainer: stefan <stefan@build-stretch>
+Installed-Size: 223
+Depends: libc6 (>= 2.34)
+Homepage: <insert the upstream URL, if relevant>
+Priority: optional
+Section: unknown
+Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.9.0-1~trixie1_arm64.deb
+Size: 58992
+SHA256: 8f3c51ff3c0727dd9140da4718997f89675810cd65e31150603167a0a8bf24bb
+SHA1: 345be421d141cd60cab646d0000fcf1e77b8dbd4
+MD5sum: 8f1eaf80c4bd58374e2e2a1c3043b105
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
+
