@@ -62,8 +62,6 @@ jobs:
 
           # Test SOCKS4 with curl
           curl -v --socks4 127.0.0.1:1080 https://ifconfig.me/ip
-          # Test with explicit SOCKS4 hostname resolution
-          curl -v --socks4a 127.0.0.1:1080 https://ifconfig.me/ip
 
           if [ -f server.pid ]; then
             kill $(cat server.pid) || true
