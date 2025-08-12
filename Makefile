@@ -12,8 +12,7 @@ CCFLAGS=-O3 -pipe -Wall -Werror $(CFLAGS) \
 		-I$(THIRDPARTDIR)/yaml/src \
 		-I$(THIRDPARTDIR)/hev-task-system/include
 LDFLAGS=-L$(THIRDPARTDIR)/yaml/bin -lyaml \
-		-L$(THIRDPARTDIR)/hev-task-system/bin -lhev-task-system \
-		-lpthread
+		-L$(THIRDPARTDIR)/hev-task-system/bin -lhev-task-system
 
 SRCDIR=src
 BINDIR=bin
@@ -46,6 +45,10 @@ CLEANMSG="\e[1;34mCLEAN\e[0m %s\n"
 INSTMSG="\e[1;34mINST\e[0m  %s -> %s\n"
 UNINSMSG="\e[1;34mUNINS\e[0m %s\n"
 
+ifeq ($(MSYSTEM),MSYS)
+	LDFLAGS+=-lmsys-2.0 -lws2_32
+endif
+
 ENABLE_DEBUG :=
 ifeq ($(ENABLE_DEBUG),1)
 	CCFLAGS+=-g -O0 -DENABLE_DEBUG
@@ -56,6 +59,8 @@ ENABLE_STATIC :=
 ifeq ($(ENABLE_STATIC),1)
 	CCFLAGS+=-static
 endif
+
+LDFLAGS+=-lpthread $(LFLAGS)
 
 V :=
 ECHO_PREFIX := @

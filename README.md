@@ -1,8 +1,8 @@
 # HevSocks5Server
 
-[![status](https://github.com/heiher/hev-socks5-server/actions/workflows/build.yaml/badge.svg?branch=master&event=push)](https://github.com/heiher/hev-socks5-server)
+[![status](https://github.com/heiher/hev-socks5-server/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/heiher/hev-socks5-server)
 
-HevSocks5Server is a simple, lightweight socks5 server for Unix.
+HevSocks5Server is a simple, lightweight socks5 server.
 
 For more infos, see https://github.com/heiher/hev-socks5-server
 
