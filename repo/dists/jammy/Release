@@ -1,25 +1,25 @@
 Codename: jammy
-Date: Tue, 12 Aug 2025 19:52:57 UTC
+Date: Tue, 12 Aug 2025 19:53:23 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
 MD5Sum:
- db5640121a153b45cf92a521fffda608 598 main/binary-amd64/Packages
- 4dfaa1420f6add9c970c500947b4d1ea 420 main/binary-amd64/Packages.gz
+ d4cd021998e45d6acf9246edb6c06586 598 main/binary-amd64/Packages
+ 2e9203af2354a7945bcac2843ce815c2 421 main/binary-amd64/Packages.gz
  1b21ef4b19ba60107691cea3b6cc9175 77 main/binary-amd64/Release
  b0fa8104518c29d3e52eb0e385ff9adf 598 main/binary-arm64/Packages
  8732b6120306c2344f9881a2580fb68b 421 main/binary-arm64/Packages.gz
  cf1b3497a70f09fbeb0fd3c80f5146bd 77 main/binary-arm64/Release
 SHA1:
- 1473baefd137f31572c3508bccb2b4f2ccf4d910 598 main/binary-amd64/Packages
- b17e3cfeaf9b9474207e110730e63c8152e01dd0 420 main/binary-amd64/Packages.gz
+ 52b820bebf34169a5e17892a18838ff5ff99564e 598 main/binary-amd64/Packages
+ 8bcfa781cb53d07a6abec2a64d1589eef5ef2774 421 main/binary-amd64/Packages.gz
  6910905454f3464d5f1d514afdffcdb6e022dce8 77 main/binary-amd64/Release
  fda985aaf7f4b737d466b53eb671f23017aafeee 598 main/binary-arm64/Packages
  dd67c087e730277b6092df5a077e283186236425 421 main/binary-arm64/Packages.gz
  157b42f6093045e27cbe19dfb239c9b9d98de966 77 main/binary-arm64/Release
 SHA256:
- 4b62b943073540e6d90e4442ec78f1daec6083e08c1088d7844a17facf0c4bbd 598 main/binary-amd64/Packages
- c10f95ae80652a690f9e2f004f30dc409ae8b1c48334248173854039fa1af5f2 420 main/binary-amd64/Packages.gz
+ f2e54f415b7513d660444c845d671693364ab68a94f44995399966af62cf43db 598 main/binary-amd64/Packages
+ d36b095cf4dc6c2c0ab5101f66a4fc3018e4dd284c732885354932234dadf51b 421 main/binary-amd64/Packages.gz
  cdac04cac330db4750e963250b7fe78ec0e455fc64b68f26c08c7c0b31b6f61b 77 main/binary-amd64/Release
  6394da6d0a3d6c4fcc15a354de17868665f6527c1efb09fcfd74d09fa68eef0e 598 main/binary-arm64/Packages
  36e10698c6d05e2f9efd3d808abc7ea8f502068406bf81c889b8d636ec3a5acc 421 main/binary-arm64/Packages.gz
