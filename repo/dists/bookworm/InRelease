@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Codename: bookworm
-Date: Tue, 12 Aug 2025 19:53:23 UTC
+Date: Tue, 12 Aug 2025 19:53:51 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
@@ -29,17 +29,17 @@ SHA256:
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmibm7MACgkQwalj2T1+
-DRttsw/8CdMNxz7GGQW/vZIZ8ZjtAsXgZxMvENX8g7mVIDZnct+gouQ47yiO6IQ7
-g+QKL1c2kO0gexNj1YxzPFLOpcFiPpg7+exg0MP6D6usqkDcZw9bCrwgwMFtwMYh
-CrZgLE4EQOo4xn7TqThpvD3gZnJW+QDFs9wvgb+i95SmsgfLKZNcRoxo0KursVsA
-rH4pDAp2V+iZ5WqHR8S725WvNRG16ywmfs7mNp53NpDwZoHd+KHZNMKWX4Xatdu2
-zyMplkKTb6IjQIlNPvsmobVtCYOfC8X3cMmspdAqBktV/fdRVjEHevcheDH6B+e7
-unQHNQOISBR1rreDnpsYxkS/2dVxrr4RcaNFzNPoFR4KNCA9g42A8KD7EXTaC7pu
-yRopf2f+MgfXu4F95RmDqoZxwRMpsCYL9soH4yUfkO0OXg3obO9u62TJ8Qr4j3Nl
-HBjMDwxQBiCl44ILsn73WKYl7+Fg7v9e6DPXtiU/8py0aJFKZjEPre1644VquXzU
-6JGnFkgzKamOUruwaBE++FNmMloRgZEPgPBTRAZqVKrxb/cH56vJWk9myODB385D
-kEdN9i7r01YAuJ18sSk0/RHoqzy6NDtfC7z2ofDwwRZnUMiGYrXl1Hr92urpkf1A
-LYMUwVkP33JVY58USDOazAqeBXqSCrMnx5/4pTcVVcRCCR9oMcE=
-=FI+B
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmibm88ACgkQwalj2T1+
+DRuoCBAAimF4cYsvWeVeBo7ywTlSJ08ytrRpfwdyPZW/S7AcFKZeG99AwqCQ+rj2
+f/dpXY6txLUkk+XQlhVwxIAlVfaoR7Gwt09QZHji3/mN7PhqybEHZ3Y2G6EMdPOw
+KiCobk1MthwShLFVQAhxbDP8ffOn3dgA9cyxHiAUM+MZWfg02YpHUlaruwQUvQL6
+PwzixnCM8/xcz3j01gQP9ldfYE/SleSosPNnVHgUQ3FP1XffI/CEGq9lCLzvoVLt
+4TVeIGryxHs7w4NJk7POt5IwcAhJyaMXDedOzcJaHf+Waja/JhQTDrceYTCYsdgD
+qybi1qFbOoOBC645An5h/dszK4+Qa2BkAV000I1q0mc6VB0ousfvyKrUtP4DjPgn
+iTWJFJifZdI6sgWgpA9ZCwTpIwqJhv5WN+pyawbsy+0vGLcIJrLWXzptbH07zyzm
+CAWb6c5TDziqiPsIle/igGZACl/aYw4W14fxQ8ujJOoB9921oIAQgciK3vX9fXVX
+l4pRjxhMn3mtcCWZnrsAJXsmNM70oZ4mM91g2cly6m5WULMoMQhWk+i+bmvvQAPs
+Z29d7a7gMYpJ1OEiqAKy0Rj0wHz598Wimg8f7X50yfMPREM+wuokuM7sQe7EENBq
+fyE2Dee8/LZHfQbxxhSof7zdohyXM6COsX8nqPGtIjvZloU0FaA=
+=xy4w
 -----END PGP SIGNATURE-----
