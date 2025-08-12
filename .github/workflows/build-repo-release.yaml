@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os-version: ["debian:buster", "debian:bullseye", "debian:bookworm", "ubuntu:noble", "ubuntu:jammy", "ubuntu:focal"]
+        os-version: ["debian:buster", "debian:bullseye", "debian:bookworm", "debian:trixie", "ubuntu:noble", "ubuntu:jammy", "ubuntu:focal"]
         arch: ["amd64", "arm64"]
     steps:
       - name: Split os-version into name and version
@@ -82,6 +82,7 @@ jobs:
           path: ./debian/artifacts/*
 
   merge-artefacts:
+    name: Merge all deb files to single artifact
     runs-on: ubuntu-latest
     needs: build-debs
     steps:
@@ -105,21 +106,17 @@ jobs:
           files: ./*.deb
 
   add_repo:
+    name: Add packages to public debian repository
     runs-on: ubuntu-latest
-    needs: build-debs
-    strategy:
-      max-parallel: 1
-      matrix:
-        os-version: ["buster", "bullseye", "bookworm", "noble", "jammy", "focal"]
-        arch: ["amd64", "arm64"]
+    permissions:
+      contents: write
+    needs: merge-artefacts
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: "packages-${{ matrix.os-version }}-${{ matrix.arch }}"
-      - name: Display structure of downloaded files
-        run: ls -R
-      - name: Add ${{ matrix.arch }} release
-        uses: smeinecke/apt-repo-action@v2.1.4
+          name: "merged-artifacts"
+      - name: Add releases to repo
+        uses: smeinecke/apt-repo-action@master
         with:
           github_token: ${{ github.token }}
           repo_supported_arch: |
@@ -129,12 +126,14 @@ jobs:
             buster
             bullseye
             bookworm
+            trixie
             noble
             jammy
             focal
           file: |
-            *~${{ matrix.os-version }}*.deb
-          file_target_version: ${{ matrix.os-version }}
+            *.deb
+          version_by_filename: true
           private_key: ${{ secrets.APT_SIGNING_KEY }}
+          public_key: ${{ vars.APT_PUBLIC_KEY }}
           key_passphrase: ""
-
+          skip_duplicates: true

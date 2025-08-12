@@ -12,6 +12,7 @@ For more infos, see https://github.com/heiher/hev-socks5-server
  * buster
  * bullseye
  * bookworm
+ * trixie
  * noble
  * jammy
  * focal
