@@ -38,12 +38,19 @@ jobs:
             listen-address: '127.0.0.1'
             udp-port: 0  # Disable UDP for testing
             listen-ipv6-only: false
-            domain-address-type: ipv4
+            bind-address: ''
+            bind-address-v4: ''
+            bind-address-v6: ''
+            bind-interface: ''
+            domain-address-type: unspec
+
+          misc:
+            log-level: debug
           EOL
 
       - name: Start SOCKS server in background
         run: |
-          hev-socks5-server &
+          hev-socks5-server ~/.config/hev-socks5-server/main.yml &
           echo $! > server.pid
           # Wait for server to start
           sleep 2
