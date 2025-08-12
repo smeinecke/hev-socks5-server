@@ -1,5 +1,5 @@
 Codename: focal
-Date: Tue, 12 Aug 2025 19:54:16 UTC
+Date: Tue, 12 Aug 2025 19:54:47 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
@@ -7,20 +7,20 @@ MD5Sum:
  0517959d21410625d79bc1e3ed6cbc84 598 main/binary-amd64/Packages
  c83cae5e768854a67ce17f247668179f 422 main/binary-amd64/Packages.gz
  1b21ef4b19ba60107691cea3b6cc9175 77 main/binary-amd64/Release
- 50e6df67556318199dee3de9dac3a013 598 main/binary-arm64/Packages
- 9e83e88bd06e35bac6ba5305122559e5 420 main/binary-arm64/Packages.gz
+ 2f5c4a2d5a8e0d98f0811047b0beb6f9 598 main/binary-arm64/Packages
+ 39724abddb8844c7dbdf6c5413a86d3f 419 main/binary-arm64/Packages.gz
  cf1b3497a70f09fbeb0fd3c80f5146bd 77 main/binary-arm64/Release
 SHA1:
  598209f1b23cacdfd50f99bbaba14c612caadedc 598 main/binary-amd64/Packages
  add2d3f281ee36d15555f3e19ba1342cf0d0589f 422 main/binary-amd64/Packages.gz
  6910905454f3464d5f1d514afdffcdb6e022dce8 77 main/binary-amd64/Release
- 2565d63597d14b8a7d4e9b34662e7744cc4730ca 598 main/binary-arm64/Packages
- f035161eaa1f417f26ca1a61e1cc975d517d188d 420 main/binary-arm64/Packages.gz
+ 02ab9b1cbfa32167eb3d872d3f1b8f53de267082 598 main/binary-arm64/Packages
+ 5614d7f718f0650116d91eef2e1160f6b885045d 419 main/binary-arm64/Packages.gz
  157b42f6093045e27cbe19dfb239c9b9d98de966 77 main/binary-arm64/Release
 SHA256:
  d2b38deddad5bc9c02eea27584d73a1a2fb3f202815e880e4ee5b50f59f12081 598 main/binary-amd64/Packages
  6e7fddeb0614b247914229267210ff0f023c857f273bf6b4d61af853331c0f5e 422 main/binary-amd64/Packages.gz
  cdac04cac330db4750e963250b7fe78ec0e455fc64b68f26c08c7c0b31b6f61b 77 main/binary-amd64/Release
- ca580a5383e1170024ebd587d8f410c59c09567fdcb34d95a64a04ff5431b537 598 main/binary-arm64/Packages
- 4dde24888ecc03a42e1f6fcc7c9f269f94eb634808c025ff67dd3ae66e2e17bc 420 main/binary-arm64/Packages.gz
+ 9b6261429399ff76847d8d1c3ae9780ac62fbe7577c29c1ab8317a6bc03878de 598 main/binary-arm64/Packages
+ fd58a3a2d49983fdc2ba98ccc82ab111b34b1ab1fc13d871bb3e1fbcd210b632 419 main/binary-arm64/Packages.gz
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
