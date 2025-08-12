@@ -1,25 +1,25 @@
 Codename: noble
-Date: Tue, 12 Aug 2025 19:52:04 UTC
+Date: Tue, 12 Aug 2025 19:52:32 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
 MD5Sum:
- 91722d44a215f75f4fcf03bc4cedd343 598 main/binary-amd64/Packages
- f901966bae7c65f579fa27cf0cfc970f 417 main/binary-amd64/Packages.gz
+ acea78263b5b6cdb0814b68ff79f7609 598 main/binary-amd64/Packages
+ 4690ed2dabf066b133cbb96a73f261f6 420 main/binary-amd64/Packages.gz
  1b21ef4b19ba60107691cea3b6cc9175 77 main/binary-amd64/Release
  d5c31326f3a319ea19817d64ee94e9fd 598 main/binary-arm64/Packages
  c24c5bd7630aedd813d8b5a9e0722c6f 420 main/binary-arm64/Packages.gz
  cf1b3497a70f09fbeb0fd3c80f5146bd 77 main/binary-arm64/Release
 SHA1:
- 2234e01c0eb77f8ec5fd206e22e4c67d598a5a08 598 main/binary-amd64/Packages
- 86fc728d6e44e6fb8999b87f6bfee27ac3e214fd 417 main/binary-amd64/Packages.gz
+ 32fae07c61036319344d6e51952732934f7cdfe7 598 main/binary-amd64/Packages
+ 0d9541a100e065de706ab5363aed54e11c337c9e 420 main/binary-amd64/Packages.gz
  6910905454f3464d5f1d514afdffcdb6e022dce8 77 main/binary-amd64/Release
  2e1d5c1d34bac67724a622b7ae21cca5f10fc980 598 main/binary-arm64/Packages
  165297839b1889d81ce127f88e099de86bf8e7ba 420 main/binary-arm64/Packages.gz
  157b42f6093045e27cbe19dfb239c9b9d98de966 77 main/binary-arm64/Release
 SHA256:
- dc0878eb7b779c820fd2bc46b86e500bf0594632530e945696f9f38636964d88 598 main/binary-amd64/Packages
- b2275a763c69872038f6de570058b6fdfe2dc9324a2b929a7eda4eab46bd13c7 417 main/binary-amd64/Packages.gz
+ dd76820747a1d8fcb0d77855d7dddfe829c89d7cce042287a2a2a7a2844578f5 598 main/binary-amd64/Packages
+ 8d54c39eb628dd977216a4b6ef49ad8a01ea8f8d1f577aa1e3273616ca2712a5 420 main/binary-amd64/Packages.gz
  cdac04cac330db4750e963250b7fe78ec0e455fc64b68f26c08c7c0b31b6f61b 77 main/binary-amd64/Release
  960942256b216d63530d2c3f7e7a8761da625824c01fddecfd7a920738f0af6c 598 main/binary-arm64/Packages
  db049b40c13e3d2b0368e9252bcf3d2327541dcb8902bad0b5688903ee056ac5 420 main/binary-arm64/Packages.gz
