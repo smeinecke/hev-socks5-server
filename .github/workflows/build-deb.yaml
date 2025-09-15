@@ -48,7 +48,7 @@ jobs:
         with:
           submodules: true
       - name: Build Debian packages
-        uses: jtdor/build-deb-action@v1.8.0
+        uses: jtdor/build-deb-action@v1.9.0
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
