@@ -1,8 +1,15 @@
+hev-socks5-server (2.10.0-1) unstable; urgency=medium
+
+  * Update to 2.10.0 upstream
+
+ -- stefan <stefan@build-stretch>  Thu, 12 Aug 2025 15:03:00 +0100
+
+
 hev-socks5-server (2.9.0-2) unstable; urgency=medium
 
   * Fix systemd prefix
 
- -- stefan <stefan@build-stretch>  Thu, 19 Oct 2025 15:18:00 +0100
+ -- stefan <stefan@build-stretch>  Thu, 19 Oct 2025 14:30:00 +0100
 
 hev-socks5-server (2.9.0-1) unstable; urgency=medium
 
