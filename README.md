@@ -9,9 +9,13 @@ For more infos, see https://github.com/heiher/hev-socks5-server
 ## Debian Repository
 
 ## Currently supported debian versions:
- * buster
- * bullseye
- * bookworm
+  * buster
+  * bullseye
+  * bookworm
+  * trixie
+  * noble
+  * jammy
+  * focal
 
 ## How to add this repository:
 
