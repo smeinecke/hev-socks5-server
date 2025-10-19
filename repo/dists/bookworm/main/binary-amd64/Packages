@@ -1,17 +1,29 @@
 Package: hev-socks5-server
-Version: 2.9.0-1~bookworm1
+Version: 2.9.0-2~bookworm1
 Architecture: amd64
 Maintainer: stefan <stefan@build-stretch>
-Installed-Size: 183
+Installed-Size: 190
 Depends: libc6 (>= 2.34)
-Homepage: <insert the upstream URL, if relevant>
+Homepage: https://github.com/heiher/hev-socks5-server
 Priority: optional
-Section: unknown
-Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.9.0-1~bookworm1_amd64.deb
-Size: 62372
-SHA256: 91271ab6c9e0f6898e6bead52e06aa1975c2862a243c1f1c6b1589ee283301f9
-SHA1: 91f343a6c290aa34ebdaf69b1bb1c1fdd17655ca
-MD5sum: c3f7a20815ea562a8fa965b2dbfaf707
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Section: network
+Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.9.0-2~bookworm1_amd64.deb
+Size: 63200
+SHA256: 61fbac957e553edb280156bf3f5a5023dc7950dba2d5ddef469a185296010a3d
+SHA1: d127c3c1be031111681a18f5ea4f8fb61b288641
+MD5sum: d31d350d72019c16afb654e2f8f6f19e
+Description: HevSocks5Server is a simple, lightweight SOCKS5 server
+ HevSocks5Server is a high-performance SOCKS5 proxy server implementation
+ written in C. It's designed to be lightweight, secure, and easy to configure.
+ .
+ Key features include:
+  * Full SOCKS5 protocol support (RFC 1928)
+  * Support for TCP and UDP forwarding
+  * Configurable authentication methods (no-auth, username/password)
+  * YAML-based configuration
+  * IPv4 and IPv6 support
+  * Built with security and performance in mind
+ .
+ This package provides a simple yet powerful SOCKS5 proxy server suitable for
+ various networking needs, from personal privacy to enterprise solutions.
 

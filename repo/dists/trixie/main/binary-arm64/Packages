@@ -1,17 +1,29 @@
 Package: hev-socks5-server
-Version: 2.9.0-1~trixie1
+Version: 2.9.0-2~trixie1
 Architecture: arm64
 Maintainer: stefan <stefan@build-stretch>
-Installed-Size: 223
+Installed-Size: 226
 Depends: libc6 (>= 2.34)
-Homepage: <insert the upstream URL, if relevant>
+Homepage: https://github.com/heiher/hev-socks5-server
 Priority: optional
-Section: unknown
-Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.9.0-1~trixie1_arm64.deb
-Size: 58992
-SHA256: 8f3c51ff3c0727dd9140da4718997f89675810cd65e31150603167a0a8bf24bb
-SHA1: 345be421d141cd60cab646d0000fcf1e77b8dbd4
-MD5sum: 8f1eaf80c4bd58374e2e2a1c3043b105
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Section: network
+Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.9.0-2~trixie1_arm64.deb
+Size: 59744
+SHA256: 22bae15d2d47f70ad46c55465afb7d0751c0689322cb4a8bcd61a1230396fa5e
+SHA1: b8a504c11a932aa78ca9637cc41e517884d46db0
+MD5sum: 5f32fd66533e347845ee7576f65f65f9
+Description: HevSocks5Server is a simple, lightweight SOCKS5 server
+ HevSocks5Server is a high-performance SOCKS5 proxy server implementation
+ written in C. It's designed to be lightweight, secure, and easy to configure.
+ .
+ Key features include:
+  * Full SOCKS5 protocol support (RFC 1928)
+  * Support for TCP and UDP forwarding
+  * Configurable authentication methods (no-auth, username/password)
+  * YAML-based configuration
+  * IPv4 and IPv6 support
+  * Built with security and performance in mind
+ .
+ This package provides a simple yet powerful SOCKS5 proxy server suitable for
+ various networking needs, from personal privacy to enterprise solutions.
 

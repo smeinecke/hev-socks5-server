@@ -2,44 +2,44 @@
 Hash: SHA512
 
 Codename: focal
-Date: Tue, 12 Aug 2025 19:58:11 UTC
+Date: Sun, 19 Oct 2025 12:31:44 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
 MD5Sum:
- 0517959d21410625d79bc1e3ed6cbc84 598 main/binary-amd64/Packages
- c83cae5e768854a67ce17f247668179f 422 main/binary-amd64/Packages.gz
+ 08a1fd929719906d52490ba262ea8a34 1162 main/binary-amd64/Packages
+ 160ca7dabd4db4fb7c911816e2013fc2 714 main/binary-amd64/Packages.gz
  1b21ef4b19ba60107691cea3b6cc9175 77 main/binary-amd64/Release
- 2f5c4a2d5a8e0d98f0811047b0beb6f9 598 main/binary-arm64/Packages
- 39724abddb8844c7dbdf6c5413a86d3f 419 main/binary-arm64/Packages.gz
+ 3ebe1e668e5c60975f0a64598fd72f55 1162 main/binary-arm64/Packages
+ 748ccf28bd5c409bdf40ac273bc31f01 714 main/binary-arm64/Packages.gz
  cf1b3497a70f09fbeb0fd3c80f5146bd 77 main/binary-arm64/Release
 SHA1:
- 598209f1b23cacdfd50f99bbaba14c612caadedc 598 main/binary-amd64/Packages
- add2d3f281ee36d15555f3e19ba1342cf0d0589f 422 main/binary-amd64/Packages.gz
+ a566337ca1825d46ac6bb3c06014fea3c01bf649 1162 main/binary-amd64/Packages
+ f4f9d51ecf67088688dfb73db5d87ee02f26b154 714 main/binary-amd64/Packages.gz
  6910905454f3464d5f1d514afdffcdb6e022dce8 77 main/binary-amd64/Release
- 02ab9b1cbfa32167eb3d872d3f1b8f53de267082 598 main/binary-arm64/Packages
- 5614d7f718f0650116d91eef2e1160f6b885045d 419 main/binary-arm64/Packages.gz
+ 8d2ba7efab3f57c00c802617611301e54b8b826b 1162 main/binary-arm64/Packages
+ 8a7badfbc4c205494dddc95ec14a9a892dea5a10 714 main/binary-arm64/Packages.gz
  157b42f6093045e27cbe19dfb239c9b9d98de966 77 main/binary-arm64/Release
 SHA256:
- d2b38deddad5bc9c02eea27584d73a1a2fb3f202815e880e4ee5b50f59f12081 598 main/binary-amd64/Packages
- 6e7fddeb0614b247914229267210ff0f023c857f273bf6b4d61af853331c0f5e 422 main/binary-amd64/Packages.gz
+ 43aa4b9da011a50b1c4f890b7a3d87c5a0c6b744c3d24d1a4bc41f2436d15cbe 1162 main/binary-amd64/Packages
+ c89ac38bb2d261a7e78179e1f2f0937cd1c1e39b9a99e72658401dfaa8c0349b 714 main/binary-amd64/Packages.gz
  cdac04cac330db4750e963250b7fe78ec0e455fc64b68f26c08c7c0b31b6f61b 77 main/binary-amd64/Release
- 9b6261429399ff76847d8d1c3ae9780ac62fbe7577c29c1ab8317a6bc03878de 598 main/binary-arm64/Packages
- fd58a3a2d49983fdc2ba98ccc82ab111b34b1ab1fc13d871bb3e1fbcd210b632 419 main/binary-arm64/Packages.gz
+ a05fe21723c86c69a5df3f064926272282a11cb705fda1f0304d212af4ba8158 1162 main/binary-arm64/Packages
+ 6d51503f4f8a23edc3e109417a3974ab58f3dbb970f25cc98e4bfbc4e52c0a15 714 main/binary-arm64/Packages.gz
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmibnNMACgkQwalj2T1+
-DRsQQg//R4IuIdjq54KnO+FURbboqA00kZd2zWF30/oXoNfUN+lPhxTiMO24OIFF
-91XZIvjoCE0ZydoshztLBITExqO2/NcteQ5bYP7hjHEEIv4ssQ431aK1OFc51BUc
-rpJ0ab8CR0g6s6XE7PuQhC3RIwklsWBrvkYQG3pPgirsPwhQiGDkBvlK9AIULkr5
-YF2m4XiiuSJnySpAJIbwwsnwZ95jjKBxmnTqGfCi/RT5zlH1bMc7YxgLLl1sKH3z
-q0bdsNDmUy+Nld+fx5vGezMZgHIGEa6wlxXRDM/hCL3q7jWZrv48aSTqv84Jbi61
-+8sWn47g78DqE+DQfSz+/ilXTvbGCI7ed2sfgnw9M2/7QYX9NJdMwIEWewSjYFOq
-Q3vRRWqHKwC8z3tnHtuZkHpycEwlqEq9SgCnEPDI5yygrviTlDhoUhCiUPlgKzh9
-rLRPG+HMJ7p1FfW12H2WHLc3dnvZ2g4KllegyLu9BS6O/r3l9yIdxsHetAxZC+gC
-029E1iJITFf2nkkxptjoY5kgho5iF3Pf9dcJYiIkK2q/7IXZppYlzE2JyV3hotsV
-oVVcCrRVb06MZABDnQjkFey7vSE0JhsRdKjfCwZ8UY/olbu2Uu7n6H/aV7rtPDlH
-yXW4bEVdNgffE6LNmocQOTsa6i3Sz61bgmcoClkVLLd9g0dbsSM=
-=dGSu
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmj02jAACgkQwalj2T1+
+DRvQIw//bgfFZsXqIPrQl1pXJ3ZGUis0DSwpwt463daktbSE8fFnusKCVDvHi3Lp
+NHe03Fe69jL5SdzTscmw4i8CocU12bUjYwaPZfa9FalNZ6BbaEcp8T+0+p6ITLt5
+dU3AgZMBVnIbiejLkCOlGyvSvpQq4E8Utemna23nsb0MvlacoqcvISVtzlLjMFKp
++FQcFlChuMW/sIX9eqkQtt6wDXsZ2QT3glonyle5cdeOXCeqiT6GzGq82/o4w+7a
+BVXcM5RDNaQOT/g60W+6q1y2Lp+oNydgVTlwnzLilvI0Ca2WeEOzeLoYx2q9UXgX
+Lp9NLEgXyN5EvBTzeCE2oNrrEAphny2BupmeHT62ll3nxj+wnKyvlXZ5KAogXykB
+bLf0XISNGumAETEK498CGKahrG1Ofkhq2ffC2CUJB1VBg6Jb2jQrxvsG6CYJLjEA
+owxPkj5gjwqJw/arFp9atnLsIijp2K5VkGhqDl6O78PsloUv14ZedgTQk1PyXQvQ
+ZvIa+rAmIcGf+vmCYHkDLQOwZy2vY4/Gz/x7T0P9bsfLNVi7UGtFWzDAqK9MAxri
+nzrDUEzGwwQkFDhgaHwQ8F0kWDbBR5Z7ZM/uKjRo+QlS6oZ+sUouq+Yi74LzddGE
+GY3/eTjRNsYAY5a5EIgofOjOj33Xbl2Oqf1TuJR7dO+cbWpQ6vQ=
+=7+iP
 -----END PGP SIGNATURE-----
