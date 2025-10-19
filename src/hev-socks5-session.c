@@ -106,26 +106,31 @@ hev_socks5_session_bind (HevSocks5 *self, int fd, const struct sockaddr *dest)
 
 static int
 hev_socks5_session_udp_bind (HevSocks5Server *self, int sock,
-                             const struct sockaddr *src)
+                             struct sockaddr_in6 *src)
 {
-    struct sockaddr_in6 *sap;
-    struct sockaddr_in6 addr;
-    const char *saddr;
-    socklen_t alen;
-    int ipv6_only;
+    struct sockaddr_in6 addr = {0};
+    int ipv6_only = 0;
     int one = 1;
-    int sport;
     int res;
     int fd;
+
+    if (!src)
+        return -1;
 
     LOG_D ("%p socks5 session udp bind", self);
 
     fd = HEV_SOCKS5 (self)->fd;
-    sap = (struct sockaddr_in6 *)src;
-    alen = sizeof (struct sockaddr_in6);
-    saddr = hev_config_get_udp_listen_address ();
-    sport = hev_config_get_udp_listen_port ();
-    ipv6_only = hev_config_get_listen_ipv6_only ();
+    
+    // Use the provided source address
+    memcpy(&addr, src, sizeof(addr));
+    
+    // Get the port from config if needed
+    if (addr.sin6_port == 0) {
+        addr.sin6_port = htons(hev_config_get_udp_listen_port());
+    }
+
+    // Set IPV6_V6ONLY if needed
+    ipv6_only = hev_config_get_listen_ipv6_only();
 
 #ifdef SO_REUSEPORT
     res = setsockopt (sock, SOL_SOCKET, SO_REUSEPORT, &one, sizeof (one));
@@ -134,40 +139,30 @@ hev_socks5_session_udp_bind (HevSocks5Server *self, int sock,
 #endif
 
     if (ipv6_only) {
-        res = setsockopt (sock, IPPROTO_IPV6, IPV6_V6ONLY, &one, sizeof (one));
+        res = setsockopt(sock, IPPROTO_IPV6, IPV6_V6ONLY, &one, sizeof(one));
         if (res < 0)
             return -1;
     }
 
-    if (saddr) {
-        res = hev_netaddr_resolve (&addr, saddr, NULL);
-        if (res < 0)
-            return -1;
-    } else {
-        res = getsockname (fd, (struct sockaddr *)&addr, &alen);
-        if (res < 0)
-            return -1;
-    }
-
-    addr.sin6_port = htons (sport);
-    res = bind (sock, (struct sockaddr *)&addr, alen);
+    // Bind to the socket
+    res = bind(sock, (struct sockaddr *)&addr, sizeof(addr));
     if (res < 0)
         return -1;
 
-    if (hev_netaddr_is_any (sap)) {
-        res = getpeername (fd, (struct sockaddr *)&addr, &alen);
+    // If the source address is any address (all zeros), get the actual address
+    if (IN6_IS_ADDR_UNSPECIFIED(&addr.sin6_addr)) {
+        socklen_t alen = sizeof(addr);
+        res = getsockname(sock, (struct sockaddr *)&addr, &alen);
         if (res < 0)
             return -1;
-
-        src = (struct sockaddr *)&addr;
-        addr.sin6_port = sap->sin6_port;
     }
 
-    res = connect (sock, src, sizeof (struct sockaddr_in6));
+    // Connect to the source address
+    res = connect(sock, (struct sockaddr *)&addr, sizeof(addr));
     if (res < 0)
         return -1;
 
-    HEV_SOCKS5 (self)->udp_associated = !!sap->sin6_port;
+    HEV_SOCKS5(self)->udp_associated = !!addr.sin6_port;
 
     return 0;
 }
