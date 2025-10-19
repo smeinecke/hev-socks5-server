@@ -1,15 +1,27 @@
 Source: hev-socks5-server
-Section: unknown
+Section: network
 Priority: optional
 Maintainer: stefan <stefan@build-stretch>
 Build-Depends: debhelper (>= 9), libyaml-dev
 Standards-Version: 3.9.8
-Homepage: <insert the upstream URL, if relevant>
+Homepage: https://github.com/heiher/hev-socks5-server
 #Vcs-Git: https://anonscm.debian.org/collab-maint/hev-socks5-server.git
 #Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/hev-socks5-server.git
 
 Package: hev-socks5-server
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: HevSocks5Server is a simple, lightweight SOCKS5 server
+ HevSocks5Server is a high-performance SOCKS5 proxy server implementation
+ written in C. It's designed to be lightweight, secure, and easy to configure.
+ .
+ Key features include:
+  * Full SOCKS5 protocol support (RFC 1928)
+  * Support for TCP and UDP forwarding
+  * Configurable authentication methods (no-auth, username/password)
+  * YAML-based configuration
+  * IPv4 and IPv6 support
+  * Built with security and performance in mind
+ .
+ This package provides a simple yet powerful SOCKS5 proxy server suitable for
+ various networking needs, from personal privacy to enterprise solutions.
