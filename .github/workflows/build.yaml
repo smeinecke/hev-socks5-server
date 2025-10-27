@@ -28,7 +28,7 @@ jobs:
           echo ${REV_ID} > hev-socks5-server-${{ github.ref_name }}/.rev-id
           tar cJf hev-socks5-server-${{ github.ref_name }}.tar.xz hev-socks5-server-${{ github.ref_name }}
       - name: Upload source
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: hev-socks5-server-${{ github.ref_name }}.tar.xz
           path: hev-socks5-server-${{ github.ref_name }}.tar.xz
@@ -103,7 +103,7 @@ jobs:
           make CROSS_PREFIX=/opt/x-tools/${{ matrix.tool }}/bin/${{ matrix.tool }}- CFLAGS=${{ matrix.env.CFLAGS }} ENABLE_STATIC=1 -j`nproc`
           cp bin/hev-socks5-server hev-socks5-server-linux-${{ matrix.name }}
       - name: Upload ${{ matrix.name }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: hev-socks5-server-linux-${{ matrix.name }}
           path: hev-socks5-server-linux-${{ matrix.name }}
@@ -146,7 +146,7 @@ jobs:
           wget -P hev-socks5-server https://github.com/heiher/msys2/releases/latest/download/msys-2.0.dll
           zip -r ../hev-socks5-server-win64.zip hev-socks5-server
       - name: Upload ${{ matrix.name }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: hev-socks5-server-win64.zip
           path: hev-socks5-server-win64.zip
@@ -174,7 +174,7 @@ jobs:
           make CC=clang CFLAGS="${{ matrix.flags }}" LFLAGS="${{ matrix.flags }}" -j $(sysctl -n hw.logicalcpu)
           cp bin/hev-socks5-server hev-socks5-server-darwin-${{ matrix.name }}
       - name: Upload ${{ matrix.name }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: hev-socks5-server-darwin-${{ matrix.name }}
           path: hev-socks5-server-darwin-${{ matrix.name }}
@@ -200,7 +200,7 @@ jobs:
             gmake
             cp bin/hev-socks5-server hev-socks5-server-freebsd-x86_64
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: hev-socks5-server-freebsd-x86_64
           path: hev-socks5-server-freebsd-x86_64
