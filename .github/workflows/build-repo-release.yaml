@@ -94,7 +94,7 @@ jobs:
     needs: merge-artefacts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: merged-artifacts
       - name: Display structure of downloaded files
@@ -112,7 +112,7 @@ jobs:
       contents: write
     needs: merge-artefacts
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: "merged-artifacts"
       - name: Add releases to repo
