@@ -31,7 +31,7 @@ jobs:
           # Set outputs for use in later steps
           echo "::set-output name=os-name::$OS_NAME"
           echo "::set-output name=os-version::$OS_VERSION"
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           submodules: true
       - name: Build Debian packages
