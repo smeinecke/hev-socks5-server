@@ -1,5 +1,8 @@
 name: Build repository release
 
+permissions:
+  contents: read
+
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
@@ -93,6 +96,8 @@ jobs:
     name: Add package to release
     needs: merge-artefacts
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/download-artifact@v7
         with:

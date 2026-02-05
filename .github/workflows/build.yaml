@@ -1,5 +1,8 @@
 name: "Build"
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -226,6 +229,8 @@ jobs:
       - freebsd
       - windows
     if: github.event_name == 'release'
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6
