@@ -44,11 +44,11 @@ jobs:
           # Set outputs for use in later steps
           echo "::set-output name=os-name::$OS_NAME"
           echo "::set-output name=os-version::$OS_VERSION"
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           submodules: true
       - name: Build Debian packages
-        uses: jtdor/build-deb-action@v1.9.0
+        uses: jtdor/build-deb-action@v1.9.1
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
@@ -86,7 +86,7 @@ jobs:
             fi
 
       - name: Upload deb files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "packages-${{ steps.split_os_version.outputs.os-version }}-${{ inputs.arch }}"
           path: ./debian/artifacts/*
@@ -94,5 +94,5 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-debs
     steps:
-      - name: debian-packages
+      - name: Upload merged artefacts
         uses: actions/upload-artifact/merge@v4
