@@ -31,7 +31,7 @@ jobs:
           # Set outputs for use in later steps
           echo "::set-output name=os-name::$OS_NAME"
           echo "::set-output name=os-version::$OS_VERSION"
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           submodules: true
       - name: Build Debian packages
@@ -76,7 +76,7 @@ jobs:
             fi
 
       - name: Upload deb files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "packages-${{ steps.split_os_version.outputs.os-version }}-${{ matrix.arch }}"
           path: ./debian/artifacts/*
@@ -94,7 +94,7 @@ jobs:
     needs: merge-artefacts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v7
         with:
           name: merged-artifacts
       - name: Display structure of downloaded files
@@ -112,7 +112,7 @@ jobs:
       contents: write
     needs: merge-artefacts
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v7
         with:
           name: "merged-artifacts"
       - name: Add releases to repo

@@ -30,6 +30,11 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	dh_auto_install -- INSTDIR=debian/hev-socks5-server/usr CROSS_PREFIX=$(CROSS_PREFIX)
+	@if [ -f debian/hev-socks5-server/usr/etc/hev-socks5-server.yml ]; then \
+		install -d debian/hev-socks5-server/etc && \
+		mv debian/hev-socks5-server/usr/etc/hev-socks5-server.yml debian/hev-socks5-server/etc/hev-socks5-server.yml && \
+		rmdir --ignore-fail-on-non-empty debian/hev-socks5-server/usr/etc || true; \
+	fi
 
 # Enable and start the service
 override_dh_systemd_enable:
