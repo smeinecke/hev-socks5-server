@@ -1,3 +1,9 @@
+hev-socks5-server (2.11.2-1) unstable; urgency=medium
+
+  * New upstream release 2.11.2
+
+ -- stefan <stefan@build-stretch>  Thu, 05 Feb 2026 22:50:00 +0000
+
 hev-socks5-server (2.9.0-3) unstable; urgency=medium
 
   * Fix default config file path
