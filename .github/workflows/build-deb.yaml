@@ -98,4 +98,4 @@ jobs:
     needs: build-debs
     steps:
       - name: Upload merged artefacts
-        uses: actions/upload-artifact/merge@v4
+        uses: actions/upload-artifact/merge@v6
