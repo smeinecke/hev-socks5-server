@@ -64,9 +64,6 @@ hev_netaddr_resolve (struct sockaddr_in6 *daddr, const char *addr,
 int
 hev_netaddr_is_any (struct sockaddr_in6 *addr)
 {
-    if (addr->sin6_port)
-        return 0;
-
     if (!IN6_IS_ADDR_V4MAPPED (&addr->sin6_addr))
         return !memcmp (&addr->sin6_addr, &in6addr_any, 16);
 
@@ -100,11 +97,20 @@ run_as_daemon (const char *pid_file)
 int
 set_limit_nofile (int limit_nofile)
 {
-    struct rlimit limit = {
-        .rlim_cur = limit_nofile,
-        .rlim_max = limit_nofile,
-    };
+    struct rlimit limit;
+    int res;
 
+    res = getrlimit (RLIMIT_NOFILE, &limit);
+    if (res < 0)
+        return -1;
+
+    limit.rlim_cur = limit.rlim_max;
+    res = setrlimit (RLIMIT_NOFILE, &limit);
+    if (res < 0)
+        return -1;
+
+    limit.rlim_cur = limit_nofile;
+    limit.rlim_max = limit_nofile;
     return setrlimit (RLIMIT_NOFILE, &limit);
 }
 
