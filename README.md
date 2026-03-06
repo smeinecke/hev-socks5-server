@@ -26,9 +26,10 @@ wget -O- https://smeinecke.github.io/hev-socks5-server/add-repository.sh | bash
 
 ### Manually
 ```
-apt-get install wget lsb-release ca-certificates gpg
+apt-get install wget ca-certificates gpg
 wget -O- https://smeinecke.github.io/hev-socks5-server/public.key | gpg --dearmor -o /usr/share/keyrings/smeinecke.github.io-hev-socks5-server.gpg
-echo "deb [signed-by=/usr/share/keyrings/smeinecke.github.io-hev-socks5-server.gpg] https://smeinecke.github.io/hev-socks5-server/repo $(lsb_release -sc) main" > /etc/apt/sources.list.d/hev-socks5-server.list
+source /etc/os-release
+echo "deb [signed-by=/usr/share/keyrings/smeinecke.github.io-hev-socks5-server.gpg] https://smeinecke.github.io/hev-socks5-server/repo ${VERSION_CODENAME} main" > /etc/apt/sources.list.d/hev-socks5-server.list
 ```
 
 ### Windows (MSYS2)

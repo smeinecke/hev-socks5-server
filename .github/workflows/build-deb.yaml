@@ -10,24 +10,14 @@ on:
     # Inputs the workflow accepts.
     inputs:
       flavor:
-        type: choice
-        description: 'Debian/Ubuntu Version'
-        options:
-          - 'debian:trixie'
-          - 'debian:bookworm'
-          - 'debian:bullseye'
-          - 'debian:buster'
-          - 'debian:stretch'
-          - 'ubuntu:noble'
-          - 'ubuntu:jammy'
-          - 'ubuntu:focal'
+        description: "Debian/Ubuntu flavor (e.g. debian:trixie, ubuntu:noble)"
+        default: "debian:trixie"
         required: true
       arch:
         type: choice
         description: 'Architecture'
         options:
           - 'amd64'
-          - 'i386'
           - 'arm64'
         required: true
 
@@ -36,21 +26,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Split os-version into name and version
-        id: split_os_version
-        run: |
-          OS_NAME=$(echo "${{ inputs.flavor }}" | cut -d':' -f1)
-          OS_VERSION=$(echo "${{ inputs.flavor }}" | cut -d':' -f2)
-
-          echo "Operating System Name: $OS_NAME"
-          echo "Operating System Version: $OS_VERSION"
-
-          # Set outputs for use in later steps
-          echo "::set-output name=os-name::$OS_NAME"
-          echo "::set-output name=os-version::$OS_VERSION"
       - uses: actions/checkout@v6
         with:
           submodules: true
+      - name: Validate Flavor
+        run: |
+          set -eu
+          flavor="${{ inputs.flavor }}"
+          if ! grep -qx "${flavor}" .github/supported-releases.txt; then
+            echo "Unsupported flavor: ${flavor}"
+            echo "Supported flavors:"
+            cat .github/supported-releases.txt
+            exit 1
+          fi
+      - name: Extract OS Flavor and Version
+        run: |
+          os_version="${{ inputs.flavor }}"
+          echo "debian_release=${os_version##*:}" >> "$GITHUB_ENV"
       - name: Build Debian packages
         uses: jtdor/build-deb-action@v1.9.1
         env:
@@ -59,7 +51,7 @@ jobs:
           docker-image: "${{ inputs.flavor }}"
           host-arch: "${{ inputs.arch }}"
           extra-build-deps: devscripts git dpkg-cross
-          before-build-hook: "dch --local ~${{ steps.split_os_version.outputs.os-version }} 'GitHub build for ${{ inputs.flavor }}'"
+          before-build-hook: "dch --local ~${{ env.debian_release }} 'GitHub build for ${{ inputs.flavor }}'"
           buildpackage-opts: --build=binary --no-sign -d
           setup-hook: |
             os_version="${{ inputs.flavor }}"
@@ -92,7 +84,7 @@ jobs:
       - name: Upload deb files
         uses: actions/upload-artifact@v6
         with:
-          name: "packages-${{ steps.split_os_version.outputs.os-version }}-${{ inputs.arch }}"
+          name: "packages-${{ env.debian_release }}-${{ inputs.arch }}"
           path: ./debian/artifacts/*
   merge-artefacts:
     runs-on: ubuntu-latest
