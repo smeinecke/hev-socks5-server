@@ -121,7 +121,8 @@ hev_socket_factory_get (HevSocketFactory *self)
         goto exit_close;
     }
 
-    res = bind (fd, (struct sockaddr *)&self->addrs[idx], sizeof (self->addrs[idx]));
+    res = bind (fd, (struct sockaddr *)&self->addrs[idx],
+                sizeof (self->addrs[idx]));
     if (res < 0) {
         LOG_E ("socket factory bind");
         goto exit_close;

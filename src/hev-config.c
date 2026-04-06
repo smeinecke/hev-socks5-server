@@ -173,7 +173,8 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
     }
 
     if (listen_address_count == 0) {
-        fprintf (stderr, "Can't found main.listen-address or main.listen-addresses!\n");
+        fprintf (stderr,
+                 "Can't found main.listen-address or main.listen-addresses!\n");
         return -1;
     }
 
