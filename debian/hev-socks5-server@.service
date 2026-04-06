@@ -1,0 +1,10 @@
+[Unit]
+Description=HevSocks5Server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/hev-socks5-server /etc/%i.yml
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
