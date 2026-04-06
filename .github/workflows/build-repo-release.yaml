@@ -101,7 +101,7 @@ jobs:
             fi
 
       - name: Upload deb files
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: "packages-${{ env.debian_release }}-${{ matrix.arch }}"
           path: ./debian/artifacts/*
@@ -112,7 +112,7 @@ jobs:
     needs: build-debs
     steps:
       - name: debian-packages
-        uses: actions/upload-artifact/merge@v6
+        uses: actions/upload-artifact/merge@v7
 
   add_release:
     name: Add package to release
