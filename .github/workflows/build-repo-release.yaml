@@ -121,7 +121,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: merged-artifacts
       - name: Display structure of downloaded files
@@ -141,7 +141,7 @@ jobs:
       - merge-artefacts
       - prepare
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: "merged-artifacts"
       - name: Add releases to repo
