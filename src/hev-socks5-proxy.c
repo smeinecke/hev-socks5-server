@@ -133,6 +133,10 @@ sigint_handler (int signum)
 int
 hev_socks5_proxy_init (void)
 {
+    unsigned int addr_count = 0;
+    const char **addrs;
+    unsigned int i;
+
     LOG_D ("socks5 proxy init");
 
     if (hev_task_system_init () < 0) {
@@ -159,9 +163,21 @@ hev_socks5_proxy_init (void)
         goto exit;
     }
 
-    factory = hev_socket_factory_new (hev_config_get_listen_address (),
+    /* Build array of listen addresses */
+    hev_config_get_listen_address (&addr_count);
+    addrs = hev_malloc0 (sizeof (const char *) * addr_count);
+    if (!addrs) {
+        LOG_E ("socks5 proxy addresses alloc");
+        goto exit;
+    }
+    for (i = 0; i < addr_count; i++) {
+        addrs[i] = hev_config_get_listen_address_at (i);
+    }
+
+    factory = hev_socket_factory_new (addrs, addr_count,
                                       hev_config_get_listen_port (),
                                       hev_config_get_listen_ipv6_only ());
+    hev_free (addrs);
     if (!factory) {
         LOG_E ("socks5 proxy socket factory");
         goto exit;
