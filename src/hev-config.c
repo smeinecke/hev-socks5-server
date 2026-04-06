@@ -48,28 +48,42 @@ static unsigned int socket_mark;
 static int
 hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
 {
-    if (!node || YAML_SEQUENCE_NODE != node->type)
+    if (!node)
         return -1;
 
-    yaml_node_item_t *item;
-    for (item = node->data.sequence.items.start;
-         item < node->data.sequence.items.top; item++) {
-        yaml_node_t *val_node = yaml_document_get_node (doc, *item);
-        if (!val_node || YAML_SCALAR_NODE != val_node->type)
-            return -1;
-
+    /* Support scalar for single address (backward compatible) */
+    if (YAML_SCALAR_NODE == node->type) {
         if (listen_address_count < 16) {
             strncpy (listen_addresses[listen_address_count],
-                     (const char *)val_node->data.scalar.value, 255);
+                     (const char *)node->data.scalar.value, 255);
             listen_addresses[listen_address_count][255] = '\0';
             listen_address_count++;
         }
+        return 0;
     }
 
-    if (listen_address_count == 0)
-        return -1;
+    /* Support sequence for multiple addresses */
+    if (YAML_SEQUENCE_NODE == node->type) {
+        yaml_node_item_t *item;
+        for (item = node->data.sequence.items.start;
+             item < node->data.sequence.items.top; item++) {
+            yaml_node_t *val_node = yaml_document_get_node (doc, *item);
+            if (!val_node || YAML_SCALAR_NODE != val_node->type)
+                return -1;
 
-    return 0;
+            if (listen_address_count < 16) {
+                strncpy (listen_addresses[listen_address_count],
+                         (const char *)val_node->data.scalar.value, 255);
+                listen_addresses[listen_address_count][255] = '\0';
+                listen_address_count++;
+            }
+        }
+        if (listen_address_count == 0)
+            return -1;
+        return 0;
+    }
+
+    return -1;
 }
 
 static int
@@ -108,7 +122,7 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
         if (!node)
             break;
 
-        /* Handle listen-address - must be a sequence (list) */
+        /* Handle listen-address - scalar (single) or sequence (multiple) */
         if (0 == strcmp (key, "listen-address")) {
             if (hev_config_parse_listen_address_node (doc, node) < 0)
                 return -1;
