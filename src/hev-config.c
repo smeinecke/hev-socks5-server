@@ -46,70 +46,30 @@ static int addr_family = HEV_SOCKS5_ADDR_FAMILY_UNSPEC;
 static unsigned int socket_mark;
 
 static int
-hev_config_parse_listen_address_value (const char *value)
+hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
 {
-    char *addr_str;
-    char *token;
-    char *saveptr;
-
-    if (!value || value[0] == '\0')
+    if (!node || YAML_SEQUENCE_NODE != node->type)
         return -1;
 
-    addr_str = strdup (value);
-    if (!addr_str)
-        return -1;
+    yaml_node_item_t *item;
+    for (item = node->data.sequence.items.start;
+         item < node->data.sequence.items.top; item++) {
+        yaml_node_t *val_node = yaml_document_get_node (doc, *item);
+        if (!val_node || YAML_SCALAR_NODE != val_node->type)
+            return -1;
 
-    token = strtok_r (addr_str, ",", &saveptr);
-    while (token && listen_address_count < 16) {
-        while (*token == ' ' || *token == '\t')
-            token++;
-
-        if (*token != '\0') {
-            strncpy (listen_addresses[listen_address_count], token, 255);
+        if (listen_address_count < 16) {
+            strncpy (listen_addresses[listen_address_count],
+                     (const char *)val_node->data.scalar.value, 255);
             listen_addresses[listen_address_count][255] = '\0';
             listen_address_count++;
         }
-
-        token = strtok_r (NULL, ",", &saveptr);
     }
-
-    free (addr_str);
 
     if (listen_address_count == 0)
         return -1;
 
     return 0;
-}
-
-static int
-hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
-{
-    if (!node)
-        return -1;
-
-    if (YAML_SCALAR_NODE == node->type) {
-        return hev_config_parse_listen_address_value ((const char *)node->data.scalar.value);
-    } else if (YAML_SEQUENCE_NODE == node->type) {
-        yaml_node_item_t *item;
-        for (item = node->data.sequence.items.start;
-             item < node->data.sequence.items.top; item++) {
-            yaml_node_t *val_node = yaml_document_get_node (doc, *item);
-            if (!val_node || YAML_SCALAR_NODE != val_node->type)
-                return -1;
-
-            if (listen_address_count < 16) {
-                strncpy (listen_addresses[listen_address_count],
-                         (const char *)val_node->data.scalar.value, 255);
-                listen_addresses[listen_address_count][255] = '\0';
-                listen_address_count++;
-            }
-        }
-        if (listen_address_count == 0)
-            return -1;
-        return 0;
-    }
-
-    return -1;
 }
 
 static int
@@ -148,7 +108,7 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
         if (!node)
             break;
 
-        /* Handle listen-address specially - can be scalar or sequence */
+        /* Handle listen-address - must be a sequence (list) */
         if (0 == strcmp (key, "listen-address")) {
             if (hev_config_parse_listen_address_node (doc, node) < 0)
                 return -1;

@@ -6,13 +6,9 @@ main:
   # Listen port
   port: 1080
   # Listen address (ipv4|ipv6)
-  # Can be a single address or a comma-separated list:
-  listen-address: '::'
-  # Or as a YAML list for multiple addresses:
-  # listen-address:
-  #   - '127.0.0.1'
-  #   - '::1'
-  #   - '192.168.1.1'
+  # Can be a single address or a YAML list for multiple addresses:
+  listen-address:
+    - '::'
   # UDP listen port (0: random, a-b: range)
 # udp-port: 0
   # UDP listen address (ipv4|ipv6)
