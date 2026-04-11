@@ -17,10 +17,12 @@
 
 #include "hev-logger.h"
 #include "hev-config.h"
+#include "hev-config-const.h"
 
 static unsigned int workers;
 static int listen_ipv6_only;
-static char listen_address[256];
+static unsigned int listen_address_count;
+static char listen_addresses[HEV_CONFIG_MAX_LISTEN_ADDRESSES][256];
 static char listen_port[8];
 static char udp_listen_address[256];
 static char udp_public_address[2][256];
@@ -45,10 +47,60 @@ static int addr_family = HEV_SOCKS5_ADDR_FAMILY_UNSPEC;
 static unsigned int socket_mark;
 
 static int
+hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
+{
+    if (!node)
+        return -1;
+
+    /* Support scalar for single address (backward compatible) */
+    if (YAML_SCALAR_NODE == node->type) {
+        if (listen_address_count >= HEV_CONFIG_MAX_LISTEN_ADDRESSES) {
+            fprintf (stderr,
+                     "main.listen-address supports at most %u values!\n",
+                     HEV_CONFIG_MAX_LISTEN_ADDRESSES);
+            return -1;
+        }
+
+        strncpy (listen_addresses[listen_address_count],
+                 (const char *)node->data.scalar.value, 255);
+        listen_addresses[listen_address_count][255] = '\0';
+        listen_address_count++;
+        return 0;
+    }
+
+    /* Support sequence for multiple addresses */
+    if (YAML_SEQUENCE_NODE == node->type) {
+        yaml_node_item_t *item;
+        for (item = node->data.sequence.items.start;
+             item < node->data.sequence.items.top; item++) {
+            yaml_node_t *val_node = yaml_document_get_node (doc, *item);
+            if (!val_node || YAML_SCALAR_NODE != val_node->type)
+                return -1;
+
+            if (listen_address_count >= HEV_CONFIG_MAX_LISTEN_ADDRESSES) {
+                fprintf (stderr,
+                         "main.listen-address supports at most %u values!\n",
+                         HEV_CONFIG_MAX_LISTEN_ADDRESSES);
+                return -1;
+            }
+
+            strncpy (listen_addresses[listen_address_count],
+                     (const char *)val_node->data.scalar.value, 255);
+            listen_addresses[listen_address_count][255] = '\0';
+            listen_address_count++;
+        }
+        if (listen_address_count == 0)
+            return -1;
+        return 0;
+    }
+
+    return -1;
+}
+
+static int
 hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
 {
     yaml_node_pair_t *pair;
-    const char *addr = NULL;
     const char *port = NULL;
     const char *mark = NULL;
     const char *udp_addr = NULL;
@@ -78,7 +130,18 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
         key = (const char *)node->data.scalar.value;
 
         node = yaml_document_get_node (doc, pair->value);
-        if (!node || YAML_SCALAR_NODE != node->type)
+        if (!node)
+            break;
+
+        /* Handle listen-address - scalar (single) or sequence (multiple) */
+        if (0 == strcmp (key, "listen-address")) {
+            if (hev_config_parse_listen_address_node (doc, node) < 0)
+                return -1;
+            continue;
+        }
+
+        /* All other values must be scalars */
+        if (YAML_SCALAR_NODE != node->type)
             break;
         value = (const char *)node->data.scalar.value;
 
@@ -86,8 +149,6 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
             workers = strtoul (value, NULL, 10);
         else if (0 == strcmp (key, "port"))
             port = value;
-        else if (0 == strcmp (key, "listen-address"))
-            addr = value;
         else if (0 == strcmp (key, "udp-port"))
             udp_port = value;
         else if (0 == strcmp (key, "udp-listen-address"))
@@ -122,8 +183,9 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
         return -1;
     }
 
-    if (!addr) {
-        fprintf (stderr, "Can't found main.listen-address!\n");
+    if (listen_address_count == 0) {
+        fprintf (stderr,
+                 "Can't found main.listen-address or main.listen-addresses!\n");
         return -1;
     }
 
@@ -135,7 +197,6 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
 #endif
 
     strncpy (listen_port, port, 8 - 1);
-    strncpy (listen_address, addr, 256 - 1);
 
     if (udp_port) {
         unsigned int beg = 0, end = 0;
@@ -420,9 +481,19 @@ hev_config_get_workers (void)
 }
 
 const char *
-hev_config_get_listen_address (void)
+hev_config_get_listen_address (unsigned int *count)
 {
-    return listen_address;
+    if (count)
+        *count = listen_address_count;
+    return listen_addresses[0];
+}
+
+const char *
+hev_config_get_listen_address_at (unsigned int index)
+{
+    if (index >= listen_address_count)
+        return NULL;
+    return listen_addresses[index];
 }
 
 const char *

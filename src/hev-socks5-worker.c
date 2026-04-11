@@ -8,6 +8,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <stdatomic.h>
 
@@ -18,20 +19,29 @@
 #include <hev-memory-allocator.h>
 
 #include "hev-config.h"
+#include "hev-config-const.h"
 #include "hev-logger.h"
 #include "hev-compiler.h"
 #include "hev-socks5-session.h"
 
 #include "hev-socks5-worker.h"
 
+typedef struct _HevSocks5WorkerTaskData
+{
+    HevSocks5Worker *worker;
+    int fd;
+} HevSocks5WorkerTaskData;
+
 struct _HevSocks5Worker
 {
-    int fd;
+    int fds[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
     int quit;
+    unsigned int fd_count;
     int event_fds[2];
 
     HevTask *task_event;
-    HevTask *task_worker;
+    HevTask *task_workers[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
+    HevSocks5WorkerTaskData task_datas[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
     HevList session_set;
     HevSocks5Authenticator *auth_curr;
     HevSocks5Authenticator *auth_next;
@@ -81,15 +91,15 @@ hev_socks5_session_task_entry (void *data)
 static void
 hev_socks5_worker_task_entry (void *data)
 {
+    HevSocks5WorkerTaskData *tdata = data;
     HevTask *task = hev_task_self ();
-    HevSocks5Worker *self = data;
+    HevSocks5Worker *self = tdata->worker;
     HevListNode *node;
     int stack_size;
-    int fd;
+    int fd = tdata->fd;
 
     LOG_D ("socks5 worker task run");
 
-    fd = self->fd;
     hev_task_add_fd (task, fd, POLLIN);
     stack_size = hev_config_get_misc_task_stack_size ();
 
@@ -170,7 +180,8 @@ hev_socks5_event_task_entry (void *data)
     }
 
     self->quit = 1;
-    hev_task_wakeup (self->task_worker);
+    for (unsigned int i = 0; i < self->fd_count; i++)
+        hev_task_wakeup (self->task_workers[i]);
 
     hev_task_del_fd (task, self->event_fds[0]);
     close (self->event_fds[0]);
@@ -188,7 +199,7 @@ hev_socks5_worker_new (void)
 
     LOG_D ("%p socks5 worker new", self);
 
-    self->fd = -1;
+    memset (self->fds, -1, sizeof (self->fds));
     self->event_fds[0] = -1;
     self->event_fds[1] = -1;
 
@@ -205,31 +216,59 @@ hev_socks5_worker_destroy (HevSocks5Worker *self)
     if (self->auth_next)
         hev_object_unref (HEV_OBJECT (self->auth_next));
 
-    if (self->fd >= 0)
-        close (self->fd);
+    if (self->task_event)
+        hev_task_unref (self->task_event);
+
+    for (unsigned int i = 0; i < self->fd_count; i++) {
+        if (self->task_workers[i])
+            hev_task_unref (self->task_workers[i]);
+        if (self->fds[i] >= 0)
+            close (self->fds[i]);
+    }
 
     free (self);
 }
 
 int
-hev_socks5_worker_init (HevSocks5Worker *self, int fd)
+hev_socks5_worker_init (HevSocks5Worker *self, const int *fds,
+                        unsigned int fd_count)
 {
+    unsigned int i;
+
     LOG_D ("%p works worker init", self);
 
-    self->task_worker = hev_task_new (-1);
-    if (!self->task_worker) {
-        LOG_E ("socks5 worker task worker");
+    if (!fds || fd_count == 0 || fd_count > HEV_CONFIG_MAX_LISTEN_ADDRESSES)
         return -1;
-    }
 
     self->task_event = hev_task_new (-1);
     if (!self->task_event) {
         LOG_E ("socks5 worker task event");
-        hev_task_unref (self->task_worker);
         return -1;
     }
 
-    self->fd = fd;
+    for (i = 0; i < fd_count; i++) {
+        self->task_workers[i] = hev_task_new (-1);
+        if (!self->task_workers[i]) {
+            unsigned int j;
+
+            LOG_E ("socks5 worker task worker");
+            for (j = 0; j < i; j++) {
+                hev_task_unref (self->task_workers[j]);
+                self->task_workers[j] = NULL;
+                close (self->fds[j]);
+                self->fds[j] = -1;
+            }
+            hev_task_unref (self->task_event);
+            self->task_event = NULL;
+            return -1;
+        }
+
+        self->fds[i] = fds[i];
+        self->task_datas[i].worker = self;
+        self->task_datas[i].fd = fds[i];
+    }
+
+    self->fd_count = fd_count;
 
     return 0;
 }
@@ -240,7 +279,10 @@ hev_socks5_worker_start (HevSocks5Worker *self)
     LOG_D ("%p works worker start", self);
 
     hev_task_run (self->task_event, hev_socks5_event_task_entry, self);
-    hev_task_run (self->task_worker, hev_socks5_worker_task_entry, self);
+    for (unsigned int i = 0; i < self->fd_count; i++) {
+        hev_task_run (self->task_workers[i], hev_socks5_worker_task_entry,
+                      &self->task_datas[i]);
+    }
 }
 
 void

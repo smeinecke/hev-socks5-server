@@ -12,10 +12,12 @@
 
 typedef struct _HevSocketFactory HevSocketFactory;
 
-HevSocketFactory *hev_socket_factory_new (const char *addr, const char *port,
-                                          int ipv6_only);
+HevSocketFactory *hev_socket_factory_new (const char **addrs,
+                                          unsigned int addr_count,
+                                          const char *port, int ipv6_only);
 void hev_socket_factory_destroy (HevSocketFactory *self);
 
-int hev_socket_factory_get (HevSocketFactory *self);
+unsigned int hev_socket_factory_get_count (HevSocketFactory *self);
+int hev_socket_factory_get (HevSocketFactory *self, unsigned int index);
 
 #endif /* __HEV_SOCKET_FACTORY_H__ */

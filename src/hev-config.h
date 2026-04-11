@@ -17,7 +17,8 @@ void hev_config_fini (void);
 
 unsigned int hev_config_get_workers (void);
 
-const char *hev_config_get_listen_address (void);
+const char *hev_config_get_listen_address (unsigned int *count);
+const char *hev_config_get_listen_address_at (unsigned int index);
 const char *hev_config_get_listen_port (void);
 const char *hev_config_get_udp_listen_address (void);
 int hev_config_get_udp_listen_port (void);
