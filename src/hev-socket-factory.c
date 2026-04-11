@@ -18,13 +18,14 @@
 
 #include "hev-misc.h"
 #include "hev-logger.h"
+#include "hev-config-const.h"
 
 #include "hev-socket-factory.h"
 
 struct _HevSocketFactory
 {
-    struct sockaddr_in6 addrs[16];
-    int fds[16];
+    struct sockaddr_in6 addrs[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
+    int fds[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
     int ipv6_only;
     unsigned int addr_count;
 };
@@ -39,7 +40,8 @@ hev_socket_factory_new (const char **addrs, unsigned int addr_count,
 
     LOG_D ("socket factory new");
 
-    if (!addrs || addr_count == 0 || addr_count > 16)
+    if (!addrs || addr_count == 0 ||
+        addr_count > HEV_CONFIG_MAX_LISTEN_ADDRESSES)
         return NULL;
 
     self = hev_malloc0 (sizeof (HevSocketFactory));

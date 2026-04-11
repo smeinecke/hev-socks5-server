@@ -14,4 +14,6 @@
 #define MINOR_VERSION (11)
 #define MICRO_VERSION (2)
 
+#define HEV_CONFIG_MAX_LISTEN_ADDRESSES (16)
+
 #endif /* __HEV_CONFIG_CONST_H__ */

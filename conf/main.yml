@@ -7,7 +7,7 @@ main:
   port: 1080
   # Listen address (ipv4|ipv6)
   # Can be a single address or a YAML list for multiple addresses.
-  # Maximum number of listen addresses: 16
+  # Maximum number of listen addresses: HEV_CONFIG_MAX_LISTEN_ADDRESSES (16)
   listen-address:
     - '::'
   # UDP listen port (0: random, a-b: range)

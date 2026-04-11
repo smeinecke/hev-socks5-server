@@ -19,6 +19,7 @@
 #include <hev-memory-allocator.h>
 
 #include "hev-config.h"
+#include "hev-config-const.h"
 #include "hev-logger.h"
 #include "hev-compiler.h"
 #include "hev-socks5-session.h"
@@ -33,14 +34,14 @@ typedef struct _HevSocks5WorkerTaskData
 
 struct _HevSocks5Worker
 {
-    int fds[16];
+    int fds[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
     int quit;
     unsigned int fd_count;
     int event_fds[2];
 
     HevTask *task_event;
-    HevTask *task_workers[16];
-    HevSocks5WorkerTaskData task_datas[16];
+    HevTask *task_workers[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
+    HevSocks5WorkerTaskData task_datas[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
     HevList session_set;
     HevSocks5Authenticator *auth_curr;
     HevSocks5Authenticator *auth_next;
@@ -236,7 +237,8 @@ hev_socks5_worker_init (HevSocks5Worker *self, const int *fds,
 
     LOG_D ("%p works worker init", self);
 
-    if (!fds || fd_count == 0 || fd_count > 16)
+    if (!fds || fd_count == 0 ||
+        fd_count > HEV_CONFIG_MAX_LISTEN_ADDRESSES)
         return -1;
 
     self->task_event = hev_task_new (-1);

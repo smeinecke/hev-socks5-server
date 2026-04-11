@@ -53,7 +53,7 @@ main:
   port: 1080
   # Listen address (ipv4|ipv6)
   # Can be a single address or a YAML list for multiple addresses.
-  # Maximum number of listen addresses: 16
+  # Maximum number of listen addresses: HEV_CONFIG_MAX_LISTEN_ADDRESSES (16)
   listen-address:
     - '::'
     - '127.0.0.1'
@@ -109,7 +109,8 @@ main:
 # limit-nofile: 65535
 ```
 
-`listen-address` supports up to 16 addresses. If only one address is needed,
+`listen-address` supports up to `HEV_CONFIG_MAX_LISTEN_ADDRESSES` entries
+(currently 16). If only one address is needed,
 you can still use the scalar form: `listen-address: '::'`.
 
 ### Authentication file

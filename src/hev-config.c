@@ -17,11 +17,12 @@
 
 #include "hev-logger.h"
 #include "hev-config.h"
+#include "hev-config-const.h"
 
 static unsigned int workers;
 static int listen_ipv6_only;
 static unsigned int listen_address_count;
-static char listen_addresses[16][256];
+static char listen_addresses[HEV_CONFIG_MAX_LISTEN_ADDRESSES][256];
 static char listen_port[8];
 static char udp_listen_address[256];
 static char udp_public_address[2][256];
@@ -53,8 +54,9 @@ hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
 
     /* Support scalar for single address (backward compatible) */
     if (YAML_SCALAR_NODE == node->type) {
-        if (listen_address_count >= 16) {
-            fprintf (stderr, "main.listen-address supports at most 16 values!\n");
+        if (listen_address_count >= HEV_CONFIG_MAX_LISTEN_ADDRESSES) {
+            fprintf (stderr, "main.listen-address supports at most %u values!\n",
+                     HEV_CONFIG_MAX_LISTEN_ADDRESSES);
             return -1;
         }
 
@@ -74,9 +76,10 @@ hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
             if (!val_node || YAML_SCALAR_NODE != val_node->type)
                 return -1;
 
-            if (listen_address_count >= 16) {
+            if (listen_address_count >= HEV_CONFIG_MAX_LISTEN_ADDRESSES) {
                 fprintf (stderr,
-                         "main.listen-address supports at most 16 values!\n");
+                         "main.listen-address supports at most %u values!\n",
+                         HEV_CONFIG_MAX_LISTEN_ADDRESSES);
                 return -1;
             }
 
