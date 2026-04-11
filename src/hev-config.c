@@ -53,12 +53,15 @@ hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
 
     /* Support scalar for single address (backward compatible) */
     if (YAML_SCALAR_NODE == node->type) {
-        if (listen_address_count < 16) {
-            strncpy (listen_addresses[listen_address_count],
-                     (const char *)node->data.scalar.value, 255);
-            listen_addresses[listen_address_count][255] = '\0';
-            listen_address_count++;
+        if (listen_address_count >= 16) {
+            fprintf (stderr, "main.listen-address supports at most 16 values!\n");
+            return -1;
         }
+
+        strncpy (listen_addresses[listen_address_count],
+                 (const char *)node->data.scalar.value, 255);
+        listen_addresses[listen_address_count][255] = '\0';
+        listen_address_count++;
         return 0;
     }
 
@@ -71,12 +74,16 @@ hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
             if (!val_node || YAML_SCALAR_NODE != val_node->type)
                 return -1;
 
-            if (listen_address_count < 16) {
-                strncpy (listen_addresses[listen_address_count],
-                         (const char *)val_node->data.scalar.value, 255);
-                listen_addresses[listen_address_count][255] = '\0';
-                listen_address_count++;
+            if (listen_address_count >= 16) {
+                fprintf (stderr,
+                         "main.listen-address supports at most 16 values!\n");
+                return -1;
             }
+
+            strncpy (listen_addresses[listen_address_count],
+                     (const char *)val_node->data.scalar.value, 255);
+            listen_addresses[listen_address_count][255] = '\0';
+            listen_address_count++;
         }
         if (listen_address_count == 0)
             return -1;

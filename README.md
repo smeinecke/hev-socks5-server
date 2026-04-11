@@ -52,7 +52,11 @@ main:
   # Listen port
   port: 1080
   # Listen address (ipv4|ipv6)
-  listen-address: '::'
+  # Can be a single address or a YAML list for multiple addresses.
+  # Maximum number of listen addresses: 16
+  listen-address:
+    - '::'
+    - '127.0.0.1'
   # UDP listen port (0: random, a-b: range)
 # udp-port: 0
   # UDP listen address (ipv4|ipv6)
@@ -104,6 +108,9 @@ main:
   # If present, set rlimit nofile; else use default value
 # limit-nofile: 65535
 ```
+
+`listen-address` supports up to 16 addresses. If only one address is needed,
+you can still use the scalar form: `listen-address: '::'`.
 
 ### Authentication file
 
