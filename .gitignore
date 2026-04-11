@@ -3,3 +3,4 @@ build
 HevSocks5Server.xcframework
 .vscode/
 .private.key
+/.cache

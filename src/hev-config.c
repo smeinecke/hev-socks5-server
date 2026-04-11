@@ -55,7 +55,8 @@ hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
     /* Support scalar for single address (backward compatible) */
     if (YAML_SCALAR_NODE == node->type) {
         if (listen_address_count >= HEV_CONFIG_MAX_LISTEN_ADDRESSES) {
-            fprintf (stderr, "main.listen-address supports at most %u values!\n",
+            fprintf (stderr,
+                     "main.listen-address supports at most %u values!\n",
                      HEV_CONFIG_MAX_LISTEN_ADDRESSES);
             return -1;
         }

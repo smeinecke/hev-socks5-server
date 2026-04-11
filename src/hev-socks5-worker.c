@@ -237,8 +237,7 @@ hev_socks5_worker_init (HevSocks5Worker *self, const int *fds,
 
     LOG_D ("%p works worker init", self);
 
-    if (!fds || fd_count == 0 ||
-        fd_count > HEV_CONFIG_MAX_LISTEN_ADDRESSES)
+    if (!fds || fd_count == 0 || fd_count > HEV_CONFIG_MAX_LISTEN_ADDRESSES)
         return -1;
 
     self->task_event = hev_task_new (-1);
