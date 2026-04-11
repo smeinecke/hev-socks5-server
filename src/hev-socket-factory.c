@@ -24,10 +24,9 @@
 struct _HevSocketFactory
 {
     struct sockaddr_in6 addrs[16];
+    int fds[16];
     int ipv6_only;
     unsigned int addr_count;
-    unsigned int current_addr;
-    int fd;
 };
 
 HevSocketFactory *
@@ -60,8 +59,8 @@ hev_socket_factory_new (const char **addrs, unsigned int addr_count,
 
     self->ipv6_only = ipv6_only;
     self->addr_count = addr_count;
-    self->current_addr = 0;
-    self->fd = -1;
+    for (i = 0; i < addr_count; i++)
+        self->fds[i] = -1;
 
     return self;
 }
@@ -69,31 +68,37 @@ hev_socket_factory_new (const char **addrs, unsigned int addr_count,
 void
 hev_socket_factory_destroy (HevSocketFactory *self)
 {
+    unsigned int i;
+
     LOG_D ("socket factory destroy");
 
-    if (self->fd >= 0)
-        close (self->fd);
+    for (i = 0; i < self->addr_count; i++) {
+        if (self->fds[i] >= 0)
+            close (self->fds[i]);
+    }
     hev_free (self);
 }
 
+unsigned int
+hev_socket_factory_get_count (HevSocketFactory *self)
+{
+    return self->addr_count;
+}
+
 int
-hev_socket_factory_get (HevSocketFactory *self)
+hev_socket_factory_get (HevSocketFactory *self, unsigned int idx)
 {
     int one = 1;
     int res;
     int fd;
-    unsigned int idx;
 
     LOG_D ("socket factory get");
 
-    /* Return existing fd if already created */
-    if (self->fd >= 0)
-        return dup (self->fd);
-
-    /* Get current address index */
-    idx = self->current_addr;
     if (idx >= self->addr_count)
         return -1;
+
+    if (self->fds[idx] >= 0)
+        return dup (self->fds[idx]);
 
     fd = hev_task_io_socket_socket (AF_INET6, SOCK_STREAM, 0);
     if (fd < 0) {
@@ -111,8 +116,6 @@ hev_socket_factory_get (HevSocketFactory *self)
 #ifdef SO_REUSEPORT
     res = setsockopt (fd, SOL_SOCKET, SO_REUSEPORT, &one, sizeof (one));
 #endif
-    if (res < 0 && self->fd < 0)
-        self->fd = dup (fd);
 
     res = setsockopt (fd, IPPROTO_IPV6, IPV6_V6ONLY, &self->ipv6_only,
                       sizeof (self->ipv6_only));
@@ -134,8 +137,9 @@ hev_socket_factory_get (HevSocketFactory *self)
         goto exit_close;
     }
 
-    /* Move to next address for subsequent calls */
-    self->current_addr++;
+    self->fds[idx] = dup (fd);
+    if (self->fds[idx] < 0)
+        goto exit_close;
 
     return fd;
 

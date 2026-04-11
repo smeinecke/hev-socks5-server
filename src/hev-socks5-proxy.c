@@ -27,13 +27,57 @@
 
 #include "hev-socks5-proxy.h"
 
-static int listen_fd = -1;
 static unsigned int workers;
 
 static HevTask *task;
 static pthread_t *work_threads;
 static HevSocketFactory *factory;
 static HevSocks5Worker **worker_list;
+
+static int *
+hev_socks5_proxy_dup_listen_fds (unsigned int *fd_count)
+{
+    unsigned int count;
+    unsigned int i;
+    int *fds;
+
+    count = hev_socket_factory_get_count (factory);
+    fds = hev_malloc0 (sizeof (int) * count);
+    if (!fds)
+        return NULL;
+
+    for (i = 0; i < count; i++) {
+        fds[i] = hev_socket_factory_get (factory, i);
+        if (fds[i] < 0) {
+            while (i > 0) {
+                i--;
+                close (fds[i]);
+            }
+            hev_free (fds);
+            return NULL;
+        }
+    }
+
+    *fd_count = count;
+
+    return fds;
+}
+
+static void
+hev_socks5_proxy_free_listen_fds (int *fds, unsigned int fd_count)
+{
+    unsigned int i;
+
+    if (!fds)
+        return;
+
+    for (i = 0; i < fd_count; i++) {
+        if (fds[i] >= 0)
+            close (fds[i]);
+    }
+
+    hev_free (fds);
+}
 
 static void
 hev_socks5_proxy_load_file (HevSocks5Authenticator *auth, const char *file)
@@ -213,23 +257,28 @@ static void *
 work_thread_handler (void *data)
 {
     HevSocks5Worker **worker = data;
+    unsigned int fd_count = 0;
+    int *fds = NULL;
     int res;
-    int fd;
 
     if (hev_task_system_init () < 0) {
         LOG_E ("socks5 proxy worker task system");
         goto exit;
     }
 
-    fd = hev_socket_factory_get (factory);
-    if (fd < 0) {
-        LOG_E ("socks5 proxy worker socket");
+    fds = hev_socks5_proxy_dup_listen_fds (&fd_count);
+    if (!fds) {
+        LOG_E ("socks5 proxy worker sockets");
         goto free;
     }
 
-    res = hev_socks5_worker_init (*worker, fd);
+    res = hev_socks5_worker_init (*worker, fds, fd_count);
+    hev_free (fds);
+    fds = NULL;
     if (res < 0) {
         LOG_E ("socks5 proxy worker init");
+        hev_socks5_worker_destroy (*worker);
+        *worker = NULL;
         goto free;
     }
 
@@ -241,8 +290,7 @@ work_thread_handler (void *data)
     *worker = NULL;
 
 free:
-    if (fd >= 0)
-        close (fd);
+    hev_socks5_proxy_free_listen_fds (fds, fd_count);
     hev_task_system_fini ();
 exit:
     return NULL;
@@ -251,24 +299,31 @@ exit:
 static void
 hev_socks5_proxy_task_entry (void *data)
 {
+    unsigned int fd_count = 0;
+    int *fds = NULL;
     int res;
     int i;
 
     LOG_D ("socks5 proxy task run");
 
-    listen_fd = hev_socket_factory_get (factory);
-    if (listen_fd < 0)
+    fds = hev_socks5_proxy_dup_listen_fds (&fd_count);
+    if (!fds)
         return;
 
     worker_list[0] = hev_socks5_worker_new ();
     if (!worker_list[0]) {
         LOG_E ("socks5 proxy worker");
+        hev_socks5_proxy_free_listen_fds (fds, fd_count);
         return;
     }
 
-    res = hev_socks5_worker_init (worker_list[0], listen_fd);
+    res = hev_socks5_worker_init (worker_list[0], fds, fd_count);
+    hev_free (fds);
+    fds = NULL;
     if (res < 0) {
         LOG_E ("socks5 proxy worker init");
+        hev_socks5_worker_destroy (worker_list[0]);
+        worker_list[0] = NULL;
         return;
     }
 
@@ -298,9 +353,6 @@ hev_socks5_proxy_run (void)
     hev_task_run (task, hev_socks5_proxy_task_entry, NULL);
 
     hev_task_system_run ();
-
-    if (listen_fd >= 0)
-        close (listen_fd);
 
     if (worker_list[0]) {
         int i;
