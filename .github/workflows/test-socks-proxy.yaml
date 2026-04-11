@@ -38,7 +38,9 @@ jobs:
           main:
             workers: 2
             port: 1080
-            listen-address: '127.0.0.1'
+            listen-address:
+              - '127.0.0.1'
+              - '::1'
             udp-port: 0  # Disable UDP for testing
             listen-ipv6-only: false
             bind-address: ''
@@ -58,12 +60,16 @@ jobs:
           # Wait for server to start
           sleep 2
 
-          # Test SOCKS5 with curl
+          # Test SOCKS5 on IPv4 listener
           curl -v --socks5 127.0.0.1:1080 https://ifconfig.me/ip
-          # Test with explicit SOCKS5 hostname resolution
+          # Test SOCKS5 hostname resolution on IPv4 listener
           curl -v --socks5-hostname 127.0.0.1:1080 https://ifconfig.me/ip
+          # Test SOCKS5 on IPv6 listener
+          curl -v --socks5 [::1]:1080 https://ifconfig.me/ip
+          # Test SOCKS5 hostname resolution on IPv6 listener
+          curl -v --socks5-hostname [::1]:1080 https://ifconfig.me/ip
 
-          # Test SOCKS4 with curl
+          # Test SOCKS4 on IPv4 listener
           curl -v --socks4 127.0.0.1:1080 https://ifconfig.me/ip
 
           if [ -f server.pid ]; then
