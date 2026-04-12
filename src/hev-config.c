@@ -8,6 +8,8 @@
  */
 
 #include <stdio.h>
+#include <string.h>
+#include <errno.h>
 #include <stdatomic.h>
 #include <arpa/inet.h>
 
@@ -56,7 +58,7 @@ hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
     if (YAML_SCALAR_NODE == node->type) {
         if (listen_address_count >= HEV_CONFIG_MAX_LISTEN_ADDRESSES) {
             fprintf (stderr,
-                     "main.listen-address supports at most %u values!\n",
+                     "Error: main.listen-address supports at most %u values\n",
                      HEV_CONFIG_MAX_LISTEN_ADDRESSES);
             return -1;
         }
@@ -78,9 +80,10 @@ hev_config_parse_listen_address_node (yaml_document_t *doc, yaml_node_t *node)
                 return -1;
 
             if (listen_address_count >= HEV_CONFIG_MAX_LISTEN_ADDRESSES) {
-                fprintf (stderr,
-                         "main.listen-address supports at most %u values!\n",
-                         HEV_CONFIG_MAX_LISTEN_ADDRESSES);
+                fprintf (
+                    stderr,
+                    "Error: main.listen-address supports at most %u values\n",
+                    HEV_CONFIG_MAX_LISTEN_ADDRESSES);
                 return -1;
             }
 
@@ -174,18 +177,23 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
     }
 
     if (!workers) {
-        fprintf (stderr, "Can't find main.workers!\n");
+        fprintf (
+            stderr,
+            "Error: Required setting 'main.workers' not found in config file\n");
         return -1;
     }
 
     if (!port) {
-        fprintf (stderr, "Can't find main.port!\n");
+        fprintf (
+            stderr,
+            "Error: Required setting 'main.port' not found in config file\n");
         return -1;
     }
 
     if (listen_address_count == 0) {
-        fprintf (stderr,
-                 "Can't find main.listen-address or main.listen-addresses!\n");
+        fprintf (
+            stderr,
+            "Error: Required setting 'main.listen-address' or 'main.listen-addresses' not found in config file\n");
         return -1;
     }
 
@@ -203,7 +211,9 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
 
         sscanf (udp_port, "%u-%u", &beg, &end);
         if (end && beg > end) {
-            fprintf (stderr, "Invalid main.udp-port!\n");
+            fprintf (
+                stderr,
+                "Error: Invalid main.udp-port range (start must be <= end)\n");
             return -1;
         }
         if (end == 0)
@@ -422,13 +432,15 @@ hev_config_init_from_file (const char *path)
 
     fp = fopen (path, "r");
     if (!fp) {
-        fprintf (stderr, "Open %s failed!\n", path);
+        fprintf (stderr, "Error: Failed to open config file '%s': %s\n", path,
+                 strerror (errno));
         goto exit_free_parser;
     }
 
     yaml_parser_set_input_file (&parser, fp);
     if (!yaml_parser_load (&parser, &doc)) {
-        fprintf (stderr, "Parse %s failed!\n", path);
+        fprintf (stderr, "Error: Failed to parse YAML in config file '%s'\n",
+                 path);
         goto exit_close_fp;
     }
 
@@ -456,7 +468,7 @@ hev_config_init_from_str (const unsigned char *config_str,
 
     yaml_parser_set_input_string (&parser, config_str, config_len);
     if (!yaml_parser_load (&parser, &doc)) {
-        fprintf (stderr, "Failed to parse config.");
+        fprintf (stderr, "Error: Failed to parse config string\n");
         goto exit_free_parser;
     }
 
