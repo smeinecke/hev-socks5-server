@@ -1,3 +1,9 @@
+hev-socks5-server (2.11.2-2-1) unstable; urgency=medium
+
+  * * New upstream release 2.11.2-2
+
+ -- GitHub Actions <github-actions@github.com>  Sun, 12 Apr 2026 17:32:07 +0000
+
 hev-socks5-server (2.11.2-1) unstable; urgency=medium
 
   * New upstream release 2.11.2
