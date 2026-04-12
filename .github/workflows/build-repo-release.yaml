@@ -55,6 +55,30 @@ jobs:
       - uses: actions/checkout@v6
         with:
           submodules: true
+
+      - name: Install devscripts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y devscripts
+
+      - name: Update changelog from release
+        run: |
+          VERSION="${{ github.ref_name }}"
+          # Strip 'v' prefix if present
+          VERSION=${VERSION#v}
+          # Get release body from GitHub API
+          RELEASE_BODY=$(curl -s -H "Authorization: token ${{ github.token }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ github.ref_name }}" | \
+            jq -r '.body // empty')
+          # If body is empty, use default message
+          if [ -z "$RELEASE_BODY" ] || [ "$RELEASE_BODY" = "null" ]; then
+            RELEASE_BODY="New upstream release ${VERSION}"
+          fi
+          # Format body for debian changelog (bullet points)
+          FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^/* /' | sed 's/^\* \* /* /')
+          # Update changelog
+          dch --newversion "${VERSION}-1" --distribution unstable --urgency medium "$FORMATTED_BODY"
+
       - name: Extract OS Flavor and Version
         run: |
           os_version="${{ matrix.os-version }}"
@@ -132,6 +156,49 @@ jobs:
         with:
           files: ./*.deb
 
+  commit_changelog:
+    name: Commit updated changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: build-debs
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install devscripts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y devscripts
+
+      - name: Update and commit changelog
+        run: |
+          VERSION="${{ github.ref_name }}"
+          VERSION=${VERSION#v}
+          # Get release body from GitHub API
+          RELEASE_BODY=$(curl -s -H "Authorization: token ${{ github.token }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ github.ref_name }}" | \
+            jq -r '.body // empty')
+          if [ -z "$RELEASE_BODY" ] || [ "$RELEASE_BODY" = "null" ]; then
+            RELEASE_BODY="New upstream release ${VERSION}"
+          fi
+          FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^/* /' | sed 's/^\* \* /* /')
+          # Configure git
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@github.com"
+          # Update changelog (non-interactive)
+          export DEBEMAIL="github-actions@github.com"
+          export DEBFULLNAME="GitHub Actions"
+          dch --newversion "${VERSION}-1" --distribution unstable --urgency medium "$FORMATTED_BODY"
+          # Commit and push to main
+          git checkout -b main || git checkout main
+          git add debian/changelog
+          git commit -m "Update changelog for ${VERSION}"
+          git push origin main
+
   add_repo:
     name: Add packages to public debian repository
     runs-on: ubuntu-latest
@@ -140,6 +207,7 @@ jobs:
     needs:
       - merge-artefacts
       - prepare
+      - commit_changelog
     steps:
       - uses: actions/download-artifact@v8
         with:
