@@ -74,10 +74,16 @@ jobs:
           if [ -z "$RELEASE_BODY" ] || [ "$RELEASE_BODY" = "null" ]; then
             RELEASE_BODY="New upstream release ${VERSION}"
           fi
-          # Format body for debian changelog (bullet points)
-          FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^/* /' | sed 's/^\* \* /* /')
+          # Format body for debian changelog (remove existing bullets, then add debian format)
+          FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^[*-] *//' | sed 's/^/* /')
+          # Determine debian version (append -1 only if no revision suffix exists)
+          if [[ "$VERSION" =~ -[0-9]+$ ]]; then
+            DEB_VERSION="$VERSION"
+          else
+            DEB_VERSION="${VERSION}-1"
+          fi
           # Update changelog
-          dch --newversion "${VERSION}-1" --distribution unstable --urgency medium "$FORMATTED_BODY"
+          dch --newversion "$DEB_VERSION" --distribution unstable --urgency medium "$FORMATTED_BODY"
 
       - name: Extract OS Flavor and Version
         run: |
@@ -185,14 +191,21 @@ jobs:
           if [ -z "$RELEASE_BODY" ] || [ "$RELEASE_BODY" = "null" ]; then
             RELEASE_BODY="New upstream release ${VERSION}"
           fi
-          FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^/* /' | sed 's/^\* \* /* /')
+          # Format body for debian changelog (remove existing bullets, then add debian format)
+          FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^[*-] *//' | sed 's/^/* /')
+          # Determine debian version (append -1 only if no revision suffix exists)
+          if [[ "$VERSION" =~ -[0-9]+$ ]]; then
+            DEB_VERSION="$VERSION"
+          else
+            DEB_VERSION="${VERSION}-1"
+          fi
           # Configure git
           git config user.name "GitHub Actions"
           git config user.email "github-actions@github.com"
           # Update changelog (non-interactive)
           export DEBEMAIL="github-actions@github.com"
           export DEBFULLNAME="GitHub Actions"
-          dch --newversion "${VERSION}-1" --distribution unstable --urgency medium "$FORMATTED_BODY"
+          dch --newversion "$DEB_VERSION" --distribution unstable --urgency medium "$FORMATTED_BODY"
           # Commit and push to main
           git checkout -b main || git checkout main
           git add debian/changelog
