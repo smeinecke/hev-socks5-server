@@ -76,8 +76,12 @@ jobs:
           fi
           # Format body for debian changelog (remove existing bullets, then add debian format)
           FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^[*-] *//' | sed 's/^/* /')
-          # Debian version is upstream version + -1 revision
-          DEB_VERSION="${VERSION}-1"
+          # Use version as-is if it already has -N suffix, otherwise append -1
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+-[0-9]+$ ]]; then
+            DEB_VERSION="$VERSION"
+          else
+            DEB_VERSION="${VERSION}-1"
+          fi
           # Update changelog (use -b to force if version appears lower due to previous errors)
           dch -b --newversion "$DEB_VERSION" --distribution unstable --urgency medium "$FORMATTED_BODY"
 
@@ -189,8 +193,12 @@ jobs:
           fi
           # Format body for debian changelog (remove existing bullets, then add debian format)
           FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^[*-] *//' | sed 's/^/* /')
-          # Debian version is upstream version + -1 revision
-          DEB_VERSION="${VERSION}-1"
+          # Use version as-is if it already has -N suffix, otherwise append -1
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+-[0-9]+$ ]]; then
+            DEB_VERSION="$VERSION"
+          else
+            DEB_VERSION="${VERSION}-1"
+          fi
           # Configure git
           git config user.name "GitHub Actions"
           git config user.email "github-actions@github.com"
