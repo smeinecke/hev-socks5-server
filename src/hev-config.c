@@ -174,18 +174,18 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
     }
 
     if (!workers) {
-        fprintf (stderr, "Can't found main.workers!\n");
+        fprintf (stderr, "Can't find main.workers!\n");
         return -1;
     }
 
     if (!port) {
-        fprintf (stderr, "Can't found main.port!\n");
+        fprintf (stderr, "Can't find main.port!\n");
         return -1;
     }
 
     if (listen_address_count == 0) {
         fprintf (stderr,
-                 "Can't found main.listen-address or main.listen-addresses!\n");
+                 "Can't find main.listen-address or main.listen-addresses!\n");
         return -1;
     }
 

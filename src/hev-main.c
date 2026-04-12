@@ -30,9 +30,80 @@
 #endif
 
 static void
+show_version (void)
+{
+    printf ("hev-socks5-server %u.%u.%u %s\n", MAJOR_VERSION, MINOR_VERSION,
+            MICRO_VERSION, COMMIT_ID);
+}
+
+static void
 show_help (const char *self_path)
 {
-    printf ("%s CONFIG_PATH\n", self_path);
+    printf ("Usage: %s [OPTIONS] CONFIG_PATH\n", self_path);
+    printf ("\n");
+    printf ("A high-performance SOCKS5 proxy server.\n");
+    printf ("\n");
+    printf ("Options:\n");
+    printf ("  -h, --help       Show this help message and exit\n");
+    printf ("  -v, --version    Show version information and exit\n");
+    printf ("\n");
+    printf ("Configuration file (YAML format):\n");
+    printf ("\n");
+    printf ("  main:\n");
+    printf (
+        "    workers               Number of worker threads (default: 4)\n");
+    printf ("    port                  Listen port (default: 1080)\n");
+    printf (
+        "    listen-address        Listen address(es), ipv4|ipv6 (default: '::')\n");
+    printf (
+        "    udp-port              UDP listen port, 0 for random (default: 0)\n");
+    printf ("    udp-listen-address    UDP listen address (default: '::')\n");
+    printf (
+        "    udp-public-address-v4 UDP public IPv4 address for UDP relay\n");
+    printf (
+        "    udp-public-address-v6 UDP public IPv6 address for UDP relay\n");
+    printf ("    listen-ipv6-only      Listen on IPv6 only (default: false)\n");
+    printf (
+        "    bind-address          Bind source address (overridden by v4/v6)\n");
+    printf ("    bind-address-v4       Bind source IPv4 address\n");
+    printf ("    bind-address-v6       Bind source IPv6 address\n");
+    printf ("    bind-interface        Bind to network interface\n");
+    printf (
+        "    domain-address-type   Domain address type: ipv4|ipv6|unspec (default: unspec)\n");
+    printf ("    mark                  Socket mark (hex, dec, or oct)\n");
+    printf ("\n");
+    printf ("  auth:\n");
+    printf (
+        "    file                  Path to auth file (username:password format)\n");
+    printf ("    username              Authentication username\n");
+    printf ("    password              Authentication password\n");
+    printf ("\n");
+    printf ("  misc:\n");
+    printf (
+        "    task-stack-size       Task stack size in bytes (default: 8192)\n");
+    printf (
+        "    udp-recv-buffer-size  UDP socket recv buffer size (default: 524288)\n");
+    printf (
+        "    udp-copy-buffer-nums  Number of UDP splice buffers (default: 10)\n");
+    printf (
+        "    connect-timeout       TCP connect timeout in ms (default: 10000)\n");
+    printf (
+        "    tcp-read-write-timeout  TCP read/write timeout in ms (default: 300000)\n");
+    printf (
+        "    udp-read-write-timeout  UDP read/write timeout in ms (default: 60000)\n");
+    printf (
+        "    log-file              Log output: stdout, stderr, or file path\n");
+    printf (
+        "    log-level             Log level: debug, info, warn, error (default: warn)\n");
+    printf (
+        "    pid-file              PID file path (enables daemon mode if set)\n");
+    printf (
+        "    limit-nofile          Rlimit for open files (default: system default)\n");
+    printf ("\n");
+    printf ("Examples:\n");
+    printf ("  %s conf/main.yml\n", self_path);
+    printf ("  %s /etc/hev-socks5-server.yml\n", self_path);
+    printf ("\n");
     printf ("Version: %u.%u.%u %s\n", MAJOR_VERSION, MINOR_VERSION,
             MICRO_VERSION, COMMIT_ID);
 }
@@ -137,9 +208,19 @@ main (int argc, char *argv[])
 {
     int res;
 
-    if (argc < 2 || strcmp (argv[1], "--version") == 0) {
+    if (argc < 2) {
         show_help (argv[0]);
         return -1;
+    }
+
+    if (strcmp (argv[1], "--help") == 0 || strcmp (argv[1], "-h") == 0) {
+        show_help (argv[0]);
+        return 0;
+    }
+
+    if (strcmp (argv[1], "--version") == 0 || strcmp (argv[1], "-v") == 0) {
+        show_version ();
+        return 0;
     }
 
     signal (SIGINT, sigint_handler);
