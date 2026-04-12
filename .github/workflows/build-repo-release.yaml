@@ -76,14 +76,10 @@ jobs:
           fi
           # Format body for debian changelog (remove existing bullets, then add debian format)
           FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^[*-] *//' | sed 's/^/* /')
-          # Determine debian version (append -1 only if no revision suffix exists)
-          if [[ "$VERSION" =~ -[0-9]+$ ]]; then
-            DEB_VERSION="$VERSION"
-          else
-            DEB_VERSION="${VERSION}-1"
-          fi
-          # Update changelog
-          dch --newversion "$DEB_VERSION" --distribution unstable --urgency medium "$FORMATTED_BODY"
+          # Debian version is upstream version + -1 revision
+          DEB_VERSION="${VERSION}-1"
+          # Update changelog (use -b to force if version appears lower due to previous errors)
+          dch -b --newversion "$DEB_VERSION" --distribution unstable --urgency medium "$FORMATTED_BODY"
 
       - name: Extract OS Flavor and Version
         run: |
@@ -193,19 +189,15 @@ jobs:
           fi
           # Format body for debian changelog (remove existing bullets, then add debian format)
           FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^[*-] *//' | sed 's/^/* /')
-          # Determine debian version (append -1 only if no revision suffix exists)
-          if [[ "$VERSION" =~ -[0-9]+$ ]]; then
-            DEB_VERSION="$VERSION"
-          else
-            DEB_VERSION="${VERSION}-1"
-          fi
+          # Debian version is upstream version + -1 revision
+          DEB_VERSION="${VERSION}-1"
           # Configure git
           git config user.name "GitHub Actions"
           git config user.email "github-actions@github.com"
-          # Update changelog (non-interactive)
+          # Update changelog (non-interactive, use -b to force if needed)
           export DEBEMAIL="github-actions@github.com"
           export DEBFULLNAME="GitHub Actions"
-          dch --newversion "$DEB_VERSION" --distribution unstable --urgency medium "$FORMATTED_BODY"
+          dch -b --newversion "$DEB_VERSION" --distribution unstable --urgency medium "$FORMATTED_BODY"
           # Commit and push to main
           git checkout -b main || git checkout main
           git add debian/changelog
