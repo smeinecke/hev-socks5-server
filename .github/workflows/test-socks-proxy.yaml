@@ -90,10 +90,9 @@ jobs:
           echo $! > server.pid
           sleep 2
 
-          # Try to connect to an unreachable host (should trigger connection error)
-          # Using a non-routable address that will timeout or be unreachable
-          timeout 5 curl -v --socks5 127.0.0.1:1080 http://192.0.2.1:80/ || true
-          # 192.0.2.0/24 is TEST-NET-1 and should be unreachable
+          # Try to connect to localhost:1 which has no listener (will get connection refused)
+          # This should trigger a connection failure that gets logged
+          curl -v --socks5 127.0.0.1:1080 http://127.0.0.1:1/ 2>&1 || true
 
           sleep 1
 
