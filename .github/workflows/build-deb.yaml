@@ -89,7 +89,7 @@ jobs:
             fi
 
       - name: Upload deb files
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: "packages-${{ steps.split_os_version.outputs.os-version }}-${{ inputs.arch }}"
           path: ./debian/artifacts/*
@@ -98,4 +98,4 @@ jobs:
     needs: build-debs
     steps:
       - name: Upload merged artefacts
-        uses: actions/upload-artifact/merge@v4
+        uses: actions/upload-artifact/merge@v7
