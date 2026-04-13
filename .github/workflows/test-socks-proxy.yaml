@@ -5,9 +5,9 @@ permissions:
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -75,4 +75,51 @@ jobs:
           if [ -f server.pid ]; then
             kill $(cat server.pid) || true
             rm -f server.pid
+          fi
+
+      - name: Test error logging binary strings
+        run: |
+          # Run local test script to validate improved error strings in binary
+          chmod +x test-logging.sh
+          ./test-logging.sh
+
+      - name: Test error logging includes host:port
+        run: |
+          # Start server with logging to file
+          hev-socks5-server ~/.config/hev-socks5-server/main.yml 2>&1 | tee server.log &
+          echo $! > server.pid
+          sleep 2
+
+          # Try to connect to localhost:1 which has no listener (will get connection refused)
+          # This should trigger a connection failure that gets logged
+          curl -v --socks5 127.0.0.1:1080 http://127.0.0.1:1/ 2>&1 || true
+
+          sleep 1
+
+          # Validate that error messages include the target address
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) || true
+            rm -f server.pid
+          fi
+
+          # Check for improved error log format - should include "fail:" and "to [" with host:port
+          if grep -E "fail:.*to \[" server.log; then
+            echo "✓ Error messages include human-readable error and target address"
+          else
+            echo "✗ Error messages do not include expected format (fail: <error> to [<host>]:<port>)"
+            cat server.log
+            exit 1
+          fi
+
+          # Validate that numeric error codes are not used in error messages
+          if grep -E "fail [0-9]+" server.log | grep -v "fail:"; then
+            echo "✗ Found legacy numeric error codes (fail N instead of fail: description)"
+            exit 1
+          else
+            echo "✓ No legacy numeric error codes found"
+          fi
+
+          # Check for specific error descriptions
+          if grep -E "fail: (host unreachable|general failure|address type not supported)" server.log; then
+            echo "✓ Error messages use human-readable descriptions"
           fi

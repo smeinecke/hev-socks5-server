@@ -1,3 +1,24 @@
+hev-socks5-server (2.11.3-1) unstable; urgency=medium
+
+  * * ## What's Changed
+    *
+    * feat: support multiple listen addresses by @smeinecke in
+    https://github.com/smeinecke/hev-socks5-server/pull/16
+
+ -- GitHub Actions <github-actions@github.com>  Mon, 13 Apr 2026 10:19:42 +0000
+
+hev-socks5-server (2.11.2-3) unstable; urgency=medium
+
+  * * fix debian build problems (invalid systemd service files)
+
+ -- GitHub Actions <github-actions@github.com>  Sun, 12 Apr 2026 22:21:40 +0000
+
+hev-socks5-server (2.11.2-2-1) unstable; urgency=medium
+
+  * * New upstream release 2.11.2-2
+
+ -- GitHub Actions <github-actions@github.com>  Sun, 12 Apr 2026 17:32:07 +0000
+
 hev-socks5-server (2.11.2-1) unstable; urgency=medium
 
   * New upstream release 2.11.2

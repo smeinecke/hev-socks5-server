@@ -55,6 +55,36 @@ jobs:
       - uses: actions/checkout@v6
         with:
           submodules: true
+
+      - name: Install devscripts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y devscripts
+
+      - name: Update changelog from release
+        run: |
+          VERSION="${{ github.ref_name }}"
+          # Strip 'v' prefix if present
+          VERSION=${VERSION#v}
+          # Get release body from GitHub API
+          RELEASE_BODY=$(curl -s -H "Authorization: token ${{ github.token }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ github.ref_name }}" | \
+            jq -r '.body // empty')
+          # If body is empty, use default message
+          if [ -z "$RELEASE_BODY" ] || [ "$RELEASE_BODY" = "null" ]; then
+            RELEASE_BODY="New upstream release ${VERSION}"
+          fi
+          # Format body for debian changelog (remove existing bullets, then add debian format)
+          FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^[*-] *//' | sed 's/^/* /')
+          # Use version as-is if it already has -N suffix, otherwise append -1
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+-[0-9]+$ ]]; then
+            DEB_VERSION="$VERSION"
+          else
+            DEB_VERSION="${VERSION}-1"
+          fi
+          # Update changelog (use -b to force if version appears lower due to previous errors)
+          dch -b --newversion "$DEB_VERSION" --distribution unstable --urgency medium "$FORMATTED_BODY"
+
       - name: Extract OS Flavor and Version
         run: |
           os_version="${{ matrix.os-version }}"
@@ -101,7 +131,7 @@ jobs:
             fi
 
       - name: Upload deb files
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: "packages-${{ env.debian_release }}-${{ matrix.arch }}"
           path: ./debian/artifacts/*
@@ -112,7 +142,7 @@ jobs:
     needs: build-debs
     steps:
       - name: debian-packages
-        uses: actions/upload-artifact/merge@v6
+        uses: actions/upload-artifact/merge@v7
 
   add_release:
     name: Add package to release
@@ -121,16 +151,66 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: merged-artifacts
       - name: Display structure of downloaded files
         run: ls -R
       - name: Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ./*.deb
+
+  commit_changelog:
+    name: Commit updated changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: build-debs
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install devscripts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y devscripts
+
+      - name: Update and commit changelog
+        run: |
+          VERSION="${{ github.ref_name }}"
+          VERSION=${VERSION#v}
+          # Get release body from GitHub API
+          RELEASE_BODY=$(curl -s -H "Authorization: token ${{ github.token }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ github.ref_name }}" | \
+            jq -r '.body // empty')
+          if [ -z "$RELEASE_BODY" ] || [ "$RELEASE_BODY" = "null" ]; then
+            RELEASE_BODY="New upstream release ${VERSION}"
+          fi
+          # Format body for debian changelog (remove existing bullets, then add debian format)
+          FORMATTED_BODY=$(echo "$RELEASE_BODY" | sed 's/^[*-] *//' | sed 's/^/* /')
+          # Use version as-is if it already has -N suffix, otherwise append -1
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+-[0-9]+$ ]]; then
+            DEB_VERSION="$VERSION"
+          else
+            DEB_VERSION="${VERSION}-1"
+          fi
+          # Configure git
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@github.com"
+          # Update changelog (non-interactive, use -b to force if needed)
+          export DEBEMAIL="github-actions@github.com"
+          export DEBFULLNAME="GitHub Actions"
+          dch -b --newversion "$DEB_VERSION" --distribution unstable --urgency medium "$FORMATTED_BODY"
+          # Commit and push to main
+          git checkout -b main || git checkout main
+          git add debian/changelog
+          git commit -m "Update changelog for ${VERSION}"
+          git push origin main
 
   add_repo:
     name: Add packages to public debian repository
@@ -140,8 +220,9 @@ jobs:
     needs:
       - merge-artefacts
       - prepare
+      - commit_changelog
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: "merged-artifacts"
       - name: Add releases to repo

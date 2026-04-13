@@ -1,6 +1,85 @@
 hev-socks5-server for Debian
----------------------------
+===========================
 
-initial release.
+Overview
+--------
+hev-socks5-server is a high-performance SOCKS4/4a/5 proxy server written in C.
+This Debian package provides the server binary, systemd service files, and
+default configuration.
 
- -- stefan <stefan@build-stretch>  Thu, 06 Jun 2024 01:58:38 +0200
+Key Features
+------------
+ * SOCKS5 protocol support (RFC 1928) with TCP and UDP forwarding
+ * SOCKS4 and SOCKS4a protocol support
+ * Username/password authentication
+ * Multi-IP listener support (up to 16 addresses)
+ * IPv4 and IPv6 support
+ * YAML-based configuration
+ * systemd integration
+
+Configuration
+-------------
+The default configuration file is located at:
+  /etc/hev-socks5-server.yml
+
+A sample configuration is provided. Edit this file to configure:
+  * Listen addresses and ports (supports multiple IPs)
+  * Authentication settings (optional)
+  * Logging and timeouts
+  * UDP relay settings
+
+Systemd Services
+----------------
+Two service files are provided:
+
+hev-socks5-server.service - Standard service
+  systemctl start hev-socks5-server
+  systemctl enable hev-socks5-server
+
+hev-socks5-server@.service - Instance service for multiple configs
+  systemctl start hev-socks5-server@instance1
+  systemctl enable hev-socks5-server@instance1
+
+For the instance service, configuration files should be placed at:
+  /etc/hev-socks5-server/instance1.yml
+
+Authentication
+--------------
+To enable authentication, add to the config:
+
+  auth:
+    file: /etc/hev-socks5-server/auth.txt
+
+The auth file format:
+  username password [mark]
+
+Example:
+  user1 pass1
+  user2 pass2 1a
+
+Reload authentication without restart:
+  killall -SIGUSR1 hev-socks5-server
+
+Logging
+-------
+By default, logs go to stderr and are captured by systemd journal:
+  journalctl -u hev-socks5-server -f
+
+To log to a file instead, set in config:
+  misc:
+    log-file: /var/log/hev-socks5-server.log
+
+Security
+--------
+ * Run as non-root user when possible (bind to ports > 1024)
+ * Use authentication in untrusted environments
+ * Limit access via firewall rules
+ * Consider using socket marks for connection filtering
+
+Documentation
+-------------
+Full documentation and examples:
+  /usr/share/doc/hev-socks5-server/
+  https://github.com/heiher/hev-socks5-server
+
+ -- Stefan Meinecke <stefan@build-stretch>  Thu, 06 Jun 2024 01:58:38 +0200
