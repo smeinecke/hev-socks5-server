@@ -2,44 +2,44 @@
 Hash: SHA512
 
 Codename: focal
-Date: Sun, 12 Apr 2026 22:22:36 UTC
+Date: Mon, 13 Apr 2026 10:20:15 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
 MD5Sum:
- 5b3e6d80ad316df94663dfbc70b2d70d 1284 main/binary-amd64/Packages
- 7a82fead249a4772c5622a3e5010bde4 769 main/binary-amd64/Packages.gz
+ b9921f5812d4aa89591d0446470aab23 1280 main/binary-amd64/Packages
+ f40331367337ab5e23a9367ad2304779 770 main/binary-amd64/Packages.gz
  1b21ef4b19ba60107691cea3b6cc9175 77 main/binary-amd64/Release
- 8fb7ec3930f3406695b729e44f22f89b 1284 main/binary-arm64/Packages
- 16bddbebb11b3544bcd71cd92be25824 770 main/binary-arm64/Packages.gz
+ 22f16d8cc00a1b2f06e5375712ae8913 1280 main/binary-arm64/Packages
+ 0ff2814e74809227658996f2165a45a0 766 main/binary-arm64/Packages.gz
  cf1b3497a70f09fbeb0fd3c80f5146bd 77 main/binary-arm64/Release
 SHA1:
- 823efff4be2c52609e17c52c62fefcea92cf15d1 1284 main/binary-amd64/Packages
- fa65dde520105ec60a628d5a52bd76f3d8b38554 769 main/binary-amd64/Packages.gz
+ 145a8e18815997fb84d3e41794d572c9a997af1b 1280 main/binary-amd64/Packages
+ a4b4f9ffe1e8912c120250b66cc48dd949df141b 770 main/binary-amd64/Packages.gz
  6910905454f3464d5f1d514afdffcdb6e022dce8 77 main/binary-amd64/Release
- 43a75cdf8bc01fd28fd4252c41d5b0d44e72ee26 1284 main/binary-arm64/Packages
- 918ff53c0c68eb140388e0b6ad4d794ed39ace55 770 main/binary-arm64/Packages.gz
+ 0f61878a4e6729940ed824b034045caa30c9541a 1280 main/binary-arm64/Packages
+ 53dce6182644d5396c588268bbd3324a331f48fa 766 main/binary-arm64/Packages.gz
  157b42f6093045e27cbe19dfb239c9b9d98de966 77 main/binary-arm64/Release
 SHA256:
- 60b73c393fa620e00e97b5ac97dd149bc319385f195446374741f0c4b02a95b1 1284 main/binary-amd64/Packages
- 86e2a5063b1c3243931a08e2d24267aac934de3cde656029297b931c26a4c523 769 main/binary-amd64/Packages.gz
+ 50a6898abf6d6886196eaa2bdf71279dafaabf9fb7bcb0d365f6ea1c1e093403 1280 main/binary-amd64/Packages
+ 5e0bf7a15dbc23d58cc88e247a2e3cf5f614f9c7b114168cbb6b6f33e4a6b294 770 main/binary-amd64/Packages.gz
  cdac04cac330db4750e963250b7fe78ec0e455fc64b68f26c08c7c0b31b6f61b 77 main/binary-amd64/Release
- e9bf615f26c22794e18dd366e82d220935f83efa5e8679d2a9961dab4a1f959e 1284 main/binary-arm64/Packages
- b9ab2d54997ad206c21e2815e82ccb90d1df0c8a5e99afa2275e4b095043fe35 770 main/binary-arm64/Packages.gz
+ bf8eb4cff9fbcb215a1d19db88641785bad27c02818c4096bd42e5002730e893 1280 main/binary-arm64/Packages
+ 7aca703ad3630743fbfa6e66d569176b270729ec374d066ad941aafd62552caf 766 main/binary-arm64/Packages.gz
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmncGywACgkQwalj2T1+
-DRtRmA//XNwjOTAKJgtesXdY/e3Ht5rr4HOpIbt9iwzxZsIuytixQGSpAF+DNLwI
-FI+R1wBvWmcv4yWXpoCBhuxRAxTAVPvcC+jVMJ77UR6p3Ts3UCeacvlrV9C00/EI
-1DWYAwKNnxbGkC0fITZeiexEh8NmGGXrB8qD77L/L0niUMtc7WXgGuo1Wyu6qtHG
-WKnEP+jPKyGrOprIAo1kthdDwLSJFwe2cW9uDD5lJx7mXQiwOQdz8B7c40jCOSvM
-OgA2mGVElpgv13dy0zzwc+SPB9279Knly5NWddt0iL0lOFjlmTt49js5U3LOUuYr
-eNAIXpednQYU2oqtCSwrfpTyfAgXuPyLDi2h5UvPELMOtakTwl4h7XNXX8FPN6/3
-R5OjB8XQ/9HJ26wwizEseUEV+gBdJzMsIpD40XCfkaOlUzQSAvu11aPjYboN+LHe
-/wZn2ii63Xr4d1UM8G7lI5IEF5fVxPDpeTmW6H4f1XREP/z0QGRNhQedyPCLb5PW
-ywJZD5NkZdsrt5NTlgPaGgktXBM40F7pcAHKfCo8W7guBGLvqy0BwGL3/LRY5zMg
-MMCfwFQVAmluoz0GSAbZoj519RhV0W6qYU0aNFYFRs6mHGs+bK8EN4kUNLBf/w2k
-dL62b5VGFbINuqaon0dLUj6s3+0R/8Ex4J2+wBdOvb5dfzir/iM=
-=PIqQ
+iQIzBAEBCgAdFiEEytXCQsAevU7Cn75awalj2T1+DRsFAmncw18ACgkQwalj2T1+
+DRv2qg/9E9Pz41yXf6noSCoMtEhoO4mf4fejryvu26Lw54Irc1bhhtwU02XuYomF
+F6U2vnxg3dQlJ+UruiHYGMW3KLBfIAIXpjaJ9xK9XhpyhWr07n5zQYdLe4j8UwM6
+1vYQvtAaLy7VKb+LKLysFtlGjGh1/d+/JjKKcyyZmFrEqPWlpN3WfyPzNSCAm4Tc
+7HuYolaf2ghecqwdODgorukvdAX+XTaXePyyEOKZ+qP/fvu8CRKpI8ifxBX5+ZKX
+/sfaOiGworCpJSP7uWo6LB8QE+KCnfHrcCB6t5o0U0tdkcF98kuz9Os7k8z4gdnl
+beBZUNWcvPgQfyuTlGiZYrmOpuoLbvqaD+drvSH1YzL3R/VAY9ARWed7RcIBGroc
+E2NcSwAoGHIkA9hg8FEhacNeOmFn+P7JMS9avZFfhhcD3PscWJYUxEwhJ6FRnBt6
+ycGwhE0q21COwAGkQ/ZPyLVWWfFljp5lLKlQ3mDkCggSnF4nIWTT+DGLCwWcabFY
+fSzGKslEZUvjRt3o5kYso71EnknZnqJmNu9CoUbTTIw8b5bIFyFuWqiTd2W314kw
+V/zvroudFpBAahS6zcrL2zZ9kyP1g3iRte2MrhWUAsTfoOCvzJpCBqyOgYUJ0b5W
+mtC3n7g1oTM0lrDaYO0lZQM1XsgkpZF1sRUO/gAyyYsFqxZTXqA=
+=rcdR
 -----END PGP SIGNATURE-----
