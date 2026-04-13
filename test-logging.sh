@@ -73,6 +73,59 @@ else
     echo "✓ Old format string '%p fail %u' not found (replaced with new format)"
 fi
 
+# Check for additional improved error messages
+echo ""
+echo "Checking for additional improved error messages..."
+
+if strings ./bin/hev-socks5-server | grep -q "failed to read socks4 address"; then
+    echo "✓ Binary contains 'failed to read socks4 address'"
+else
+    echo "✗ Binary missing 'failed to read socks4 address'"
+    exit 1
+fi
+
+if strings ./bin/hev-socks5-server | grep -q "failed to convert address to sockaddr"; then
+    echo "✓ Binary contains 'failed to convert address to sockaddr'"
+else
+    echo "✗ Binary missing 'failed to convert address to sockaddr'"
+    exit 1
+fi
+
+if strings ./bin/hev-socks5-server | grep -q "failed to create UDP socket"; then
+    echo "✓ Binary contains 'failed to create UDP socket'"
+else
+    echo "✗ Binary missing 'failed to create UDP socket'"
+    exit 1
+fi
+
+if strings ./bin/hev-socks5-server | grep -q "failed to set SO_REUSEADDR"; then
+    echo "✓ Binary contains 'failed to set SO_REUSEADDR'"
+else
+    echo "✗ Binary missing 'failed to set SO_REUSEADDR'"
+    exit 1
+fi
+
+if strings ./bin/hev-socks5-server | grep -q "failed to bind UDP"; then
+    echo "✓ Binary contains 'failed to bind UDP socket/relay'"
+else
+    echo "✗ Binary missing 'failed to bind UDP'"
+    exit 1
+fi
+
+if strings ./bin/hev-socks5-server | grep -q "failed to get TCP socket name"; then
+    echo "✓ Binary contains 'failed to get TCP socket name'"
+else
+    echo "✗ Binary missing 'failed to get TCP socket name'"
+    exit 1
+fi
+
+if strings ./bin/hev-socks5-server | grep -q "failed to get UDP socket name"; then
+    echo "✓ Binary contains 'failed to get UDP socket name'"
+else
+    echo "✗ Binary missing 'failed to get UDP socket name'"
+    exit 1
+fi
+
 echo ""
 echo "=== All binary checks passed ==="
 echo "The improved logging is compiled into the binary."
@@ -81,3 +134,4 @@ echo "Expected log format examples:"
 echo "  [E] 0x... fail: host unreachable to [192.0.2.1]:80"
 echo "  [E] 0x... fail: address type not supported to [10.0.0.1]:443"
 echo "  [I] 0x... socks5 server connect to [1.2.3.4]:8080"
+echo "  [E] 0x... socks5 server failed to create UDP socket"
