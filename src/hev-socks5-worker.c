@@ -314,8 +314,10 @@ retry:
 
     if (res & SYNC_SEND) {
         res = atomic_fetch_or (&self->tsync, sent);
-        if (!(res & sent))
-            write (self->event_fds[1], &val, sizeof (val));
+        if (!(res & sent)) {
+            if (write (self->event_fds[1], &val, sizeof (val)) < 0)
+                LOG_E ("socks5 worker send");
+        }
     } else {
         atomic_fetch_or (&self->tsync, type);
     }
