@@ -7,14 +7,14 @@
  ============================================================================
  */
 
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <stdatomic.h>
+#include <sys/ioctl.h>
 
 #include <hev-task.h>
 #include <hev-task-io.h>
-#include <hev-task-io-pipe.h>
 #include <hev-task-io-socket.h>
 #include <hev-memory-allocator.h>
 
@@ -26,18 +26,32 @@
 
 #include "hev-socks5-worker.h"
 
-typedef struct _HevSocks5WorkerTaskData
+typedef struct _HevSocks5WorkerTaskData HevSocks5WorkerTaskData;
+
+struct _HevSocks5WorkerTaskData
 {
     HevSocks5Worker *worker;
     int fd;
-} HevSocks5WorkerTaskData;
+};
+
+enum
+{
+    SYNC_SEND = 1 << 0,
+    SYNC_WAIT = 1 << 1,
+    SYNC_STOP = 1 << 2,
+    SYNC_LOAD = 1 << 3,
+    SYNC_SENT_S = 1 << 4,
+    SYNC_SENT_R = 1 << 5,
+};
 
 struct _HevSocks5Worker
 {
     int fds[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
-    int quit;
     unsigned int fd_count;
     int event_fds[2];
+
+    int run;
+    atomic_int tsync;
 
     HevTask *task_event;
     HevTask *task_workers[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
@@ -54,7 +68,7 @@ task_io_yielder (HevTaskYieldType type, void *data)
 
     hev_task_yield (type);
 
-    return self->quit ? -1 : 0;
+    return READ_ONCE (self->run) ? 0 : -1;
 }
 
 static void
@@ -153,17 +167,16 @@ hev_socks5_event_task_entry (void *data)
 {
     HevTask *task = hev_task_self ();
     HevSocks5Worker *self = data;
+    unsigned int i;
     int res;
 
     LOG_D ("socks5 event task run");
 
-    res = hev_task_io_pipe_pipe (self->event_fds);
-    if (res < 0) {
-        LOG_E ("socks5 proxy pipe");
-        return;
-    }
-
     hev_task_add_fd (task, self->event_fds[0], POLLIN);
+
+    res = atomic_fetch_and (&self->tsync, ~SYNC_LOAD);
+    if (res & SYNC_LOAD)
+        hev_socks5_worker_load (self);
 
     for (;;) {
         char val;
@@ -173,43 +186,95 @@ hev_socks5_event_task_entry (void *data)
         if (res < sizeof (val))
             continue;
 
-        if (val == 'r')
+        if (val == 'r') {
+            atomic_fetch_and (&self->tsync, ~SYNC_SENT_R);
             hev_socks5_worker_load (self);
-        else
+        } else {
+            atomic_fetch_and (&self->tsync, ~SYNC_SENT_S);
             break;
+        }
     }
 
-    self->quit = 1;
-    for (unsigned int i = 0; i < self->fd_count; i++)
+    WRITE_ONCE (self->run, 0);
+    for (i = 0; i < self->fd_count; i++)
         hev_task_wakeup (self->task_workers[i]);
 
     hev_task_del_fd (task, self->event_fds[0]);
-    close (self->event_fds[0]);
-    close (self->event_fds[1]);
 }
 
 HevSocks5Worker *
-hev_socks5_worker_new (void)
+hev_socks5_worker_new (const int *fds, unsigned int fd_count)
 {
     HevSocks5Worker *self;
+    unsigned int i;
+    int nonblock = 1;
+    int res;
 
-    self = calloc (1, sizeof (HevSocks5Worker));
+    if (!fds || fd_count == 0 || fd_count > HEV_CONFIG_MAX_LISTEN_ADDRESSES)
+        return NULL;
+
+    self = hev_malloc0 (sizeof (HevSocks5Worker));
     if (!self)
         return NULL;
 
     LOG_D ("%p socks5 worker new", self);
 
     memset (self->fds, -1, sizeof (self->fds));
+    self->fd_count = fd_count;
     self->event_fds[0] = -1;
     self->event_fds[1] = -1;
 
+    res = socketpair (PF_LOCAL, SOCK_STREAM, 0, self->event_fds);
+    if (res < 0) {
+        LOG_E ("socks5 worker eventfd");
+        goto exit;
+    }
+
+    res = ioctl (self->event_fds[0], FIONBIO, (char *)&nonblock);
+    if (res < 0) {
+        LOG_E ("socks5 worker eventfd non-blocking");
+        goto exit;
+    }
+
+    self->task_event = hev_task_new (-1);
+    if (!self->task_event) {
+        LOG_E ("socks5 worker task event");
+        goto exit;
+    }
+
+    for (i = 0; i < fd_count; i++) {
+        self->task_workers[i] = hev_task_new (-1);
+        if (!self->task_workers[i]) {
+            LOG_E ("socks5 worker task worker");
+            goto exit;
+        }
+
+        self->fds[i] = fds[i];
+        self->task_datas[i].worker = self;
+        self->task_datas[i].fd = fds[i];
+    }
+
+    atomic_fetch_or (&self->tsync, SYNC_SEND);
+
     return self;
+
+exit:
+    hev_socks5_worker_destroy (self);
+    return NULL;
 }
 
 void
 hev_socks5_worker_destroy (HevSocks5Worker *self)
 {
+    unsigned int i;
+
     LOG_D ("%p works worker destroy", self);
+
+retry:
+    if (atomic_fetch_and (&self->tsync, ~SYNC_SEND) & SYNC_WAIT) {
+        usleep (500);
+        goto retry;
+    }
 
     if (self->auth_curr)
         hev_object_unref (HEV_OBJECT (self->auth_curr));
@@ -219,100 +284,96 @@ hev_socks5_worker_destroy (HevSocks5Worker *self)
     if (self->task_event)
         hev_task_unref (self->task_event);
 
-    for (unsigned int i = 0; i < self->fd_count; i++) {
+    for (i = 0; i < self->fd_count; i++) {
         if (self->task_workers[i])
             hev_task_unref (self->task_workers[i]);
         if (self->fds[i] >= 0)
             close (self->fds[i]);
     }
 
-    free (self);
-}
+    if (self->event_fds[0] >= 0)
+        close (self->event_fds[0]);
+    if (self->event_fds[1] >= 0)
+        close (self->event_fds[1]);
 
-int
-hev_socks5_worker_init (HevSocks5Worker *self, const int *fds,
-                        unsigned int fd_count)
-{
-    unsigned int i;
-
-    LOG_D ("%p works worker init", self);
-
-    if (!fds || fd_count == 0 || fd_count > HEV_CONFIG_MAX_LISTEN_ADDRESSES)
-        return -1;
-
-    self->task_event = hev_task_new (-1);
-    if (!self->task_event) {
-        LOG_E ("socks5 worker task event");
-        return -1;
-    }
-
-    for (i = 0; i < fd_count; i++) {
-        self->task_workers[i] = hev_task_new (-1);
-        if (!self->task_workers[i]) {
-            unsigned int j;
-
-            LOG_E ("socks5 worker task worker");
-            for (j = 0; j < i; j++) {
-                hev_task_unref (self->task_workers[j]);
-                self->task_workers[j] = NULL;
-                close (self->fds[j]);
-                self->fds[j] = -1;
-            }
-            hev_task_unref (self->task_event);
-            self->task_event = NULL;
-            return -1;
-        }
-
-        self->fds[i] = fds[i];
-        self->task_datas[i].worker = self;
-        self->task_datas[i].fd = fds[i];
-    }
-
-    self->fd_count = fd_count;
-
-    return 0;
+    hev_free (self);
 }
 
 void
 hev_socks5_worker_start (HevSocks5Worker *self)
 {
+    unsigned int i;
+
     LOG_D ("%p works worker start", self);
 
+    if (atomic_fetch_and (&self->tsync, ~SYNC_STOP) & SYNC_STOP)
+        return;
+
+    WRITE_ONCE (self->run, 1);
+    hev_task_ref (self->task_event);
     hev_task_run (self->task_event, hev_socks5_event_task_entry, self);
-    for (unsigned int i = 0; i < self->fd_count; i++) {
+
+    for (i = 0; i < self->fd_count; i++) {
+        hev_task_ref (self->task_workers[i]);
         hev_task_run (self->task_workers[i], hev_socks5_worker_task_entry,
                       &self->task_datas[i]);
     }
 }
 
+static void
+hev_socks5_worker_send (HevSocks5Worker *self, int type)
+{
+    char val;
+    int sent;
+    int res;
+
+    switch (type) {
+    case SYNC_STOP:
+        sent = SYNC_SENT_S;
+        val = 's';
+        break;
+    case SYNC_LOAD:
+        sent = SYNC_SENT_R;
+        val = 'r';
+        break;
+    default:
+        return;
+    }
+
+retry:
+    res = atomic_fetch_or (&self->tsync, SYNC_WAIT);
+    if (res & SYNC_WAIT) {
+        usleep (500);
+        goto retry;
+    }
+
+    if (res & SYNC_SEND) {
+        res = atomic_fetch_or (&self->tsync, sent);
+        if (!(res & sent)) {
+            if (write (self->event_fds[1], &val, sizeof (val)) < 0)
+                LOG_E ("socks5 worker send");
+        }
+    } else {
+        atomic_fetch_or (&self->tsync, type);
+    }
+
+    atomic_fetch_and (&self->tsync, ~SYNC_WAIT);
+}
+
 void
 hev_socks5_worker_stop (HevSocks5Worker *self)
 {
-    char val = 's';
-
     LOG_D ("%p works worker stop", self);
 
-    if (self->event_fds[1] < 0)
-        return;
-
-    val = write (self->event_fds[1], &val, sizeof (val));
-    if (val < 0)
-        LOG_E ("socks5 proxy write event");
+    hev_socks5_worker_send (self, SYNC_STOP);
 }
 
 void
 hev_socks5_worker_reload (HevSocks5Worker *self)
 {
-    char val = 'r';
-
     LOG_D ("%p works worker reload", self);
 
-    if (self->event_fds[1] < 0)
-        return;
-
-    val = write (self->event_fds[1], &val, sizeof (val));
-    if (val < 0)
-        LOG_E ("socks5 proxy write event");
+    hev_socks5_worker_send (self, SYNC_LOAD);
 }
 
 void

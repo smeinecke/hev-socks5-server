@@ -13,7 +13,6 @@
 int hev_config_init_from_file (const char *config_path);
 int hev_config_init_from_str (const unsigned char *config_str,
                               unsigned int config_len);
-void hev_config_fini (void);
 
 unsigned int hev_config_get_workers (void);
 
@@ -30,6 +29,7 @@ const char *hev_config_get_bind_interface (void);
 
 int hev_config_get_address_family (void);
 unsigned int hev_config_get_socket_mark (void);
+int hev_config_get_tcp_fastopen (void);
 
 const char *hev_config_get_auth_file (void);
 const char *hev_config_get_auth_username (void);

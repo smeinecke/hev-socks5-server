@@ -14,7 +14,8 @@ typedef struct _HevSocketFactory HevSocketFactory;
 
 HevSocketFactory *hev_socket_factory_new (const char **addrs,
                                           unsigned int addr_count,
-                                          const char *port, int ipv6_only);
+                                          const char *port, int ipv6_only,
+                                          int tcp_fastopen);
 void hev_socket_factory_destroy (HevSocketFactory *self);
 
 unsigned int hev_socket_factory_get_count (HevSocketFactory *self);

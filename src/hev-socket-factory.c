@@ -10,6 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 
 #include <hev-task.h>
 #include <hev-task-io.h>
@@ -26,13 +27,14 @@ struct _HevSocketFactory
 {
     struct sockaddr_in6 addrs[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
     int fds[HEV_CONFIG_MAX_LISTEN_ADDRESSES];
+    int tcp_fastopen;
     int ipv6_only;
     unsigned int addr_count;
 };
 
 HevSocketFactory *
 hev_socket_factory_new (const char **addrs, unsigned int addr_count,
-                        const char *port, int ipv6_only)
+                        const char *port, int ipv6_only, int tcp_fastopen)
 {
     HevSocketFactory *self;
     unsigned int i;
@@ -59,6 +61,7 @@ hev_socket_factory_new (const char **addrs, unsigned int addr_count,
         }
     }
 
+    self->tcp_fastopen = tcp_fastopen;
     self->ipv6_only = ipv6_only;
     self->addr_count = addr_count;
     for (i = 0; i < addr_count; i++)
@@ -90,6 +93,7 @@ hev_socket_factory_get_count (HevSocketFactory *self)
 int
 hev_socket_factory_get (HevSocketFactory *self, unsigned int idx)
 {
+    int qlen = 100;
     int one = 1;
     int res;
     int fd;
@@ -114,9 +118,9 @@ hev_socket_factory_get (HevSocketFactory *self, unsigned int idx)
         goto exit_close;
     }
 
-    res = -1;
 #ifdef SO_REUSEPORT
     res = setsockopt (fd, SOL_SOCKET, SO_REUSEPORT, &one, sizeof (one));
+    (void)res;
 #endif
 
     res = setsockopt (fd, IPPROTO_IPV6, IPV6_V6ONLY, &self->ipv6_only,
@@ -131,6 +135,12 @@ hev_socket_factory_get (HevSocketFactory *self, unsigned int idx)
     if (res < 0) {
         LOG_E ("socket factory bind");
         goto exit_close;
+    }
+
+    if (self->tcp_fastopen) {
+        res = setsockopt (fd, IPPROTO_TCP, TCP_FASTOPEN, &qlen, sizeof (qlen));
+        if (res < 0)
+            LOG_W ("socket factory fastopen");
     }
 
     res = listen (fd, 100);
