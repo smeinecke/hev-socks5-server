@@ -12,7 +12,7 @@
 
 #define MAJOR_VERSION (2)
 #define MINOR_VERSION (13)
-#define MICRO_VERSION (0)
+#define MICRO_VERSION (1)
 
 #define HEV_CONFIG_MAX_LISTEN_ADDRESSES (16)
 
