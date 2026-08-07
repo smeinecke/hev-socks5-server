@@ -51,6 +51,7 @@ jobs:
 
           misc:
             log-level: debug
+            log-file: stderr
           EOL
 
       - name: Start SOCKS server in background
