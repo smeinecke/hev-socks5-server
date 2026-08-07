@@ -1,5 +1,11 @@
 hev-socks5-server (2.13.1-1) unstable; urgency=medium
 
+  * * New upstream release 2.13.1
+
+ -- GitHub Actions <github-actions@github.com>  Fri, 07 Aug 2026 09:07:43 +0000
+
+hev-socks5-server (2.13.1-1) unstable; urgency=medium
+
   * Merge upstream 2.13.0 and add multiple listen addresses support.
 
  -- Stefan Meinecke <meinecke@greensec.de>  Fri, 07 Aug 2026 11:01:53 +0200
