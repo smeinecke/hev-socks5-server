@@ -6,4 +6,4 @@
 	url = https://github.com/heiher/yaml
 [submodule "src/core"]
 	path = src/core
-	url = https://github.com/heiher/hev-socks5-core
+	url = https://github.com/smeinecke/hev-socks5-core
