@@ -3,7 +3,7 @@ Description=HevSocks5Server
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/hev-socks5-server /etc/hev-socks5-server.yml
+ExecStart=/usr/bin/hev-socks5-server /etc/hev-socks5-server.yml /etc/hev-socks5-server.d
 Restart=on-failure
 
 [Install]

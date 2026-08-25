@@ -28,6 +28,21 @@ extern "C" {
 int hev_socks5_server_main_from_file (const char *config_path);
 
 /**
+ * hev_socks5_server_main_from_file_with_confd:
+ * @config_path: config file path
+ * @confd_path: optional conf.d directory path
+ *
+ * Start and run the socks5 server, this function will blocks until the
+ * hev_socks5_server_quit is called or an error occurs. If @confd_path is
+ * provided and exists, YAML files in that directory are loaded in sorted
+ * order and override the main configuration.
+ *
+ * Returns: returns zero on successful, otherwise returns -1.
+ */
+int hev_socks5_server_main_from_file_with_confd (const char *config_path,
+                                                 const char *confd_path);
+
+/**
  * hev_socks5_server_main_from_str:
  * @config_str: string config
  * @config_len: the byte length of string config

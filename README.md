@@ -115,6 +115,27 @@ main:
 (currently 16). If only one address is needed,
 you can still use the scalar form: `listen-address: '::'`.
 
+### Configuration overrides with conf.d
+
+You can place additional YAML files in a `conf.d` directory next to the main
+configuration file. These files are loaded in sorted order and override the
+main config. For `/etc/hev-socks5-server.yml` the directory is
+`/etc/hev-socks5-server.d/`.
+
+```bash
+/etc/hev-socks5-server.d/
+  00-port.yml
+  01-bind.yml
+```
+
+Files must end with `.yml` or `.yaml`. Sorting is lexicographic, so use
+zero-padded prefixes like `00-`, `01-`, `02-` to control the order.
+
+Each conf.d file uses the same YAML format as the main config. Later files
+replace earlier values. Optional settings can be disabled by setting them to
+an empty value or `null` (for example `log-file: null`); required settings
+(`workers`, `port`, `listen-address`) cannot be removed through conf.d.
+
 ### Authentication file
 
 ```

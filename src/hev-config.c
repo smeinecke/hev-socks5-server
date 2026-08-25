@@ -8,10 +8,14 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <errno.h>
 #include <stdatomic.h>
 #include <arpa/inet.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
 #include <yaml.h>
 #include <hev-socks5.h>
@@ -140,6 +144,7 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
 
         /* Handle listen-address - scalar (single) or sequence (multiple) */
         if (0 == strcmp (key, "listen-address")) {
+            listen_address_count = 0;
             if (hev_config_parse_listen_address_node (doc, node) < 0)
                 return -1;
             continue;
@@ -180,27 +185,6 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
             tfso = value;
     }
 
-    if (!workers) {
-        fprintf (
-            stderr,
-            "Error: Required setting 'main.workers' not found in config file\n");
-        return -1;
-    }
-
-    if (!port) {
-        fprintf (
-            stderr,
-            "Error: Required setting 'main.port' not found in config file\n");
-        return -1;
-    }
-
-    if (listen_address_count == 0) {
-        fprintf (
-            stderr,
-            "Error: Required setting 'main.listen-address' or 'main.listen-addresses' not found in config file\n");
-        return -1;
-    }
-
 #ifdef __MSYS__
     if (workers > 1) {
         fprintf (stderr, "Only supports one worker on Windows.\n");
@@ -208,7 +192,8 @@ hev_config_parse_main (yaml_document_t *doc, yaml_node_t *base)
     }
 #endif
 
-    strncpy (listen_port, port, 8 - 1);
+    if (port)
+        strncpy (listen_port, port, 8 - 1);
 
     if (udp_port) {
         unsigned int beg = 0, end = 0;
@@ -426,6 +411,178 @@ hev_config_parse_doc (yaml_document_t *doc)
     return 0;
 }
 
+static int
+hev_config_validate (void)
+{
+    if (!workers) {
+        fprintf (
+            stderr,
+            "Error: Required setting 'main.workers' not found in config\n");
+        return -1;
+    }
+
+    if ('\0' == listen_port[0]) {
+        fprintf (stderr,
+                 "Error: Required setting 'main.port' not found in config\n");
+        return -1;
+    }
+
+    if (listen_address_count == 0) {
+        fprintf (
+            stderr,
+            "Error: Required setting 'main.listen-address' not found in config\n");
+        return -1;
+    }
+
+    return 0;
+}
+
+static int
+hev_config_parse_file (const char *path)
+{
+    yaml_parser_t parser;
+    yaml_document_t doc;
+    FILE *fp;
+    int res = -1;
+
+    if (!yaml_parser_initialize (&parser))
+        goto exit;
+
+    fp = fopen (path, "r");
+    if (!fp) {
+        fprintf (stderr, "Error: Failed to open config file '%s': %s\n", path,
+                 strerror (errno));
+        goto exit_free_parser;
+    }
+
+    yaml_parser_set_input_file (&parser, fp);
+    if (!yaml_parser_load (&parser, &doc)) {
+        fprintf (stderr, "Error: Failed to parse YAML in config file '%s'\n",
+                 path);
+        goto exit_close_fp;
+    }
+
+    res = hev_config_parse_doc (&doc);
+    yaml_document_delete (&doc);
+
+exit_close_fp:
+    fclose (fp);
+exit_free_parser:
+    yaml_parser_delete (&parser);
+exit:
+    return res;
+}
+
+static const char *
+hev_config_derive_confd_path (const char *config_path, char *buf,
+                              size_t buf_size)
+{
+    const char *dot;
+    size_t base_len;
+
+    dot = strrchr (config_path, '.');
+    if (dot &&
+        (0 == strcasecmp (dot, ".yml") || 0 == strcasecmp (dot, ".yaml")))
+        base_len = dot - config_path;
+    else
+        base_len = strlen (config_path);
+
+    if (snprintf (buf, buf_size, "%.*s.d", (int)base_len, config_path) >=
+        (int)buf_size)
+        return NULL;
+
+    return buf;
+}
+
+static int
+hev_config_compare_files (const void *a, const void *b)
+{
+    const char *const *pa = a;
+    const char *const *pb = b;
+
+    return strcmp (*pa, *pb);
+}
+
+static int
+hev_config_parse_confd (const char *confd_path)
+{
+    DIR *dir;
+    struct dirent *entry;
+    char **files = NULL;
+    size_t files_count = 0;
+    size_t i;
+    int res = -1;
+
+    dir = opendir (confd_path);
+    if (!dir) {
+        if (ENOENT == errno)
+            return 0;
+        fprintf (stderr, "Error: Failed to open conf.d directory '%s': %s\n",
+                 confd_path, strerror (errno));
+        return -1;
+    }
+
+    while ((entry = readdir (dir))) {
+        const char *name = entry->d_name;
+        const char *dot;
+        char full[4096];
+        char *path;
+        char **tmp;
+        struct stat st;
+
+        if ('.' == name[0])
+            continue;
+
+        dot = strrchr (name, '.');
+        if (!dot ||
+            (0 != strcasecmp (dot, ".yml") && 0 != strcasecmp (dot, ".yaml")))
+            continue;
+
+        if (snprintf (full, sizeof (full), "%s/%s", confd_path, name) >=
+            (int)sizeof (full))
+            continue;
+
+        if (stat (full, &st) < 0)
+            continue;
+        if (!S_ISREG (st.st_mode))
+            continue;
+
+        path = strdup (full);
+        if (!path)
+            goto out;
+
+        tmp = realloc (files, (files_count + 1) * sizeof (*files));
+        if (!tmp) {
+            free (path);
+            goto out;
+        }
+
+        files = tmp;
+        files[files_count++] = path;
+    }
+
+    if (files_count == 0) {
+        res = 0;
+        goto out;
+    }
+
+    qsort (files, files_count, sizeof (*files), hev_config_compare_files);
+
+    for (i = 0; i < files_count; i++) {
+        if (hev_config_parse_file (files[i]) < 0)
+            goto out;
+    }
+
+    res = 0;
+
+out:
+    closedir (dir);
+    for (i = 0; i < files_count; i++)
+        free (files[i]);
+    free (files);
+    return res;
+}
+
 static void
 hev_config_reset (void)
 {
@@ -459,41 +616,33 @@ hev_config_reset (void)
 }
 
 int
-hev_config_init_from_file (const char *path)
+hev_config_init_from_file_with_confd (const char *config_path,
+                                      const char *confd_path)
 {
-    yaml_parser_t parser;
-    yaml_document_t doc;
-    FILE *fp;
-    int res = -1;
+    char derived[4096];
 
     hev_config_reset ();
 
-    if (!yaml_parser_initialize (&parser))
-        goto exit;
+    if (hev_config_parse_file (config_path) < 0)
+        return -1;
 
-    fp = fopen (path, "r");
-    if (!fp) {
-        fprintf (stderr, "Error: Failed to open config file '%s': %s\n", path,
-                 strerror (errno));
-        goto exit_free_parser;
+    if (!confd_path) {
+        confd_path = hev_config_derive_confd_path (config_path, derived,
+                                                   sizeof (derived));
+        if (!confd_path)
+            return -1;
     }
 
-    yaml_parser_set_input_file (&parser, fp);
-    if (!yaml_parser_load (&parser, &doc)) {
-        fprintf (stderr, "Error: Failed to parse YAML in config file '%s'\n",
-                 path);
-        goto exit_close_fp;
-    }
+    if (hev_config_parse_confd (confd_path) < 0)
+        return -1;
 
-    res = hev_config_parse_doc (&doc);
-    yaml_document_delete (&doc);
+    return hev_config_validate ();
+}
 
-exit_close_fp:
-    fclose (fp);
-exit_free_parser:
-    yaml_parser_delete (&parser);
-exit:
-    return res;
+int
+hev_config_init_from_file (const char *path)
+{
+    return hev_config_init_from_file_with_confd (path, NULL);
 }
 
 int
@@ -521,7 +670,9 @@ hev_config_init_from_str (const unsigned char *config_str,
 exit_free_parser:
     yaml_parser_delete (&parser);
 exit:
-    return res;
+    if (res < 0)
+        return -1;
+    return hev_config_validate ();
 }
 
 unsigned int

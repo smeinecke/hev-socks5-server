@@ -1,3 +1,11 @@
+hev-socks5-server (2.13.1-2) unstable; urgency=medium
+
+  * Add support for conf.d directories to override the main configuration.
+  * Enable /etc/hev-socks5-server.d by default in the systemd service.
+  * Create /etc/hev-socks5-server.d directory on package install.
+
+ -- Stefan Meinecke <meinecke@greensec.de>  Tue, 25 Aug 2026 12:51:38 +0200
+
 hev-socks5-server (2.13.1-1) unstable; urgency=medium
 
   * * New upstream release 2.13.1

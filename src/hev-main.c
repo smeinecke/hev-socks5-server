@@ -39,7 +39,7 @@ show_version (void)
 static void
 show_help (const char *self_path)
 {
-    printf ("Usage: %s [OPTIONS] CONFIG_PATH\n", self_path);
+    printf ("Usage: %s [OPTIONS] CONFIG_PATH [CONF.D_PATH]\n", self_path);
     printf ("\n");
     printf ("A high-performance SOCKS5 proxy server.\n");
     printf ("\n");
@@ -100,9 +100,18 @@ show_help (const char *self_path)
     printf (
         "    limit-nofile          Rlimit for open files (default: system default)\n");
     printf ("\n");
+    printf ("Optional conf.d directory:\n");
+    printf ("  If CONF.D_PATH is given, all *.yml / *.yaml files in that\n");
+    printf ("  directory are loaded in sorted order and override the main\n");
+    printf (
+        "  configuration. When omitted, CONFIG_PATH with '.d' appended is\n");
+    printf ("  tried automatically.\n");
+    printf ("\n");
     printf ("Examples:\n");
     printf ("  %s conf/main.yml\n", self_path);
     printf ("  %s /etc/hev-socks5-server.yml\n", self_path);
+    printf ("  %s /etc/hev-socks5-server.yml /etc/hev-socks5-server.d\n",
+            self_path);
     printf ("\n");
     printf ("Version: %u.%u.%u %s\n", MAJOR_VERSION, MINOR_VERSION,
             MICRO_VERSION, COMMIT_ID);
@@ -176,13 +185,20 @@ exit1:
 }
 
 int
-hev_socks5_server_main_from_file (const char *config_path)
+hev_socks5_server_main_from_file_with_confd (const char *config_path,
+                                             const char *confd_path)
 {
-    int res = hev_config_init_from_file (config_path);
+    int res = hev_config_init_from_file_with_confd (config_path, confd_path);
     if (res < 0)
         return -1;
 
     return hev_socks5_server_main_inner ();
+}
+
+int
+hev_socks5_server_main_from_file (const char *config_path)
+{
+    return hev_socks5_server_main_from_file_with_confd (config_path, NULL);
 }
 
 int
@@ -207,7 +223,7 @@ main (int argc, char *argv[])
 {
     int res;
 
-    if (argc < 2) {
+    if (argc < 2 || argc > 3) {
         show_help (argv[0]);
         return -1;
     }
@@ -224,7 +240,8 @@ main (int argc, char *argv[])
 
     signal (SIGINT, sigint_handler);
 
-    res = hev_socks5_server_main_from_file (argv[1]);
+    res = hev_socks5_server_main_from_file_with_confd (
+        argv[1], argc > 2 ? argv[2] : NULL);
     if (res < 0)
         return -2;
 
