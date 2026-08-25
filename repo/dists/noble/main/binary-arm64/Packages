@@ -1,17 +1,17 @@
 Package: hev-socks5-server
-Version: 2.13.1-1~noble1
+Version: 2.13.1-2~noble1
 Architecture: arm64
 Maintainer: stefan <stefan@build-stretch>
-Installed-Size: 158
+Installed-Size: 159
 Depends: libc6 (>= 2.34)
 Homepage: https://github.com/heiher/hev-socks5-server
 Priority: optional
 Section: network
-Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.13.1-1~noble1_arm64.deb
-Size: 62890
-SHA256: e8d9fde1c204ecb1acab0b6819ff6e19e2c14c88f14d9c2e1054c670b0ceb8b1
-SHA1: 2576e303df38d58193a6ddc1892a6b90f6f69cc8
-MD5sum: 78dc99dfeccb1567c2853f2ee336b130
+Filename: pool/main/h/hev-socks5-server/hev-socks5-server_2.13.1-2~noble1_arm64.deb
+Size: 64404
+SHA256: a0bf4145e24a75ee51c3ae3406b9aed480ffdd500515ef07bf9db39a51329203
+SHA1: 05d017b7b7391821e370e122646bc102545f9cb7
+MD5sum: 78df2dac1067b0fc9ec0c07900d48b31
 Description: HevSocks5Server is a simple, lightweight SOCKS5 server
  HevSocks5Server is a high-performance SOCKS5 proxy server implementation
  written in C. It's designed to be lightweight, secure, and easy to configure.

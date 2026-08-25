@@ -1,26 +1,26 @@
 Codename: noble
-Date: Fri, 07 Aug 2026 09:08:15 UTC
+Date: Tue, 25 Aug 2026 11:09:38 UTC
 Architectures: amd64 arm64
 Components: main
 Description: smeinecke/hev-socks5-server
 MD5Sum:
- 5db27857db7367d30c9e25ac646d58bb 1280 main/binary-amd64/Packages
- 031600562a254fb31e601accbe71db8c 768 main/binary-amd64/Packages.gz
+ 9fa105959b9ba6a8a8d49ac703d217e1 1280 main/binary-amd64/Packages
+ 1f4fea61a1eea98eef93b4cb3d84f57d 767 main/binary-amd64/Packages.gz
  1b21ef4b19ba60107691cea3b6cc9175 77 main/binary-amd64/Release
- a0491c583248d0b21e7f1197d07107bb 1280 main/binary-arm64/Packages
- 25ca75a905d0f541d6d81ecc43315790 767 main/binary-arm64/Packages.gz
+ 7e8083482a252fd9811de7a62c3f5ec0 1280 main/binary-arm64/Packages
+ d57be22a4fafe07c8bbecc6a0b0853b7 767 main/binary-arm64/Packages.gz
  cf1b3497a70f09fbeb0fd3c80f5146bd 77 main/binary-arm64/Release
 SHA1:
- d305b3e66f73e1743a4aebe1cc7ff2a5005645cc 1280 main/binary-amd64/Packages
- 6ca0848f637d83cd865a47dfed70923ca5a54595 768 main/binary-amd64/Packages.gz
+ 258ca01dbd5258e5f65b7332c30d939b475949ce 1280 main/binary-amd64/Packages
+ ff28d4dac34e4ad62330191a170767e8943fa376 767 main/binary-amd64/Packages.gz
  6910905454f3464d5f1d514afdffcdb6e022dce8 77 main/binary-amd64/Release
- d17c69693956a12befb23191c91335c337265899 1280 main/binary-arm64/Packages
- bf7a1bad7b8e7a6570ac1145962f74a292dcf86f 767 main/binary-arm64/Packages.gz
+ f19fe3ecbc818d9a81bfb73fc73c3c306e1648a2 1280 main/binary-arm64/Packages
+ ddc5bd1217086c983c6da49efde0c834322fc21e 767 main/binary-arm64/Packages.gz
  157b42f6093045e27cbe19dfb239c9b9d98de966 77 main/binary-arm64/Release
 SHA256:
- a0559f9f2acb0d3e749173dc2e671a18e2ee63a42f8448100cdc18771102de08 1280 main/binary-amd64/Packages
- 6ad35aab4ebe5dedd3d060f8baeda1011c36190721f542e0312490fcfcbc1366 768 main/binary-amd64/Packages.gz
+ bb971859a5ea62e47ae98852e9225fbd89fa29a23266742b98f33f568cb442b3 1280 main/binary-amd64/Packages
+ 137b62cf92f8c646e13150a3fb75e1102ee7f18a2ec9943a4b101f42a7a0f332 767 main/binary-amd64/Packages.gz
  cdac04cac330db4750e963250b7fe78ec0e455fc64b68f26c08c7c0b31b6f61b 77 main/binary-amd64/Release
- 38348a0ca821a82ae7a3bbe504ab5ff2cbaba16081b6b43a5b23901cb6193783 1280 main/binary-arm64/Packages
- 0495e184bc5931e3a99e445f4ab64cbc1f3bde8002cf216cd24f8ea5da503396 767 main/binary-arm64/Packages.gz
+ 87f785e684f490350a82929136f45e418a37e2016f9b9805c85b293ea7aff752 1280 main/binary-arm64/Packages
+ d8eb50adfb2cde1c6dec87f2128a4b60eeaeced561eff4d512ef73bfb0109d88 767 main/binary-arm64/Packages.gz
  df5bb5ec0f653f03fc7e4bd5bc4bc02f53327f29fe96c6f53d765a5338e7c5e9 77 main/binary-arm64/Release
